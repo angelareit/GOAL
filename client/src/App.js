@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
@@ -16,7 +16,7 @@ function App() {
       //socket.off('MESSAGE');
     }
   }, []);
-  
+
   return (
     <div className="App">
       <h1>Hello</h1>

@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model buddy_requests {
+  id                                    Int       @id @default(autoincrement())
+  from_user                             Int?
+  to_user                               Int?
+  request_message                       String?   @db.VarChar
+  is_deleted                            Boolean?  @default(false)
+  created_at                            DateTime? @default(now()) @db.Timestamp(6)
+  users_buddy_requests_from_userTousers users?    @relation("buddy_requests_from_userTousers", fields: [from_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_buddy_requests_to_userTousers   users?    @relation("buddy_requests_to_userTousers", fields: [to_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model categories {
+  id                                         Int          @id @default(autoincrement())
+  name                                       String?      @db.VarChar
+  interests_interests_categoriesTocategories interests[]  @relation("interests_categoriesTocategories")
+  main_goals                                 main_goals[]
+}
+
+model interests {
+  id                                          Int         @id @default(autoincrement())
+  categories                                  Int?
+  user_id                                     Int?
+  categories_interests_categoriesTocategories categories? @relation("interests_categoriesTocategories", fields: [categories], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                                       users?      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model main_goals {
+  id           Int         @id @default(autoincrement())
+  title        String?     @db.VarChar
+  note         String?
+  user_id      Int?
+  completed_on DateTime?   @db.Date
+  due_date     DateTime?   @db.Date
+  category_id  Int?
+  is_deleted   Boolean?    @default(false)
+  created_at   DateTime?   @default(now()) @db.Timestamp(6)
+  categories   categories? @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users        users?      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_goals    sub_goals[]
+}
+
+model messages {
+  id                                Int       @id @default(autoincrement())
+  sender_id                         Int?
+  receiver_id                       Int?
+  content                           String?   @db.VarChar
+  created_at                        DateTime? @default(now()) @db.Timestamp(6)
+  is_deleted                        Boolean?  @default(false)
+  users_messages_receiver_idTousers users?    @relation("messages_receiver_idTousers", fields: [receiver_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_messages_sender_idTousers   users?    @relation("messages_sender_idTousers", fields: [sender_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model sub_goals {
+  id              Int         @id @default(autoincrement())
+  title           String?     @db.VarChar
+  note            String?
+  parent_id       Int?
+  main_goal_id    Int?
+  children_id     Int[]
+  completed_on    DateTime?   @db.Date
+  priority        Int?
+  due_date        DateTime?   @db.Date
+  is_deleted      Boolean?    @default(false)
+  updated_at      DateTime?   @default(now()) @db.Timestamp(6)
+  created_at      DateTime?   @default(now()) @db.Timestamp(6)
+  main_goals      main_goals? @relation(fields: [main_goal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sub_goals       sub_goals?  @relation("sub_goalsTosub_goals", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_sub_goals sub_goals[] @relation("sub_goalsTosub_goals")
+}
+
+model users {
+  id                                             Int              @id @default(autoincrement())
+  username                                       String?          @db.VarChar
+  email                                          String?          @db.VarChar
+  password                                       String?          @db.VarChar
+  created_at                                     DateTime?        @default(now()) @db.Timestamp(6)
+  buddy_availability                             Boolean?         @default(true)
+  buddy_id                                       Int?             @default(-1)
+  is_deleted                                     Boolean?         @default(false)
+  buddy_requests_buddy_requests_from_userTousers buddy_requests[] @relation("buddy_requests_from_userTousers")
+  buddy_requests_buddy_requests_to_userTousers   buddy_requests[] @relation("buddy_requests_to_userTousers")
+  interests                                      interests[]
+  main_goals                                     main_goals[]
+  messages_messages_receiver_idTousers           messages[]       @relation("messages_receiver_idTousers")
+  messages_messages_sender_idTousers             messages[]       @relation("messages_sender_idTousers")
+}

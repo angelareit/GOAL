@@ -7,8 +7,8 @@ const { userInfo } = require('os');
 
 const app = express();
 
-http = require('http');
-server = http.createServer(app);
+const http = require('http');
+const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
@@ -60,7 +60,7 @@ io.on('connection', socket => {
   //Remove the user object from the users array upon disconnection to clean up the session
   socket.on('disconnect', reason => {
     console.log(reason, socket.id);
-    userIndex = users.findIndex(user => user.id === socket.id);
+    const userIndex = users.findIndex(user => user.id === socket.id);
     const disconnected = users.splice(userIndex, 1)[0];
     if(connection.length === 2){
       const buddySocket = connection[connection.findIndex(u => u.buddy === disconnected.user)].id;

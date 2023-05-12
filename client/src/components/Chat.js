@@ -65,7 +65,7 @@ function Chat() {
       <section className="online-status">
         <p>{buddy ? "Your buddy is online" : "Your buddy is offline"}</p>
       </section>
-      <section>
+      <section className="message-box">
         {renderedMessages}
       </section>
       <form className="input-message">

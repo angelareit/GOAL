@@ -29,30 +29,30 @@ io.on('connection', socket => {
   //Create an object with userID and socketID to keep track of currently online users
   const client = { user: socket.handshake.auth.user, id: socket.id };
   users.push(client);
-
+  console.log("Users:", users);
   //The following connection related conditions are placeholder to keep track of most recent logins, they'll be replaced with matching buddies
-  connection.push({ ...client });
-
-  if (connection.length > 2) {
-    connection.shift();
+  if(users.length >= 2) {
+    const user1 = users[users.length - 1];
+    const user2 = users[users.length - 2];
+    connection = [{...user1, buddy: user2.user}, {...user2, buddy: user1.user}]
   }
-  
+ 
   if (connection.length === 2) {
-    connection[0].buddy = connection[1].user;
-    connection[1].buddy = connection[0].user;
-
     socket.to(connection[0].id).emit('BUDDY_ONLINE', true);
+    socket.to(connection[1].id).emit('BUDDY_ONLINE', true);
     socket.emit('BUDDY_ONLINE', true);
     
     console.log("Connection:", connection);
   }
   
   socket.on('MESSAGE_SEND', payload => {
+    console.log(connection);
     if(connection.length !== 2) {
       return socket.emit('MESSAGE_RECEIVE', { message: "Your buddy is currently offline.", user: 'Notice', time: Date.now  })
     }
     //Get the index of the user whose buddy is sending the message
     const i = connection.findIndex(user => user.buddy === client.user);
+    console.log(i);
     //Send the message to the user
     socket.to(connection[i].id).emit('MESSAGE_RECEIVE', payload);
   });

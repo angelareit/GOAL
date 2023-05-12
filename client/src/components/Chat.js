@@ -13,14 +13,21 @@ const socket = io({ autoConnect: false });
 
 function Chat() {
 
+  //Generates a random number for userID. TODO: Replace with actual userID from database
   const [user, setUser] = useState(`user${Math.round(Math.random() * 1000)}`);
+
+  //A list of all messages
   const [messages, setMessages] = useState([]);
+
+  //Boolean value that states if the user's buddy is online, can be anything truthy or falsy
   const [buddy, setBuddy] = useState(false);
+
+  //This state is for the message currently being typed by the user
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    console.log(user);
-    socket.auth = { user, buddy: "buddyName" };
+    //Sends user information to server
+    socket.auth = { user };
     socket.connect();
 
     socket.on('MESSAGE_RECEIVE', payload => {
@@ -37,10 +44,13 @@ function Chat() {
   }, []);
 
   function sendMessage(message) {
-    socket.emit('MESSAGE_SEND', {user, message});
+    if(!message){
+      return;
+    }
+    socket.emit('MESSAGE_SEND', new Message(message, user));
     const outgoingMessage = { user, message };
-    console.log(outgoingMessage);
     setMessages(prev => [...prev, outgoingMessage]);
+    setMessage('');
   }
 
   const renderedMessages = messages.map((m, i) => {
@@ -59,7 +69,7 @@ function Chat() {
         {renderedMessages}
       </section>
       <form className="input-message">
-        <textarea name="message" onChange={event => setMessage(event.target.value)} placeholder="Enter message here..."></textarea>
+        <input type="text" name="message" value={message} onChange={event => setMessage(event.target.value)} placeholder="Enter message here..."></input>
         <button onClick={event => {
           event.preventDefault();
           sendMessage(message);

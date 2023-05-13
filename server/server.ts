@@ -15,10 +15,16 @@ const io = new Server(server);
 //Add any middleware here
 
 app.use(morgan('dev'));
+app.use(express.json()); //parse the body of axios post request
 
 app.get('/', (req, res) => {
   return res.json({ greetings: "Universe" });
 });
+
+app.post('/register', (req, res) =>{
+  console.log(req.body)
+  return res.json({ greetings: "Universe" })
+})
 
 const users = [];
 let connection = [];

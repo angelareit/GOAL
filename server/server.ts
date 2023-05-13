@@ -23,15 +23,9 @@ app.use(express.json()); //parse the body of axios post request
 app.get('/', (req, res) => {
   return res.json({ greetings: "Universe" });
 });
-// {
-//   userName: 'cadencerollins@live.com',
-//   email: 'aa',
-//   interest: 'aa',
-//   password: 'password'
-// }
+
 app.post('/register', async (req, res) => {
   console.log(req.body);
-
   const newUser = await prisma.users.upsert({
     where: { email: req.body.email },
     update: {},
@@ -44,6 +38,17 @@ app.post('/register', async (req, res) => {
   console.log(newUser)
   return res.json({ greetings: "Universe" });
 });
+
+app.post('/login', async (req, res) =>{
+  console.log(req.body)
+  const user = await prisma.users.findUnique({
+    where: {
+      email: req.body.email,
+    },
+  })
+  console.log(user)
+  return res.json({ greetings: "Universe" });
+})
 
 const users = [];
 let connection = [];

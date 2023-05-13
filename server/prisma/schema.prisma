@@ -80,7 +80,7 @@ model sub_goals {
   id              Int         @id @default(autoincrement())
   title           String     @db.VarChar
   note            String
-  parent_id       Int?
+  parent_id       Int?        
   main_goal_id    Int?
   children_id     Int[]
   completed_on    DateTime?   @db.Date

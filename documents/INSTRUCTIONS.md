@@ -23,3 +23,7 @@ npx prisma migrate dev --name
 npx prisma migrate reset
 ```
 
+### To seed the database:
+```
+npx prisma db seed
+```

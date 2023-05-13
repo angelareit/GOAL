@@ -39,7 +39,25 @@ async function main() {
         password: 'password'
       },
     });
-    console.log({ steve, jimmy, mary, rebecca });
+    const stacy = await prisma.users.upsert({
+      where: { email: 'anastasia@journaling.com' },
+      update: {},
+      create: {
+        email: 'anastasia@journaling.com',
+        username: 'stationeryStacy',
+        password: 'password'
+      },
+    });
+    const dan = await prisma.users.upsert({
+      where: { email: 'danny@wheels.com' },
+      update: {},
+      create: {
+        email: 'danny@wheels.com',
+        username: 'dan_the_driver',
+        password: 'password'
+      },
+    });
+    console.log({ steve, jimmy, mary, rebecca, stacy, dan });
   }
   { //Categories
     const categoryNames = ['Health & Fitness', 'Job & Career', 'Travel', 'Arts', 'Personal Project', 'Education', 'Social'];
@@ -89,9 +107,132 @@ async function main() {
         category_id: 8
       },
     });
-    console.log({ steve, jimmy, mary });
+    console.table({ steve, jimmy, mary });
   }
-  
+  { // Sub Goals
+    let id = 0;
+    const steve = [];
+
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Visit The Red Sea',
+          note: 'I will need to buy a ticket to Egypt.',
+          main_goal_id: 1,
+          priority: 2,
+          due_date: new Date("2024-07-01 00:00:00")
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Learn To Scuba Dive',
+          note: 'I will need to take scuba diving classes and get some practice.',
+          main_goal_id: 1,
+          priority: 1,
+          due_date: new Date("2023-11-01 00:00:00")
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Save Money',
+          note: '',
+          main_goal_id: 1,
+          priority: 1
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Reduce needless spending',
+          note: 'I should look at where my money is going and see if some of it is being wasted.',
+          main_goal_id: 1,
+          parent_id: 3,
+          priority: 1,
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Stop Ordering Takeout',
+          note: '',
+          main_goal_id: 1,
+          parent_id: 4,
+          priority: 1,
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Delete Uber Eats',
+          note: 'If I delete the app from my phone, I\'ll be less inclined to order in.',
+          main_goal_id: 1,
+          parent_id: 5,
+          priority: 1,
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Buy Groceries On Sale',
+          note: 'Keep an eye out on yellow stickers and maybe look into clipping coupons.',
+          main_goal_id: 1,
+          parent_id: 4,
+          priority: 1,
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Cancel Disney+',
+          note: 'I rarely watch it, but keep getting billed for it.',
+          main_goal_id: 1,
+          parent_id: 4,
+          priority: 1,
+        },
+      })
+    );
+    steve.push(
+      await prisma.sub_goals.upsert({
+        where: { id: ++id },
+        update: {},
+        create: {
+          title: 'Pick Up Extra Shifts',
+          note: 'I can pick up extra shifts at work to earn more.',
+          main_goal_id: 1,
+          parent_id: 3,
+          priority: 1,
+        },
+      })
+    );
+
+    console.log({ steve });
+  }
+
 }
 main()
   .then(async () => {

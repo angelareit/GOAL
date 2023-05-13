@@ -1,4 +1,4 @@
-## Database
+# Database
 
 ### To create database run the following commands:
 ```
@@ -8,14 +8,14 @@ Password: development
 CREATE DATABASE goal_keeper;
 ```
 
-### To create the tables:
+### To create the tables (if you have not seeded yet, it should do it automatically):
 ```
 npx prisma migrate dev --name init
 ```
 
 ### To update the tables:
 ```
-npx prisma migrate dev --name
+npx prisma migrate dev --name [insert description here]
 ```
 
 ### To reset the database and apply all migrations:

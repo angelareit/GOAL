@@ -15,7 +15,7 @@ npx prisma migrate dev --name init
 
 ### To update the tables:
 ```
-npx prisma migrate dev
+npx prisma migrate dev --name
 ```
 
 ### To reset the database and apply all migrations:

@@ -1,10 +1,13 @@
 const PORT = 8080;
+//JWT: secret cryptographic key used to sign and verify tokens
+const secret = "somekey";
 
 const express = require('express');
 const { connect } = require('http2');
 const morgan = require('morgan');
 const { userInfo } = require('os');
-
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 const http = require('http');
@@ -19,6 +22,31 @@ const prisma = new PrismaClient();
 
 app.use(morgan('dev'));
 app.use(express.json()); //parse the body of axios post request
+app.use(cookieParser());
+
+//CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
+app.use((req, res, next) => {
+  if (req.cookies.token) {
+    jwt.verify(req.cookies.token, secret, (err, decoded) => {
+      if (err) {
+        res.token = undefined;
+        return next();
+      }
+
+      req.token = decoded;
+      return next();
+    });
+  }
+  return next();
+});
+
+app.get('/verify', (req, res) => {
+  if (req.token) {
+    return res.json({ user: req.token, success: true });
+  } else {
+    return res.clearCookie("token").json({ success: false });
+  }
+});
 
 app.get('/', (req, res) => {
   return res.json({ greetings: "Universe" });
@@ -35,19 +63,32 @@ app.post('/register', async (req, res) => {
       password: req.body.password
     },
   });
-  console.log(newUser)
+  console.log(newUser);
   return res.json({ greetings: "Universe" });
 });
 
-app.post('/login', async (req, res) =>{
-  console.log(req.body)
+app.post('/login', async (req, res) => {
+  console.log(req.body);
   const user = await prisma.users.findUnique({
     where: {
       email: req.body.email,
     },
-  })
-  console.log(user)
-  return res.json({ greetings: "Universe" });
+  });
+  if (!user) {
+    return res.json({ success: false });
+  }
+  if (req.body.password === user.password) {
+    let token = jwt.sign(user, secret, { expiresIn: 129600 });
+    console.log(token);
+    return res.cookie("token", token).json({ success: true, user });
+  }
+  else {
+    return res.json({ success: false });
+  }
+});
+
+app.post('/logout', (req,res) => {
+  return res.clearCookie('token').json({success: true});
 })
 
 const users = [];

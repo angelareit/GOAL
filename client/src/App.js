@@ -5,7 +5,8 @@ import './App.scss';
 import Chat from './components/Chat';
 import Login from './components/Login';
 import Register from './components/Register';
-import Navbar from './Navbar';
+import Navbar from './components/Navbar';
+
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
 function App() {

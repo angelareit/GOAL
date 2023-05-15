@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import './App.scss';
+import "./App.scss"
 
 import Login from './components/Login';
 import Register from './components/Register';
@@ -106,4 +106,3 @@ function App() {
   );
 }
 
-export default App;

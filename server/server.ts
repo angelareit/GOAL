@@ -1,4 +1,4 @@
-const PORT = 8080;
+const PORT = 6080;
 //JWT: secret cryptographic key used to sign and verify tokens
 const secret = "somekey";
 

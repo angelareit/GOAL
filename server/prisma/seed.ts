@@ -37,7 +37,8 @@ async function main() {
       create: {
         email: 'rebecca@literature.ca',
         username: 'bookyBecky',
-        password: 'password'
+        password: 'password',
+        buddy_id: 5
       },
     });
     const stacy = await prisma.users.upsert({
@@ -46,7 +47,8 @@ async function main() {
       create: {
         email: 'anastasia@journaling.com',
         username: 'stationeryStacy',
-        password: 'password'
+        password: 'password',
+        buddy_id: 4
       },
     });
     const dan = await prisma.users.upsert({

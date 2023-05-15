@@ -3,14 +3,16 @@ const PORT = 8080;
 const secret = "somekey";
 
 const express = require('express');
+
+const http = require('http');
 const { connect } = require('http2');
+
 const morgan = require('morgan');
 const { userInfo } = require('os');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
 
-const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);

@@ -11,10 +11,9 @@ const Message = function(message, user) {
 
 const socket = io({ autoConnect: false });
 
-function Chat() {
+function Chat(props) {
 
-  //Generates a random number for userID. TODO: Replace with actual userID from database
-  const [user, setUser] = useState(`user${Math.round(Math.random() * 1000)}`);
+  const user = props.user;
 
   //A list of all messages
   const [messages, setMessages] = useState([]);

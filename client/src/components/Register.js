@@ -85,7 +85,7 @@ function Register() {
             onChange={(e) => handleInputChange(e)}
             placeholder="Password"
             required
-            minlength="6"
+            minLength="6"
           />
         </div>
       </div>

@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import "../App.scss"
+import "./Home.scss"
 
-import Chat from './Chat';
+
+import  RightDrawer  from './RightDrawer';
+import  LeftDrawer  from './LeftDrawer';
+
 
 export default function Home (props) {
   return (
-    <div className="">
-    <Chat/>
-    </div>
+    <main>
+      <LeftDrawer/>
+      <div><h3> GOAL TREE</h3></div>
+      <RightDrawer/>
+      {/*   <Chat/> */}
+    </main>
   );
 }
 

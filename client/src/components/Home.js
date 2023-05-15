@@ -3,16 +3,16 @@ import axios from 'axios';
 import "./Home.scss"
 
 
-import  RightDrawer  from './RightDrawer';
-import  LeftDrawer  from './LeftDrawer';
+import  RightSidebar  from './RightSidebar';
+import  LeftSidebar  from './LeftSidebar';
 
 
 export default function Home (props) {
   return (
     <main>
-      <LeftDrawer/>
+      <LeftSidebar/>
       <div><h3> GOAL TREE</h3></div>
-      <RightDrawer/>
+      <RightSidebar/>
       {/*   <Chat/> */}
     </main>
   );

@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const rightDrawerSlice = createSlice({
-  name: 'rightDrawer',
+export const rightSidebarSlice = createSlice({
+  name: 'rightSidebar',
   initialState: {
     value: 'hidden',
   },
 
   reducers: {
-    showNotificationDrawer: (state) => {
+    showNotificationPanel: (state) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.value = state.value === 'showing_notifications' ? 'hidden' : 'showing_notifications' ;
     },
-    showBuddyDrawer: (state) => {
+    showBuddyPanel: (state) => {
       state.value = state.value === 'showing_buddy' ? 'hidden' : 'showing_buddy' ;
     },
   
@@ -22,6 +22,6 @@ export const rightDrawerSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { showBuddyDrawer, showNotificationDrawer} = rightDrawerSlice.actions
+export const { showBuddyPanel: showBuddyPanel, showNotificationPanel: showNotificationPanel} = rightSidebarSlice.actions
 
-export default rightDrawerSlice.reducer
+export default rightSidebarSlice.reducer

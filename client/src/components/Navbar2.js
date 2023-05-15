@@ -1,8 +1,8 @@
 import React from 'react';
 import './Navbar.scss'
 import { useSelector, useDispatch } from 'react-redux'
-import { showBuddyDrawer, showNotificationDrawer } from '../features/rightDrawerSlice'
-import { showGoalListDrawer } from '../features/leftDrawerSlice'
+import { showBuddyPanel, showNotificationPanel } from '../features/rightSidebarSlice'
+import { showGoalListPanel } from '../features/leftSidebarSlice'
 
 
 export default function Navbar2(props) {
@@ -10,7 +10,7 @@ export default function Navbar2(props) {
   return (
     <nav className='nav'>
       <div>
-        <button onClick={() => dispatch(showGoalListDrawer())}>Goal List</button>
+        <button onClick={() => dispatch(showGoalListPanel())}>Goal List</button>
         <h1>Project X</h1>
       </div>
       <div>
@@ -22,8 +22,8 @@ export default function Navbar2(props) {
           </>
         }
         {/*  Callbacks for right drawer */}
-        <button onClick={() => dispatch(showBuddyDrawer())}>Buddy</button>
-        <button onClick={() => dispatch(showNotificationDrawer())}>Notifications</button>
+        <button onClick={() => dispatch(showBuddyPanel())}>Buddy</button>
+        <button onClick={() => dispatch(showNotificationPanel())}>Notifications</button>
       </div>
     </nav>
   );

@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from '../features/counterSlice'
-import rightDrawerReducer from '../features/rightDrawerSlice'
-import leftDrawerReducer from '../features/leftDrawerSlice'
+import rightSidebarReducer from '../features/rightSidebarSlice'
+import leftSidebarReducer from '../features/leftSidebarSlice'
 
 export default configureStore({
   reducer: {
     counter: counterReducer,
-    rightDrawer: rightDrawerReducer,
-    leftDrawer: leftDrawerReducer
+    rightSidebar: rightSidebarReducer,
+    leftSidebar: leftSidebarReducer
   },
 })

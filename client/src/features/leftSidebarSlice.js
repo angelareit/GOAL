@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const leftDrawerSlice = createSlice({
-  name: 'leftDrawer',
+export const leftSidebarSlice = createSlice({
+  name: 'leftSidebar',
   initialState: {
     value: 'hidden',
   },
 
   reducers: {
-    showGoalListDrawer: (state) => {
+    showGoalListPanel: (state) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
@@ -19,6 +19,6 @@ export const leftDrawerSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { showGoalListDrawer} = leftDrawerSlice.actions
+export const { showGoalListPanel: showGoalListPanel} = leftSidebarSlice.actions
 
-export default leftDrawerSlice.reducer
+export default leftSidebarSlice.reducer

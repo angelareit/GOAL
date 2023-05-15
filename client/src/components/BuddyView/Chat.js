@@ -19,9 +19,9 @@ function Chat(props) {
 
   const renderedMessages = props.messages.map((m, i) => {
     if (m.user === user) {
-      return <blockquote key={i} className='message-outgoing'><b>You: </b>{m.message}</blockquote>;
+      return <blockquote key={i} className='message message-outgoing'><b>You: </b>{m.message}</blockquote>;
     }
-    return <blockquote key={i} className='message-incoming'><b>{m.user}: </b>{m.message}</blockquote>;
+    return <blockquote key={i} className='message message-incoming'><b>{props.buddy}: </b>{m.message}</blockquote>;
   });
 
   return (
@@ -30,7 +30,21 @@ function Chat(props) {
         {renderedMessages}
       </section>
       <form className="input-message">
-        <input type="text" name="message" value={message} onChange={event => setMessage(event.target.value)} placeholder="Enter message here..."></input>
+        <textarea
+          type="text"
+          name="message" 
+          value={message} 
+          onChange={event => setMessage(event.target.value)}
+          onKeyDown={event => {
+            if(event.key === 'Enter'){
+              if(event.shiftKey){
+                return;
+              }
+              event.preventDefault();
+              return submit(message);
+            }
+          }}
+          placeholder="Enter message here..."></textarea>
         <button onClick={event => {
           event.preventDefault();
           submit(message);

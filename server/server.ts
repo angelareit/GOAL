@@ -79,24 +79,35 @@ app.post('/login', async (req, res) => {
   if (!user) {
     return res.json({ success: false });
   }
+
   if (req.body.password === user.password) {
+    const buddy = { name: null, online: false };
+    if (user.buddy_id) {
+      await prisma.users.findUnique({
+        where: {
+          id: user.buddy_id
+        }
+      });
+    };
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
     console.log(token);
-    return res.cookie("token", token).json({ success: true, user });
+    return res.cookie("token", token).json({ success: true, user, buddy });
   }
   else {
     return res.json({ success: false });
   }
 });
 
-app.post('/logout', (req,res) => {
-  return res.clearCookie('token').json({success: true});
-})
+app.post('/logout', (req, res) => {
+  return res.clearCookie('token').json({ success: true });
+});
 
 const users = [];
 let connection = [];
 
 // https://socket.io/docs/v3/emit-cheatsheet/
+
+
 
 io.on('connection', socket => {
   //Create an object with userID and socketID to keep track of currently online users

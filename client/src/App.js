@@ -11,9 +11,9 @@ export default function App (props) {
   return (
     <div className="App">
       {/* insert conditional for authentication. If Not logged in, show landing page. else show home. */}
-      {/*  <Landing/> */}
-      <Navbar2/>
-      <Home/>
+       <Landing/>
+    {/*   <Navbar2/>
+      <Home/> */}
     </div>
   );
 }

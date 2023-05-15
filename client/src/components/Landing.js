@@ -18,6 +18,8 @@ export default function Landing(props) {
       if (res.data.success) {
         setUser(res.data.user)
       }
+    }).catch((err)=>{
+      console.log(err);
     })
   }, [])
   

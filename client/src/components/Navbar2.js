@@ -1,12 +1,12 @@
 import React from 'react';
-import './Navbar.scss'
-import { useSelector, useDispatch } from 'react-redux'
-import { showBuddyPanel, showNotificationPanel } from '../features/rightSidebarSlice'
-import { showGoalListPanel } from '../features/leftSidebarSlice'
+import './Navbar.scss';
+import { useSelector, useDispatch } from 'react-redux';
+import { showBuddyPanel, showNotificationPanel } from '../features/rightSidebarSlice';
+import { showGoalListPanel } from '../features/leftSidebarSlice';
 
 
 export default function Navbar2(props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <nav className='nav'>
       <div>

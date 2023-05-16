@@ -5,13 +5,11 @@ import './BuddyView.scss';
 import Chat from './Chat';
 import BuddyStatus from './BuddyStatus';
 
-
-
 function BuddyView(props) {
   return (
     <div className="BuddyView">
       <h3>Productivity Buddy</h3>
-      <BuddyStatus name="BillyBob" online={true} />
+      <BuddyStatus name={props.buddy.name} online={true} />
       {/* Buddy progress panel will go here. */}
       <Chat {...props} />
     </div>

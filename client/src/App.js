@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import "./App.scss"
+import { useSelector, useDispatch } from 'react-redux';
+import { showBuddyPanel } from './features/rightSidebarSlice';
 
-import Login from './components/Login';
-import Register from './components/Register';
-import Sidebar from './components/Sidebar';
+import axios from 'axios';
+import "./App.scss";
+
+import RightSidebar from './components/RightSidebar';
 import Navbar from './components/Navbar';
+import Landing from './components/Landing';
+import Home from './components/Home';
 
 /// PUT INTO LANDING PAGE
 import { io } from 'socket.io-client';
@@ -22,6 +25,8 @@ const Message = function(message, user) {
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
 function App() {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState(null);
 
   /// IMPLEMENT IN LANDING PAGE
@@ -58,20 +63,31 @@ function App() {
     axios.get('/verify').then(res => {
       if (res.data.success) {
         setUser(res.data.user);
+        dispatch(showBuddyPanel());
+        if (res.data.buddy) {
+          setBuddy({ name: res.data.buddy.username, online: false });
+        }
       }
+    })
+    .catch(err => {
+      console.log(err);
     });
   }, []);
-
+  
   const onLogin = (email, password) => {
     axios.post(
       '/login', { email, password }
-    )
+      )
       .then(res => {
         console.log('response came back!');
         console.log(res);
         setUser(res.data.user);
+        dispatch(showBuddyPanel());
         //Add this upon login
-        setBuddy({ name: res.data.buddy.name, online: res.data.buddy.online});
+        if(res.data.buddy){
+          setBuddy({ name: res.data.buddy.username, online: false });
+          console.log(buddy);
+        }
       });
   };
 
@@ -94,15 +110,9 @@ function App() {
   return (
     <div className="App">
       <Navbar username={user?.username} onLogout={onLogout} />
-      <div className="main-container">
-        <main>
-          {user ? <h1>Logged in as {user.username}</h1> : <h1>Not logged in</h1>}
-          <Login onLogin={onLogin} />
-          <Register />
-        </main>
-        <Sidebar user={user} messageSend={messageSend} messages={messages} />
-      </div>
+      {user ? <Home user={user} buddy={buddy} messageSend={messageSend} messages={messages} /> : <Landing onLogin={onLogin}/>}
     </div>
   );
 }
 
+export default App;

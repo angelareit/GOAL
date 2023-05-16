@@ -27,27 +27,54 @@ app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
-app.use((req, res, next) => {
-  if (req.cookies.token) {
-    jwt.verify(req.cookies.token, secret, (err, decoded) => {
-      if (err) {
-        res.token = undefined;
-        return next();
-      }
+// app.use((req, res, next) => {
+//   if (req.cookies.token) {
+//     jwt.verify(req.cookies.token, secret, (err, decoded) => {
+//       if (err) {
+//         return next();
+//       }
 
-      req.token = decoded;
-      return next();
-    });
-  }
-  return next();
-});
+//       userToken = decoded;
+//       return next();
+//     });
+//   }
+//   return next();
+// });
+let userToken = null;
 
-app.get('/verify', (req, res) => {
-  if (req.token) {
-    return res.json({ user: req.token, success: true });
-  } else {
+app.get('/verify', async (req, res) => {
+  userToken = await jwt.verify(req.cookies.token, secret, (err, decoded) => {
+    if (err) {
+      return null;
+    }
+    return decoded;
+  });
+
+  if (!userToken) {
     return res.clearCookie("token").json({ success: false });
   }
+  const user = await prisma.users.findUnique({
+    where: {
+      email: userToken.email
+    }
+  });
+
+  if (!user) {
+    return res.clearCookie("token").json({ success: false });
+  }
+  let buddy = null;
+  if (user.buddy_id) {
+    buddy = await prisma.users.findUnique({
+      where: {
+        id: user.buddy_id
+      },
+      select: {
+        username: true
+      }
+    });
+
+  }
+  return res.json({ user, buddy, success: true });
 });
 
 app.get('/', (req, res) => {
@@ -81,13 +108,16 @@ app.post('/login', async (req, res) => {
   }
 
   if (req.body.password === user.password) {
-    const buddy = { name: null, online: false };
+    let buddy = null;
     if (user.buddy_id) {
       await prisma.users.findUnique({
         where: {
           id: user.buddy_id
+        },
+        select: {
+          username: true
         }
-      });
+      }).then(data => buddy = data);
     };
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
     console.log(token);

@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import "./Home.scss"
 
 import  RightSidebar  from './RightSidebar';

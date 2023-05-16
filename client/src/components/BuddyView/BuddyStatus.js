@@ -1,9 +1,14 @@
 import './Chat.scss';
 
+import { useSelector } from 'react-redux';
+
 function BuddyStatus(props) {
+
+  const buddyState = useSelector(state => state.buddy);
+  
   return (
     <section className="BuddyStatus">
-      {props.online ? <p title="Online">🟢 {props.name}</p> : <p title="Offline">🔴 {props.name}</p>}
+      {buddyState.online ? <p title="Online">🟢 {buddyState.name}</p> : <p title="Offline">🔴 {buddyState.name}</p>}
     </section>
   );
 }

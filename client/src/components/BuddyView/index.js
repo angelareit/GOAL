@@ -9,9 +9,9 @@ function BuddyView(props) {
   return (
     <div className="BuddyView">
       <h3>Productivity Buddy</h3>
-      <BuddyStatus name={props.buddy.name} online={props.buddy.online} />
+      <BuddyStatus />
       {/* Buddy progress panel will go here. */}
-      <Chat {...props} />
+      {/* <Chat {...props} /> */}
     </div>
   );
 }

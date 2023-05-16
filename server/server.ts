@@ -9,6 +9,7 @@ const { userInfo } = require('os');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
+const bcrypt = require('bcrypt');
 
 const http = require('http');
 const server = http.createServer(app);
@@ -53,22 +54,20 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  console.log(req.body);
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const newUser = await prisma.users.upsert({
     where: { email: req.body.email },
     update: {},
     create: {
       email: req.body.email,
       username: req.body.userName,
-      password: req.body.password
+      password: hashedPassword
     },
   });
-  console.log(newUser);
   return res.json({ greetings: "Universe" });
 });
 
 app.post('/login', async (req, res) => {
-  console.log(req.body);
   const user = await prisma.users.findUnique({
     where: {
       email: req.body.email,
@@ -77,9 +76,10 @@ app.post('/login', async (req, res) => {
   if (!user) {
     return res.json({ success: false });
   }
-  if (req.body.password === user.password) {
+
+  const passwordMatch = await bcrypt.compare(req.body.password, user.password); 
+  if (passwordMatch) {
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
-    console.log(token);
     return res.cookie("token", token).json({ success: true, user });
   }
   else {
@@ -100,7 +100,6 @@ io.on('connection', socket => {
   //Create an object with userID and socketID to keep track of currently online users
   const client = { user: socket.handshake.auth.user, id: socket.id };
   users.push(client);
-  console.log("Users:", users);
   //The following connection related conditions are placeholder to keep track of most recent logins, they'll be replaced with matching buddies
   if (users.length >= 2) {
     const user1 = users[users.length - 1];
@@ -112,8 +111,6 @@ io.on('connection', socket => {
     socket.to(connection[0].id).emit('BUDDY_ONLINE', true);
     socket.to(connection[1].id).emit('BUDDY_ONLINE', true);
     socket.emit('BUDDY_ONLINE', true);
-
-    console.log("Connection:", connection);
   }
 
   socket.on('MESSAGE_SEND', payload => {
@@ -123,14 +120,12 @@ io.on('connection', socket => {
     }
     //Get the index of the user whose buddy is sending the message
     const i = connection.findIndex(user => user.buddy === client.user);
-    console.log(i);
     //Send the message to the user
     socket.to(connection[i].id).emit('MESSAGE_RECEIVE', payload);
   });
 
   //Remove the user object from the users array upon disconnection to clean up the session
   socket.on('disconnect', reason => {
-    console.log(reason, socket.id);
     const userIndex = users.findIndex(user => user.id === socket.id);
     const disconnected = users.splice(userIndex, 1)[0];
     if (connection.length === 2) {

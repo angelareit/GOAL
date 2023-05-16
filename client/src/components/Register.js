@@ -19,14 +19,17 @@ function Register() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    const { userName, email, interest, password } = registration;
     axios.post(
       '/register', registration
     )
     .then(res => {
-      console.log('response came back!')
+      setRegistration(
+        {userName: "",
+        email: "",
+        interest: "",
+        password: "",}    
+      )
     })
-    console.log(userName, email, interest, password );
   };
 
   return (

@@ -5,7 +5,6 @@ function Register() {
   const [registration, setRegistration] = useState({
     userName: "",
     email: "",
-    interest: "",
     password: "",
   });
 
@@ -18,15 +17,17 @@ function Register() {
   };
 
   const handleSubmit = (evt) => {
-    evt.preventDefault();
-    const { userName, email, interest, password } = registration;
+    evt.preventDefault()
     axios.post(
       '/register', registration
     )
-      .then(res => {
-        console.log('response came back!');
-      });
-    console.log(userName, email, interest, password);
+    .then(res => {
+      setRegistration(
+        {userName: "",
+        email: "",
+        password: "",}    
+      )
+    })
   };
 
   return (
@@ -58,19 +59,6 @@ function Register() {
             onChange={(e) => handleInputChange(e)}
             placeholder="Email"
             required
-          />
-        </div>
-        <div className="interest">
-          <label className="form__label" htmlFor="interest">
-            Interest
-          </label>
-          <input
-            type="text"
-            id="interest"
-            value={registration.interest}
-            className="form__input"
-            onChange={(e) => handleInputChange(e)}
-            placeholder="Interest"
           />
         </div>
         <div className="password">

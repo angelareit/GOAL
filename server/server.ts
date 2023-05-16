@@ -12,6 +12,7 @@ const { userInfo } = require('os');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
+const bcrypt = require('bcrypt');
 
 const server = http.createServer(app);
 const { Server } = require("socket.io");
@@ -40,6 +41,10 @@ app.use(cookieParser());
 //   }
 //   return next();
 // });
+
+//Changed the verify request to be async (which doesn't work well with the next() statements above.
+//If the user changes their credentials on another computer, we don't want them to be automatically signed in,
+//so we need to actually validate the cookie against the database)
 let userToken = null;
 
 app.get('/verify', async (req, res) => {
@@ -59,22 +64,10 @@ app.get('/verify', async (req, res) => {
     }
   });
 
-  if (!user) {
+  if (!user || !bcrypt.compareSync(userToken.password, user.password)) {
     return res.clearCookie("token").json({ success: false });
   }
-  let buddy = null;
-  if (user.buddy_id) {
-    buddy = await prisma.users.findUnique({
-      where: {
-        id: user.buddy_id
-      },
-      select: {
-        username: true
-      }
-    });
-
-  }
-  return res.json({ user, buddy, success: true });
+  return res.json({ user, success: true });
 });
 
 app.get('/', (req, res) => {
@@ -82,22 +75,20 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  console.log(req.body);
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const newUser = await prisma.users.upsert({
     where: { email: req.body.email },
     update: {},
     create: {
       email: req.body.email,
       username: req.body.userName,
-      password: req.body.password
+      password: hashedPassword
     },
   });
-  console.log(newUser);
-  return res.json({ greetings: "Universe" });
+  return res.json({ success: true });
 });
 
 app.post('/login', async (req, res) => {
-  console.log(req.body);
   const user = await prisma.users.findUnique({
     where: {
       email: req.body.email,
@@ -107,21 +98,11 @@ app.post('/login', async (req, res) => {
     return res.json({ success: false });
   }
 
-  if (req.body.password === user.password) {
-    let buddy = null;
-    if (user.buddy_id) {
-      await prisma.users.findUnique({
-        where: {
-          id: user.buddy_id
-        },
-        select: {
-          username: true
-        }
-      }).then(data => buddy = data);
-    };
+  const passwordMatch = await bcrypt.compare(req.body.password, user.password); 
+  if (passwordMatch) {
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
     console.log(token);
-    return res.cookie("token", token).json({ success: true, user, buddy });
+    return res.cookie("token", token).json({ success: true, user });
   }
   else {
     return res.json({ success: false });
@@ -142,7 +123,6 @@ io.on('connection', socket => {
   const client = { user: socket.handshake.auth.user, id: socket.id };
   
   users.push(client);
-  console.log("Users:", users);
   //The following connection related conditions are placeholder to keep track of most recent logins, they'll be replaced with matching buddies
   if (users.length >= 2) {
     const user1 = users[users.length - 1];
@@ -154,8 +134,6 @@ io.on('connection', socket => {
     socket.to(connection[0].id).emit('BUDDY_ONLINE', true);
     socket.to(connection[1].id).emit('BUDDY_ONLINE', true);
     socket.emit('BUDDY_ONLINE', true);
-
-    console.log("Connection:", connection);
   }
 
   socket.on('MESSAGE_SEND', payload => {
@@ -165,14 +143,12 @@ io.on('connection', socket => {
     }
     //Get the index of the user whose buddy is sending the message
     const i = connection.findIndex(user => user.buddy === client.user);
-    console.log(i);
     //Send the message to the user
     socket.to(connection[i].id).emit('MESSAGE_RECEIVE', payload);
   });
 
   //Remove the user object from the users array upon disconnection to clean up the session
   socket.on('disconnect', reason => {
-    console.log(reason, socket.id);
     const userIndex = users.findIndex(user => user.id === socket.id);
     const disconnected = users.splice(userIndex, 1)[0];
     if (connection.length === 2) {

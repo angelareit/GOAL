@@ -10,7 +10,7 @@ export default function Home (props) {
     <main className="Home">
       <LeftSidebar/>
       <div className="goal-manager"><h3> GOAL TREE</h3></div>
-      <RightSidebar {...props} />
+      <RightSidebar />
     </main>
   );
 }

@@ -20,6 +20,8 @@ const io = new Server(server);
 
 import { PrismaClient } from '@prisma/client';
 import { triggerAsyncId } from 'async_hooks';
+
+
 const prisma = new PrismaClient();
 
 //Add any middleware here
@@ -27,6 +29,9 @@ const prisma = new PrismaClient();
 app.use(morgan('dev'));
 app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
+
+import socketFunctions from './helpers/socketFunctions';
+socketFunctions(io, prisma);
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
 // app.use((req, res, next) => {
@@ -116,123 +121,6 @@ app.post('/login', async (req, res) => {
 app.post('/logout', (req, res) => {
   return res.clearCookie('token').json({ success: true });
 });
-
-const users = {};
-let connection = [];
-
-// https://socket.io/docs/v3/emit-cheatsheet/
-
-io.on('connection', socket => {
-  const id = socket.handshake.auth.user;
-  users[id] = socket.id;
-  console.log(users);
-
-  updateBuddy(socket, id);
-  getMessages(socket, id);
-
-  // //The following connection related conditions are placeholder to keep track of most recent logins, they'll be replaced with matching buddies
-  // if (users.length >= 2) {
-  //   const user1 = users[users.length - 1];
-  //   const user2 = users[users.length - 2];
-  //   connection = [{ ...user1, buddy: user2.user }, { ...user2, buddy: user1.user }];
-  // }
-
-  // if (connection.length === 2) {
-  //   socket.to(connection[0].id).emit('BUDDY_ONLINE', true);
-  //   socket.to(connection[1].id).emit('BUDDY_ONLINE', true);
-  //   socket.emit('BUDDY_ONLINE', true);
-  // }
-
-  socket.on('MESSAGE_SEND', async payload => {
-    console.log(payload);
-    return prisma.messages.create({
-      data: { ...payload }
-    })
-      .then(data => {
-        console.log(data);
-        console.log(users[payload.receiver_id]);
-        socket.to(users[payload.receiver_id]).emit('MESSAGE_RECEIVE', data);
-      });
-  });
-
-  // //Remove the user object from the users array upon disconnection to clean up the session
-  socket.on('disconnect', async reason => {
-    console.log(socket.id, reason);
-    // Find user ID of the user who got disconnected
-    const userID = Object.keys(users).find(key => users[key] === socket.id);
-    console.log(userID);
-    // Find their buddy
-    const buddy = await prisma.users.findFirst({
-      where: { buddy_id: Number(userID) },
-      select: { id: true, username: true }
-    });
-    if (buddy) {
-      const socketID = users[buddy.id];
-      if (!socketID) {
-        return;
-      }
-      const payload = { online: false };
-      socket.to(socketID).emit('BUDDY_UPDATE', payload);
-    }
-  });
-});
-
-const updateBuddy = async function(socket, id) {
-  const user = await prisma.users.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      username: true,
-      buddy_id: true
-    }
-  });
-
-  if (!user.buddy_id) {
-    return;
-  }
-
-  const buddy = await prisma.users.findUnique({
-    where: {
-      id: user.buddy_id
-    },
-    select: {
-      id: true,
-      username: true
-    }
-  });
-  const buddyOnline = buddy.id in users;
-  const payload = { id: buddy.id, name: buddy.username, online: buddyOnline };
-  console.log(users[id]);
-  socket.emit('BUDDY_UPDATE', payload);
-  if (buddyOnline) {
-    socket.to(users[buddy.id]).emit('BUDDY_UPDATE', { online: true });
-  }
-};
-
-const getMessages = async function(socket, id) {
-  const messages = await prisma.messages.findMany({
-    where: {
-      OR: [
-        {
-          sender_id: id
-        },
-        {
-          receiver_id: id
-        }
-      ]
-    },
-    select: {
-      sender_id: true,
-      content: true,
-      created_at: true
-    },
-    orderBy: {
-      created_at: "asc"
-    }
-  });
-  socket.emit('MESSAGE_HISTORY', messages);
-};
 
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

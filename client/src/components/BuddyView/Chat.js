@@ -1,6 +1,5 @@
 import './Chat.scss';
-
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { appendMessage } from '../../features/messagesSlice';
 
@@ -15,6 +14,12 @@ function Chat() {
 
   //This state is for the message currently being typed by the user
   const [message, setMessage] = useState('');
+
+  const messageBox = useRef(null);
+
+  const scrollToBottom = function() {
+    messageBox.current?.scrollIntoView({ behavior: 'smooth' });
+  }
 
   const submit = function(message) {
     if(!message){
@@ -31,6 +36,10 @@ function Chat() {
     setMessage('');
   }
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const renderedMessages = messages.map((m, i) => {
     if (m.sender_id === user) {
       return <blockquote key={i} className='message message-outgoing'><b>You: </b><br/>{m.content}</blockquote>;
@@ -42,6 +51,7 @@ function Chat() {
     <div className="Chat">
       <section className="message-box">
         {renderedMessages}
+        <div className="end-of-messages" ref={messageBox}/>
       </section>
       <form className="input-message">
         <textarea

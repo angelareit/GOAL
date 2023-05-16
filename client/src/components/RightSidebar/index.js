@@ -7,7 +7,7 @@ import BuddyView from '../BuddyView';
 import { showBuddyPanel } from '../../features/rightSidebarSlice';
 
 import { setBuddy } from '../../features/buddySlice';
-import { fetchMessageHistory, setMessages } from '../../features/messagesSlice';
+import { appendMessage, fetchMessageHistory, setMessages } from '../../features/messagesSlice';
 
 import socket from '../../helpers/socketsHelper';
 
@@ -25,9 +25,9 @@ export default function RightSidebar(props) {
     socket.auth = { user: userState.id };
     socket.connect();
 
-    // socket.on('MESSAGE_RECEIVE', payload => {
-    //   setMessages(prev => [...prev, payload]);
-    // });
+    socket.on('MESSAGE_RECEIVE', payload => {
+      dispatch(appendMessage(payload));
+    });
 
     socket.on('BUDDY_UPDATE', payload => {
       dispatch(setBuddy(payload));
@@ -41,6 +41,7 @@ export default function RightSidebar(props) {
       socket.disconnect();
       socket.off('MESSAGE_HISTORY');
       socket.off('BUDDY_UPDATE');
+      socket.off('MESSAGE_RECEIVE');
     };
   }, []);
 

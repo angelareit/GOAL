@@ -137,11 +137,10 @@ let connection = [];
 
 // https://socket.io/docs/v3/emit-cheatsheet/
 
-
-
 io.on('connection', socket => {
   //Create an object with userID and socketID to keep track of currently online users
   const client = { user: socket.handshake.auth.user, id: socket.id };
+  
   users.push(client);
   console.log("Users:", users);
   //The following connection related conditions are placeholder to keep track of most recent logins, they'll be replaced with matching buddies

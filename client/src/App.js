@@ -29,8 +29,7 @@ function App() {
 
   const [user, setUser] = useState(null);
 
-  /// IMPLEMENT IN LANDING PAGE
-  //Boolean value that states if the user's buddy is online, can be anything truthy or falsy
+ //Buddy state, their name and online status
   const [buddy, setBuddy] = useState({ name: null, online: false });
 
   //A list of all messages
@@ -40,8 +39,6 @@ function App() {
     //Sends user information to server
     socket.auth = { user };
     socket.connect();
-
-    // socket.emit('RETRIEVE_MESSAGES', user)
 
     socket.on('MESSAGE_RECEIVE', payload => {
       setMessages(prev => [...prev, payload]);

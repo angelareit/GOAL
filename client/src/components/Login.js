@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 const Login = (props) => {
   const [users, setUsers] = useState(
-  {email:"",
-  password:""}
+    {
+      email: "",
+      password: ""
+    }
   );
   const onSubmit = (evt) => {
     evt.preventDefault();
@@ -13,9 +15,11 @@ const Login = (props) => {
     // const password = evt.target.password.value;
     props.onLogin(users.email, users.password);
     setUsers(
-      {email:"",
-      password:""}
-      );
+      {
+        email: "",
+        password: ""
+      }
+    );
   };
   return (
     <form onSubmit={onSubmit}>

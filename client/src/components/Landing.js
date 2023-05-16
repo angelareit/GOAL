@@ -19,6 +19,7 @@ export default function Landing() {
     axios.get('/verify').then(res => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
+        console.log('verify', userState);
       }
     }).catch((err) => {
       console.log(err);
@@ -31,6 +32,7 @@ export default function Landing() {
     )
       .then(res => {
         dispatch(setUser(res.data.user));
+        console.log('login', userState);
       });
   };
 

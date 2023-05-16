@@ -11,7 +11,7 @@ function BuddyView(props) {
       <h3>Productivity Buddy</h3>
       <BuddyStatus />
       {/* Buddy progress panel will go here. */}
-      {/* <Chat {...props} /> */}
+      <Chat />
     </div>
   );
 }

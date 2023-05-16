@@ -1,27 +1,41 @@
 import './Chat.scss';
 
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { appendMessage } from '../../features/messagesSlice';
 
-function Chat(props) {
+import socket from '../../helpers/socketsHelper';
+
+function Chat() {
   
-  const user = props.user;
+  const user = useSelector(state => state.user.value.id);
+  const buddy = useSelector(state => state.buddy);
+  const messages = useSelector(state => state.messages);
+  const dispatch = useDispatch();
 
   //This state is for the message currently being typed by the user
   const [message, setMessage] = useState('');
 
-  function submit(message) {
+  const submit = function(message) {
     if(!message){
       return;
     }
-    props.messageSend(message);
+    const outgoingMessage = {
+      content: message,
+      sender_id: user,
+      receiver_id: buddy.id,
+    }
+    const now = Date.now();
+    dispatch(appendMessage({...outgoingMessage, created_at: now}));
+    socket.emit('MESSAGE_SEND', {...outgoingMessage, created_at: new Date(now)});
     setMessage('');
   }
 
-  const renderedMessages = props.messages.map((m, i) => {
-    if (m.user === user) {
-      return <blockquote key={i} className='message message-outgoing'><b>You: </b>{m.message}</blockquote>;
+  const renderedMessages = messages.map((m, i) => {
+    if (m.sender_id === user) {
+      return <blockquote key={i} className='message message-outgoing'><b>You: </b><br/>{m.content}</blockquote>;
     }
-    return <blockquote key={i} className='message message-incoming'><b>{props.buddy}: </b>{m.message}</blockquote>;
+    return <blockquote key={i} className='message message-incoming'><b>{buddy.name}: </b><br/>{m.content}</blockquote>;
   });
 
   return (

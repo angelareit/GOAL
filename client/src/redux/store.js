@@ -4,6 +4,7 @@ import rightSidebarReducer from '../features/rightSidebarSlice';
 import leftSidebarReducer from '../features/leftSidebarSlice';
 import userReducer from '../features/userSlice';
 import buddyReducer from '../features/buddySlice';
+import messagesReducer from '../features/messagesSlice';
 
 export default configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
     rightSidebar: rightSidebarReducer,
     leftSidebar: leftSidebarReducer,
     user: userReducer,
-    buddy: buddyReducer
+    buddy: buddyReducer,
+    messages: messagesReducer
   },
 });

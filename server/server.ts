@@ -56,7 +56,7 @@ app.get('/verify', async (req, res) => {
     return decoded;
   });
 
-  
+
   if (!userToken) {
     return res.clearCookie("token").json({ success: false });
   }
@@ -65,7 +65,7 @@ app.get('/verify', async (req, res) => {
       email: userToken.email
     }
   });
-  
+
   //Since we're storing the hash in the token, here we can compare it directly without bcrypt
   if (!user || userToken.password !== user.password) {
     console.log(user);
@@ -102,7 +102,7 @@ app.post('/login', async (req, res) => {
     return res.json({ success: false });
   }
 
-  const passwordMatch = await bcrypt.compare(req.body.password, user.password); 
+  const passwordMatch = await bcrypt.compare(req.body.password, user.password);
   if (passwordMatch) {
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
     console.log(token);
@@ -128,7 +128,7 @@ io.on('connection', socket => {
   console.log(users);
 
   updateBuddy(socket, id);
-
+  getMessages(socket, id);
 
   // //The following connection related conditions are placeholder to keep track of most recent logins, they'll be replaced with matching buddies
   // if (users.length >= 2) {
@@ -143,27 +143,38 @@ io.on('connection', socket => {
   //   socket.emit('BUDDY_ONLINE', true);
   // }
 
-  // socket.on('MESSAGE_SEND', payload => {
-  //   console.log(connection);
-  //   if (connection.length !== 2) {
-  //     return socket.emit('MESSAGE_RECEIVE', { message: "Your buddy is currently offline.", user: 'Notice', time: Date.now });
-  //   }
-  //   //Get the index of the user whose buddy is sending the message
-  //   const i = connection.findIndex(user => user.buddy === client.user);
-  //   //Send the message to the user
-  //   socket.to(connection[i].id).emit('MESSAGE_RECEIVE', payload);
-  // });
+  socket.on('MESSAGE_SEND', async payload => {
+    console.log(payload);
+    return prisma.messages.create({
+      data: { ...payload }
+    })
+      .then(data => {
+        console.log(data);
+        console.log(users[payload.receiver_id]);
+        socket.to(users[payload.receiver_id]).emit('MESSAGE_RECEIVE', data);
+      });
+  });
 
   // //Remove the user object from the users array upon disconnection to clean up the session
-  // socket.on('disconnect', reason => {
-  //   const userIndex = users.findIndex(user => user.id === socket.id);
-  //   const disconnected = users.splice(userIndex, 1)[0];
-  //   if (connection.length === 2) {
-  //     const buddySocket = connection[connection.findIndex(u => u.buddy === disconnected.user)].id;
-  //     socket.to(buddySocket).emit('BUDDY_ONLINE', false);
-  //     connection = [];
-  //   }
-  // });
+  socket.on('disconnect', async reason => {
+    console.log(socket.id, reason);
+    // Find user ID of the user who got disconnected
+    const userID = Object.keys(users).find(key => users[key] === socket.id);
+    console.log(userID);
+    // Find their buddy
+    const buddy = await prisma.users.findFirst({
+      where: { buddy_id: Number(userID) },
+      select: { id: true, username: true }
+    });
+    if (buddy) {
+      const socketID = users[buddy.id];
+      if (!socketID) {
+        return;
+      }
+      const payload = { online: false };
+      socket.to(socketID).emit('BUDDY_UPDATE', payload);
+    }
+  });
 });
 
 const updateBuddy = async function(socket, id) {
@@ -176,6 +187,11 @@ const updateBuddy = async function(socket, id) {
       buddy_id: true
     }
   });
+
+  if (!user.buddy_id) {
+    return;
+  }
+
   const buddy = await prisma.users.findUnique({
     where: {
       id: user.buddy_id
@@ -186,10 +202,37 @@ const updateBuddy = async function(socket, id) {
     }
   });
   const buddyOnline = buddy.id in users;
-  const payload = { name: buddy.username, online: buddyOnline };
+  const payload = { id: buddy.id, name: buddy.username, online: buddyOnline };
   console.log(users[id]);
-    socket.emit('BUDDY_UPDATE', payload);
-}
+  socket.emit('BUDDY_UPDATE', payload);
+  if (buddyOnline) {
+    socket.to(users[buddy.id]).emit('BUDDY_UPDATE', { online: true });
+  }
+};
+
+const getMessages = async function(socket, id) {
+  const messages = await prisma.messages.findMany({
+    where: {
+      OR: [
+        {
+          sender_id: id
+        },
+        {
+          receiver_id: id
+        }
+      ]
+    },
+    select: {
+      sender_id: true,
+      content: true,
+      created_at: true
+    },
+    orderBy: {
+      created_at: "asc"
+    }
+  });
+  socket.emit('MESSAGE_HISTORY', messages);
+};
 
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

@@ -7,7 +7,6 @@ import { setUser } from './features/userSlice';
 
 
 import Chat from './components/Chat';
-import Navbar2 from './components/Navbar2';
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Home from './components/Home';

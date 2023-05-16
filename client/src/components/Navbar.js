@@ -7,7 +7,7 @@ export default function Navbar(props) {
       <h1>Project X</h1>
       <span>
         <h2>{props?.username && props.username}</h2>
-        <button onClick={props.onLogout}>Log Out</button>
+        <button className='log_out' onClick={props.onLogout}>Log Out</button>
       </span>
     </nav>
   );

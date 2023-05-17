@@ -19,9 +19,6 @@ const io = new Server(server);
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-//import routes
-const search = require('./search')
-
 //Add any middleware here
 
 app.use(morgan('dev'));
@@ -29,34 +26,20 @@ app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
-const verifyToken = async(token, secret) => {
-  return new Promise ((resolve,reject)=> {
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
-        reject();
-      }
-      resolve(decoded);
-    });
-  })
-} 
-
-//Async version to prevent crashing, to await the jwt function to verify before we pass control on the route
-app.use(async(req, res, next) => {
+app.use((req, res, next) => {
   if (req.cookies.token) {
-    try{
-      const tokenVerification =  await verifyToken(req.cookies.token, secret);
-      req.token= tokenVerification;
-    }
-    catch 
-    {
-      res.token= undefined;
-    }
+    jwt.verify(req.cookies.token, secret, (err, decoded) => {
+      if (err) {
+        res.token = undefined;
+        return next();
+      }
+
+      req.token = decoded;
+      return next();
+    });
   }
   return next();
 });
-
-//Routes go here
-app.use('/search', search)
 
 app.get('/verify', (req, res) => {
   if (req.token) {

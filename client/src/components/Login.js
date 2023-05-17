@@ -8,6 +8,9 @@ const Login = (props) => {
   const onSubmit = (evt) => {
     evt.preventDefault();
     setUsers([users]);
+
+    // const email = evt.target.email.value;
+    // const password = evt.target.password.value;
     props.onLogin(users.email, users.password);
     setUsers(
       {email:"",

@@ -9,26 +9,28 @@ import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Home from './components/Home';
 
-export default function App(props) {
-  const userState = useSelector((state) => state.user.value);
+import { resetSession } from './features/sessionSlice';
+
+//enables axios to save cookie on the client
+axios.defaults.withCredentials = true;
+
+function App() {
+
   const dispatch = useDispatch();
+  const userState = useSelector((state) => state.session.user);
 
   const onLogout = () => {
     axios.post('/logout').then(res => {
       if (res.data.success) {
-        dispatch(setUser(undefined));
+        dispatch(resetSession());
       }
     });
   };
-  
+
   return (
     <div className="App">
-      {userState ? 
-      <>
-        <Navbar username={userState?.username} onLogout={onLogout} />
-        <Home />
-      </>
-        : <Landing />}
+      <Navbar username={userState?.username} onLogout={onLogout} />
+      {userState ? <Home /> : <Landing />}
     </div>
   );
-}
+};

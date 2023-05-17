@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 function BuddyStatus(props) {
 
-  const buddyState = useSelector(state => state.buddy);
+  const buddyState = useSelector(state => state.session.buddy);
   
   return (
     <section className="BuddyStatus">

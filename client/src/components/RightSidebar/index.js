@@ -6,7 +6,7 @@ import BuddyView from '../BuddyView';
 
 import { showBuddyPanel } from '../../features/rightSidebarSlice';
 
-import { setBuddy } from '../../features/buddySlice';
+import { setBuddy } from '../../features/sessionSlice';
 import { appendMessage, fetchMessageHistory, setMessages } from '../../features/messagesSlice';
 
 import socket from '../../helpers/socketsHelper';
@@ -18,7 +18,7 @@ export default function RightSidebar(props) {
 
   const drawerState = useSelector((state) => state.rightSidebar.value);
   
-  const userState = useSelector(state => state.user.value);
+  const userState = useSelector(state => state.session.user);
     
   useEffect(() => {
     //Sends user information to server

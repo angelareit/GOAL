@@ -7,8 +7,8 @@ import socket from '../../helpers/socketsHelper';
 
 function Chat() {
   
-  const user = useSelector(state => state.user.value.id);
-  const buddy = useSelector(state => state.buddy);
+  const user = useSelector(state => state.session.user.id);
+  const buddy = useSelector(state => state.session.buddy);
   const messages = useSelector(state => state.messages);
   const dispatch = useDispatch();
 

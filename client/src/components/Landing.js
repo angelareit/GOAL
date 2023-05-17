@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import '../App.scss';
-import { setUser } from '../features/userSlice';
+import { setUser } from '../features/sessionSlice';
 import Login from './Login';
 import Register from './Register';
 
@@ -10,7 +10,7 @@ import Register from './Register';
 axios.defaults.withCredentials = true;
 
 export default function Landing(props) {
-  const userState = useSelector((state) => state.user.value);
+  const userState = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
   useEffect(() => {

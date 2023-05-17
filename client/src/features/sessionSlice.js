@@ -5,7 +5,7 @@ export const sessionSlice = createSlice({
   initialState: {
     user: null,
     buddy: { id: null, name: null, online: null },
-    interests: []
+    interests: {}
   },
   reducers: {
     setUser: (state, action) => {
@@ -15,7 +15,11 @@ export const sessionSlice = createSlice({
       return { ...state, buddy: { ...state.buddy, ...action.payload } };
     },
     setInterests: (state, action) => {
-      return { ...state, interests: [...action.payload] };
+      return { ...state, interests: {...action.payload} };
+    },
+    updateInterest: (state, action) => {
+      const { id, checked } = action.payload;
+      return { ...state, interests: {...state.interests, [id]: {...state.interests[id], isInterest: checked }} }
     },
     resetSession: (state, action) => {
       return { ...state, user: null, buddy: { id: null, name: null, online: null }, interests: [] };
@@ -24,5 +28,5 @@ export const sessionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBuddy, setInterests, resetSession } = sessionSlice.actions;
+export const { setUser, setBuddy, setInterests, updateInterest, resetSession } = sessionSlice.actions;
 export default sessionSlice.reducer;

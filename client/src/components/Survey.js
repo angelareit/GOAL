@@ -1,37 +1,30 @@
 import React from 'react';
 import './Navbar.scss';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import axios from 'axios';
 
 export default function Survey(props) {
 
-  const [categories, setCategories] = useState([]);
-  const [interests, setInterests] = useState([]);
-
+  const interests = useSelector(state => state.session.interests);
   const user = useSelector(state => state.session.user);
 
-  useEffect(() => {
-    axios.get('/api/interests')
-      .then(res => {
-        setInterests(res.data.interests);
-        setCategories(res.data.categories);
+  const toggleInterest = function(id, user, checked) {
+    console.log(id, checked);
+    if (checked) {
+      return axios.post(`/interest/`, { category: id, user }).then(res => {
+        console.log(res.data);
       });
-  }, []);
+    }
 
-  const toggleInterest = function() {
-    
+    axios.delete(`/interest/`, { data: { category: id, user } }).then(res => {
+      console.log(res.data);
+    });
   };
 
-  const updateInterests = function() {
-  
-  };
-
-  const renderedCategories = categories.map((c, i) => {
-    const found = interests.find(o => o.category_id === c.id) !== undefined;
-    return <span key={i}><input type="checkbox" defaultChecked={found} onChange={() => { toggleInterest(c.id) }} value={c.id}/><label htmlFor={c.name}>{c.name} </label></span>
+  const renderedCategories = interests.map((c, i) => {
+    return <span key={i}><input type="checkbox" defaultChecked={c.isInterest} onChange={(event) => { toggleInterest(c.category, user.id, event.target.checked); }} value={c.category} /><label htmlFor={c.name}>{c.name} </label></span>;
   });
 
   return (

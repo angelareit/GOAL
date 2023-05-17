@@ -131,7 +131,39 @@ app.get('/api/interests/:id', async (req, res) => {
     }
   });
   const categories = await prisma.categories.findMany();
-  res.json({interests: interests.map(i => i.category_id), categories});
+  res.json({ interests: interests.map(i => i.category_id), categories });
 });
+
+app.post('/interest/', async (req, res) => {
+  const { category, user } = req.body;
+  const result = await prisma.interests.upsert({
+    where: {
+      userCategory: {
+        user_id: user,
+        category_id: category
+      }
+    },
+    update: {},
+    create: {
+      user_id: user,
+      category_id: category
+    }
+  });
+  res.json({ success: result ? true : false });
+});
+
+app.delete('/interest/', async (req, res) => {
+  const { category, user } = req.body;
+  const result = await prisma.interests.delete({
+    where: {
+      userCategory: {
+        user_id: user,
+        category_id: category
+      }
+    }
+  });
+  console.log(result);
+  res.json({ success: true });
+})
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

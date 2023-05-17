@@ -61,6 +61,7 @@ model interests {
   category_id Int
   categories  categories @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users       users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@unique(fields: [user_id, category_id], name: "userCategory")
 }
 
 model main_goals {

@@ -10,12 +10,12 @@ import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/sock
 import axios from "axios";
 
 import { setInterests } from "../features/sessionSlice";
+import Survey from "./Survey";
 
 export default function Home(props) {
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.session.user);
-  const userInterests = useSelector(state => state.session.interests);
 
   const startSession = function(user) {
     socket.auth = { user: user.id };
@@ -40,7 +40,8 @@ export default function Home(props) {
   return (
     <main className="Home">
       <LeftSidebar />
-      <div className="goal-manager"><h3> GOAL TREE</h3></div>
+      <Survey/>
+      {/* <div className="goal-manager"><h3> GOAL TREE</h3></div> */}
       <RightSidebar />
     </main>
   );

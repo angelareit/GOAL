@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useNavigate } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import '../App.scss';
 import { setUser } from '../features/sessionSlice';
+import { setGoals } from '../features/mainGoalSlice';
+
 import Login from './Login';
 import Register from './Register';
 
@@ -17,6 +19,7 @@ export default function Landing(props) {
     axios.get('/verify').then(res => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
+        console.log('verified user', userState);
       }
     }).catch((err) => {
       console.log(err);
@@ -26,13 +29,31 @@ export default function Landing(props) {
 
   }, []);
 
+
+  
+
   const onLogin = (email, password) => {
     axios.post(
       '/login', { email, password }
     )
       .then(res => {
         dispatch(setUser(res.data.user));
+        console.log('verified user ON LOGIN', res.data.user, userState);
+        //window.location.reload();
+
       });
+
+      /* axios.get('/mainGoals').then(res => {
+        console.log('TESTING MAIN GOALS', res.data);
+        if (res.data.success)
+        {
+          dispatch(setGoals(res.data.result));
+        }
+      }).catch((err) => {
+        console.log(err);
+      }); */
+
+
   };
 
   return (

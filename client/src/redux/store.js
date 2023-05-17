@@ -4,13 +4,15 @@ import rightSidebarReducer from '../features/rightSidebarSlice';
 import leftSidebarReducer from '../features/leftSidebarSlice';
 import sessionReducer from '../features/sessionSlice';
 import messagesReducer from '../features/messagesSlice';
+import mainGoalReducer from '../features/mainGoalSlice'
 
 export default configureStore({
   reducer: {
     counter: counterReducer,
     rightSidebar: rightSidebarReducer,
     leftSidebar: leftSidebarReducer,
-    session: sessionReducer,
-    messages: messagesReducer
+    mainGoal: mainGoalReducer,
+    messages: messagesReducer,
+    session: sessionReducer
   },
 });

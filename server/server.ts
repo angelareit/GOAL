@@ -31,6 +31,7 @@ app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
 import socketFunctions from './helpers/socketFunctions';
+import { type } from 'os';
 socketFunctions(io, prisma);
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
@@ -166,5 +167,38 @@ app.delete('/interest/', async (req, res) => {
   console.log(result);
   res.json({ success: true });
 })
+
+//MAIN GOALS
+
+app.get('/mainGoals', async (req, res) => {
+  if (req.query) {
+    const mainGoals = await prisma.main_goals.findMany({
+      where: {
+        user_id: Number(req.query.userID),
+      },
+    });
+    return res.json({ success: true, result: mainGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
+});
+
+app.put('/mainGoals/new', async (req, res) => {
+  if (req.body) {
+    const mainGoals = await prisma.main_goals.create({
+      data: {
+        user_id: Number(req.body.userID),
+        title: req.body.goal.title,
+      },
+    });
+    return res.json({ success: true, result: mainGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
+});
+
+
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

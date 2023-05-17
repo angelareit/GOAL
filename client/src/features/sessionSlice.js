@@ -5,11 +5,13 @@ export const sessionSlice = createSlice({
   initialState: {
     user: null,
     buddy: { id: null, name: null, online: null },
-    interests: {}
+    interests: [],
+    mainGoals: [],
   },
   reducers: {
     setUser: (state, action) => {
-      return { ...state, user: action.payload };
+      console.log('session user', action);
+      return { ...state, user: {...action.payload} };
     },
     setBuddy: (state, action) => {
       return { ...state, buddy: { ...state.buddy, ...action.payload } };
@@ -22,8 +24,22 @@ export const sessionSlice = createSlice({
       return { ...state, interests: {...state.interests, [id]: {...state.interests[id], isInterest: checked }} }
     },
     resetSession: (state, action) => {
-      return { ...state, user: null, buddy: { id: null, name: null, online: null }, interests: [] };
-    }
+      return { ...state, 
+        user: null, 
+        buddy: { id: null, name: null, online: null },
+        interests: [],
+        mainGoals:[] 
+      };
+    },
+    //MAIN GOAL STATE
+    addNewGoal: (state, action) => {
+      console.log('Added new goal', state);
+      state.mainGoals.push(action.payload);
+    },
+    setGoals: (state,action) => {
+      return { ...state, mainGoals: action.payload };
+    },
+
   }
 });
 

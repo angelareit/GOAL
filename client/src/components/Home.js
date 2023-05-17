@@ -1,12 +1,12 @@
-import "./Home.scss"
+import "./Home.scss";
 
-import  RightSidebar  from './RightSidebar';
-import  LeftSidebar  from './LeftSidebar';
+import RightSidebar from './RightSidebar';
+import LeftSidebar from './LeftSidebar';
 
-export default function Home (props) {
+export default function Home(props) {
   return (
     <main className="Home">
-      <LeftSidebar/>
+      <LeftSidebar />
       <div className="goal-manager"><h3> GOAL TREE</h3></div>
       <RightSidebar />
     </main>

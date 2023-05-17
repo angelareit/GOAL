@@ -15,12 +15,21 @@ import { createStore } from 'redux';
 
 
 const Login = (props) => {
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState(
+  {email:"",
+  password:""}
+  );
   const onSubmit = (evt) => {
     evt.preventDefault();
-    const email = evt.target.email.value;
-    const password = evt.target.password.value;
-    props.onLogin(email, password);
+    setUsers([users]);
+
+    // const email = evt.target.email.value;
+    // const password = evt.target.password.value;
+    props.onLogin(users.email, users.password);
+    setUsers(
+      {email:"",
+      password:""}
+      );
   };
   return (
     <form onSubmit={onSubmit}>
@@ -30,6 +39,10 @@ const Login = (props) => {
       <input
         name="email"
         type="email"
+        value={users.email}
+        onChange={(e) =>
+          setUsers({ ...users, email: e.target.value })
+        }
       />
 
       <label className="form__label" htmlFor="password">
@@ -38,6 +51,10 @@ const Login = (props) => {
       <input
         name="password"
         type="password"
+        value={users.password}
+        onChange={(e) =>
+          setUsers({ ...users, password: e.target.value })
+        }
       />
 
       <div className="footer">

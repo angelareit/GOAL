@@ -19,14 +19,17 @@ function Register() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
-    const { userName, email, interest, password } = registration;
     axios.post(
       '/register', registration
     )
     .then(res => {
-      console.log('response came back!')
+      setRegistration(
+        {userName: "",
+        email: "",
+        interest: "",
+        password: "",}    
+      )
     })
-    console.log(userName, email, interest, password );
   };
 
   return (
@@ -85,7 +88,7 @@ function Register() {
             onChange={(e) => handleInputChange(e)}
             placeholder="Password"
             required
-            minlength="6"
+            minLength="6"
           />
         </div>
       </div>

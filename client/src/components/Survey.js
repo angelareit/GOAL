@@ -11,7 +11,7 @@ export default function Survey(props) {
   const [categories, setCategories] = useState([]);
   const [interests, setInterests] = useState([]);
 
-  const user = useSelector(state => state.user.value);
+  const user = useSelector(state => state.session.user);
 
   useEffect(() => {
     axios.get('/api/interests')

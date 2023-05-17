@@ -124,14 +124,14 @@ app.post('/logout', (req, res) => {
 
 // API routes
 
-app.get('/api/interests/', async (req, res) => {
+app.get('/api/interests/:id', async (req, res) => {
   const interests = await prisma.interests.findMany({
     where: {
-      user_id: 1
+      user_id: Number(req.params.id)
     }
   });
   const categories = await prisma.categories.findMany();
-  res.json({interests, categories});
+  res.json({interests: interests.map(i => i.category_id), categories});
 });
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

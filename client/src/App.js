@@ -9,6 +9,7 @@ import Home from './components/Home';
 import Survey from './components/Survey';
 
 import { resetSession } from './features/sessionSlice';
+import socket from './helpers/socketsHelper';
 
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
@@ -23,6 +24,7 @@ function App() {
     axios.post('/logout').then(res => {
       if (res.data.success) {
         dispatch(resetSession());
+        socket.disconnect();
       }
     });
   };

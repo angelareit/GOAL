@@ -12,7 +12,7 @@ export const sessionSlice = createSlice({
       return { ...state, user: action.payload };
     },
     setBuddy: (state, action) => {
-      return { ...state, buddy: action.payload };
+      return { ...state, buddy: { ...state.buddy, ...action.payload } };
     },
     setInterests: (state, action) => {
       return { ...state, interests: [...action.payload] };

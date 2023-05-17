@@ -21,6 +21,9 @@ export default function Landing(props) {
     }).catch((err) => {
       console.log(err);
     });
+
+    return () => { };
+
   }, []);
 
   const onLogin = (email, password) => {

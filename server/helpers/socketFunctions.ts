@@ -5,6 +5,10 @@ const socketFunctions = function(io, prisma) {
 
   io.on('connection', socket => {
     const id = socket.handshake.auth.user;
+    // If for some reason a user connects to our socket without being logged in (which shouldn't happen), disconnect them.
+    if(!id) {
+      return io.disconnect();
+    }
     users[id] = socket.id;
     console.log(users);
 
@@ -27,12 +31,20 @@ const socketFunctions = function(io, prisma) {
         });
     });
 
+    socket.on('GET_BUDDY_INFO', payload => {
+      updateBuddy(socket, id);
+    })
+
     //Remove the user object from the users array upon disconnection to clean up the session and update their buddy
     socket.on('disconnect', async reason => {
       console.log(socket.id, reason);
       // Find user ID of the user who got disconnected
       const userID = Object.keys(users).find(key => users[key] === socket.id);
       console.log(userID);
+      
+      if(!userID) {
+        return;
+      }
       // Find their buddy
       const buddy = await prisma.users.findFirst({
         where: { buddy_id: Number(userID) },
@@ -40,12 +52,12 @@ const socketFunctions = function(io, prisma) {
       });
       if (buddy) {
         const socketID = users[buddy.id];
-        if (!socketID) {
-          return;
+        if (socketID) {
+          const payload = { online: false };
+          socket.to(socketID).emit('BUDDY_UPDATE', payload);
         }
-        const payload = { online: false };
-        socket.to(socketID).emit('BUDDY_UPDATE', payload);
       }
+      delete users[userID];
     });
   });
 
@@ -59,11 +71,10 @@ const socketFunctions = function(io, prisma) {
         buddy_id: true
       }
     });
-
     if (!user.buddy_id) {
       return;
     }
-
+    
     const buddy = await prisma.users.findUnique({
       where: {
         id: user.buddy_id

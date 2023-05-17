@@ -34,11 +34,15 @@ router.post('/', async (req, res) =>{
 
 //send buddy request
 router.post('/request', async (req,res)=> {
-  console.log(req.token)
-  console.log(req.body); // Log the request body
-  // // Additional logic can be added here to process the buddy request
-
-  // // Send a response back to the client if needed
+  console.log(req.cookies.token)//user_id for from_user
+  //console.log(req.body.id); // user_id for to_user
+  const result = await prisma.buddy_requests.create({
+    data:{
+      from_user:12,
+      to_user:1,
+      request_message:"You have a buddy request."
+    }
+  })
   res.sendStatus(200); // Sending a 200 status code for a successful request
 })
 

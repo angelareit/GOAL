@@ -26,7 +26,7 @@ app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
 const searchRoutes = require('./search')
-
+//mount search route
 app.use('/search', searchRoutes)
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
 app.use((req, res, next) => {

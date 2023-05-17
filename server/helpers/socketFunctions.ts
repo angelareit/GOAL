@@ -105,6 +105,7 @@ const socketFunctions = function(io, prisma) {
     });
     socket.emit('MESSAGE_HISTORY', messages);
   };
+  
 };
 
 export default socketFunctions;

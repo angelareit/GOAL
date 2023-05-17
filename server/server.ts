@@ -122,5 +122,16 @@ app.post('/logout', (req, res) => {
   return res.clearCookie('token').json({ success: true });
 });
 
+// API routes
+
+app.get('/api/interests/', async (req, res) => {
+  const interests = await prisma.interests.findMany({
+    where: {
+      user_id: 1
+    }
+  });
+  const categories = await prisma.categories.findMany();
+  res.json({interests, categories});
+});
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

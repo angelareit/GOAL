@@ -13,10 +13,13 @@ export const mainGoalSlice = createSlice({
     setGoals: (state,action) => {
       state.value = action.payload;
     },
+    resetGoals: (state,action) => {
+      state.value = [];
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addNewGoal, setGoals } = mainGoalSlice.actions;
+export const { addNewGoal, setGoals, resetGoals } = mainGoalSlice.actions;
 
 export default mainGoalSlice.reducer;

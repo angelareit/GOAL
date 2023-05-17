@@ -11,9 +11,8 @@ export default configureStore({
     counter: counterReducer,
     rightSidebar: rightSidebarReducer,
     leftSidebar: leftSidebarReducer,
-    user: userReducer,
     mainGoal: mainGoalReducer,
-    buddy: buddyReducer,
-    messages: messagesReducer
+    messages: messagesReducer,
+    session: sessionReducer
   },
 });

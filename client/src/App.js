@@ -2,19 +2,18 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import "./App.scss"
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from './features/userSlice';
-
 
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Home from './components/Home';
+import { resetGoals } from './features/mainGoalSlice';
 
 import { resetSession } from './features/sessionSlice';
 
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
 
-function App() {
+export default function App() {
 
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.session.user);
@@ -23,6 +22,7 @@ function App() {
     axios.post('/logout').then(res => {
       if (res.data.success) {
         dispatch(resetSession());
+        dispatch(resetGoals());
       }
     });
   };

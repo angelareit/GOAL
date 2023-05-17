@@ -31,6 +31,7 @@ app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
 import socketFunctions from './helpers/socketFunctions';
+import { type } from 'os';
 socketFunctions(io, prisma);
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
@@ -123,16 +124,12 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/mainGoals', async (req, res) => {
-  if (userToken) {
-    console.log('Theres a token', userToken);
-
+  if (req.query) {
     const mainGoals = await prisma.main_goals.findMany({
       where: {
-        user_id: userToken.id,
+        user_id: Number(req.query.userID),
       },
     });
-    console.log('MainGoals ', mainGoals);
-
     return res.json({ success: true, result: mainGoals });
   }
   else {
@@ -141,19 +138,20 @@ app.get('/mainGoals', async (req, res) => {
 });
 
 app.put('/mainGoals/new', async (req, res) => {
-  if (userToken) {
-    const newUser = await prisma.main_goals.create({
+  if (req.body) {
+    const mainGoals = await prisma.main_goals.create({
       data: {
+        user_id: Number(req.body.userID),
         title: req.body.goal.title,
-        user_id: userToken.id
-     }
+      },
     });
-    return res.json({ success: true, result: newUser });
+    return res.json({ success: true, result: mainGoals });
   }
   else {
     return res.json({ success: false });
   }
 });
+
 
 
 

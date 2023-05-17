@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useNavigate } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Login = (props) => {
+const Login = (props) => { 
   const [users, setUsers] = useState({
     email: "",
     password: ""
@@ -12,10 +13,12 @@ const Login = (props) => {
     // const email = evt.target.email.value;
     // const password = evt.target.password.value;
     props.onLogin(users.email, users.password);
+    //reset form value
     setUsers({
       email: "",
       password: ""
     });
+
   };
   return (
     <form onSubmit={onSubmit}>

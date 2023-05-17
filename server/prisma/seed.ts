@@ -3,71 +3,90 @@ const prisma = new PrismaClient();
 
 async function main() {
   { //Users
+
+    const password = '$2b$10$9WiSDFHp93DC4qjUAgHJT.c/NXpstZtTQucamGfyHiG/./AIQYDaS';
+
     const steve = await prisma.users.upsert({
       where: { email: 'steve@scuba.ca' },
-      update: {},
-      create: {
+      update: {
+        password: password
+      },      create: {
         email: 'steve@scuba.ca',
         username: 'scubaSteve',
-        password: 'password'
+        password: password
       },
     });
     const jimmy = await prisma.users.upsert({
       where: { email: 'jimmy@watchtower.com' },
-      update: {},
+      update: {
+        password: password
+      },
       create: {
         email: 'jimmy@watchtower.com',
         username: 'HendricksJR',
-        password: 'password'
+        password: password
       },
     });
     const mary = await prisma.users.upsert({
       where: { email: 'mary@fitness.com' },
-      update: {},
+      update: {
+        password: password
+      },
       create: {
         email: 'mary@fitness.com',
         username: 'muscleMary',
-        password: 'password',
+        password: password,
         buddy_availability: false
       },
     });
     const rebecca = await prisma.users.upsert({
       where: { email: 'rebecca@literature.ca' },
-      update: {},
+      update: {
+        password: password,
+        buddy_id: 5
+      },
       create: {
         email: 'rebecca@literature.ca',
         username: 'bookyBecky',
-        password: 'password'
+        password: password
       },
     });
     const stacy = await prisma.users.upsert({
       where: { email: 'anastasia@journaling.com' },
-      update: {},
+      update: {
+        password: password,
+        buddy_id: 4
+      },
       create: {
         email: 'anastasia@journaling.com',
         username: 'stationeryStacy',
-        password: 'password'
+        password: password
       },
     });
     const dan = await prisma.users.upsert({
       where: { email: 'danny@wheels.com' },
-      update: {},
+      update: {
+        password: password
+      },
       create: {
         email: 'danny@wheels.com',
         username: 'dan_the_driver',
-        password: 'password'
+        password: password
       },
     });
     const bill = await prisma.users.upsert({
       where: { email: 'lotion@skin.com' },
-      update: {},
+      update: {
+        password: password
+      },
       create: {
         email: 'lotion@skin.com',
         username: 'Buffalo_Bill',
-        password: 'password',
+        password: password,
         is_deleted: true
       },
     });
+
     console.log({ steve, jimmy, mary, rebecca, stacy, dan, bill });
   }
   { //Categories

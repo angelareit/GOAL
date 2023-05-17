@@ -31,6 +31,8 @@ export default function Navbar(props) {
 import './Navbar.scss'
 
 export default function Navbar(props) {
+  const dispatch = useDispatch();
+
   return (
     <nav className='nav'>
       <h1>Project X</h1>

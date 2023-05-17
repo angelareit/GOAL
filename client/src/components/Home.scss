@@ -1,6 +1,13 @@
-main
-{
+.Home {
   display: flex;
+  flex-direction: row;
   align-items: stretch;
   height: 100%;
 }
+.goal-manager {
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  flex-grow: 3;
+}
+
+  

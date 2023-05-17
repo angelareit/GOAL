@@ -122,5 +122,34 @@ app.post('/logout', (req, res) => {
   return res.clearCookie('token').json({ success: true });
 });
 
+app.get('/mainGoals', async (req, res) => {  
+  if (userToken)
+  {
+    console.log('Theres a token', userToken);
+    
+    const mainGoals = await prisma.main_goals.findMany({
+      where: {
+        user_id: userToken.id,
+      },
+    });
+    console.log('MainGoals ', mainGoals);
+    
+    return res.json({ success: true, result: mainGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
+});
+
+app.put('/mainGoals/new', async (req, res) => {  
+  const newUser = await prisma.main_goals.create({ data:{
+    title: req.body.mainGoal.title,
+    user_id: userToken.id
+  }});
+  return res.json({ success: true, result: newUser });
+});
+
+
+
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

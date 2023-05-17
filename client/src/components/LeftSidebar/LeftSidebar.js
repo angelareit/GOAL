@@ -16,8 +16,11 @@ export default function LeftSidebar(props) {
 
   useEffect(() => {
     axios.get('/mainGoals').then(res => {
-      console.log('TEST', res.data);
-      dispatch(setGoals(res.data.result));
+      console.log('TESTING MAIN GOALS', res.data);
+      if (res.data.success)
+      {
+        dispatch(setGoals(res.data.result));
+      }
     }).catch((err) => {
       console.log(err);
     });

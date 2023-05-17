@@ -22,14 +22,11 @@ export default function Form(props) {
     validate();
 
     props.onSave()
-    //do i make the put request here?
     axios.put(`/mainGoals/new`, { mainGoal })
       .then((res) => {
         //update redux state for mainGoals
-        console.log('NEW HERE', res);
-        dispatch(addNewGoal(res.data));
-
-        console.log('Success');
+        console.log('NEW HERE', res.data.result);
+        dispatch(addNewGoal(res.data.result));
       });
 
 

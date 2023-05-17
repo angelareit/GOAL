@@ -4,7 +4,7 @@ import "./Home.scss"
 
 
 import  RightSidebar  from './RightSidebar';
-import  LeftSidebar  from './LeftSidebar';
+import  LeftSidebar  from './LeftSidebar/LeftSidebar';
 
 
 export default function Home (props) {

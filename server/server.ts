@@ -122,18 +122,17 @@ app.post('/logout', (req, res) => {
   return res.clearCookie('token').json({ success: true });
 });
 
-app.get('/mainGoals', async (req, res) => {  
-  if (userToken)
-  {
+app.get('/mainGoals', async (req, res) => {
+  if (userToken) {
     console.log('Theres a token', userToken);
-    
+
     const mainGoals = await prisma.main_goals.findMany({
       where: {
         user_id: userToken.id,
       },
     });
     console.log('MainGoals ', mainGoals);
-    
+
     return res.json({ success: true, result: mainGoals });
   }
   else {
@@ -141,12 +140,19 @@ app.get('/mainGoals', async (req, res) => {
   }
 });
 
-app.put('/mainGoals/new', async (req, res) => {  
-  const newUser = await prisma.main_goals.create({ data:{
-    title: req.body.mainGoal.title,
-    user_id: userToken.id
-  }});
-  return res.json({ success: true, result: newUser });
+app.put('/mainGoals/new', async (req, res) => {
+  if (userToken) {
+    const newUser = await prisma.main_goals.create({
+      data: {
+        title: req.body.goal.title,
+        user_id: userToken.id
+     }
+    });
+    return res.json({ success: true, result: newUser });
+  }
+  else {
+    return res.json({ success: false });
+  }
 });
 
 

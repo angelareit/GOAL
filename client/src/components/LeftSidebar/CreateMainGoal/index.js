@@ -3,6 +3,7 @@ import axios from "axios";
 import { setUser } from '../../../features/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import useVisualMode from "../../../hooks/useVisualMode.js";
+import { addNewGoal } from '../../../features/mainGoalSlice';
 import Form from "./Form";
 import Header from "./Header";
 
@@ -16,16 +17,23 @@ const ERROR = "ERROR";
 
 export default function CreateMainGoal(props) {
   const { mode, transition, back } = useVisualMode(SHOW);
+  const dispatch = useDispatch();
 
+  //todo: add error component and give it a cancel function that will send transition back to show
 
-  //should this be a reducer function instead 
-  function createMainGoal(goal) {
-   
-
-  }
-
-  function saveGoal(name, goal) {
+  function saveGoal(mainGoal) {
     transition(SAVING);
+    axios.put(`/mainGoals/new`, { goal: mainGoal })
+      .then((res) => {
+        //update redux state for mainGoals
+        if (res.data.success) {
+          console.log('NEW HERE', res.data.result);
+          dispatch(addNewGoal(res.data.result));
+          transition(SHOW);
+        }
+      }).catch((err) => {
+        transition(ERROR);
+      });
   }
 
   return (
@@ -35,6 +43,8 @@ export default function CreateMainGoal(props) {
         <button onClick={() => transition(CREATE)}> Create new Goal</button>
       }
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={back} onSave={saveGoal} />}
+      {mode === ERROR && <h3> ERROR COMPONENT </h3>}
+
     </article>
   );
 }

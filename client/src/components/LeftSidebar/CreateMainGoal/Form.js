@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { addNewGoal } from '../../../features/mainGoalSlice';
-import { useSelector, useDispatch } from 'react-redux'
 
 export default function Form(props) {
-  const dispatch = useDispatch();
 
   const [mainGoal, setMainGoal] = useState(
     {
@@ -21,15 +18,7 @@ export default function Form(props) {
   const handleSave = function() {
     validate();
 
-    props.onSave()
-    axios.put(`/mainGoals/new`, { mainGoal })
-      .then((res) => {
-        //update redux state for mainGoals
-        console.log('NEW HERE', res.data.result);
-        dispatch(addNewGoal(res.data.result));
-      });
-
-
+    props.onSave(mainGoal)
   }
 
   const handleCancel = function() {

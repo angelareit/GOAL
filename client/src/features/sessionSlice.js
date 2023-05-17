@@ -9,7 +9,7 @@ export const sessionSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      return { ...state, value: action.payload };
+      return { ...state, user: action.payload };
     },
     setBuddy: (state, action) => {
       return { ...state, buddy: action.payload };
@@ -18,7 +18,7 @@ export const sessionSlice = createSlice({
       return { ...state, interests: [...action.payload] };
     },
     resetSession: (state, action) => {
-      return { ...state, value: null, buddy: { id: null, name: null, online: null }, interests: [] };
+      return { ...state, user: null, buddy: { id: null, name: null, online: null }, interests: [] };
     }
   }
 });

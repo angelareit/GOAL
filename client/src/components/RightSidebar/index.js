@@ -6,7 +6,7 @@ import BuddyView from '../BuddyView';
 
 import { showBuddyPanel } from '../../features/rightSidebarSlice';
 
-import { setBuddy } from '../../features/buddySlice';
+import { setBuddy } from '../../features/sessionSlice';
 import { appendMessage, fetchMessageHistory, setMessages } from '../../features/messagesSlice';
 
 import socket from '../../helpers/socketsHelper';

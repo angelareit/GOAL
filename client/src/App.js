@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Home from './components/Home';
 
-import { resetUser } from './features/sessionSlice';
+import { resetSession } from './features/sessionSlice';
 
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
@@ -21,7 +21,7 @@ function App() {
   const onLogout = () => {
     axios.post('/logout').then(res => {
       if (res.data.success) {
-        dispatch(resetUser());
+        dispatch(resetSession());
       }
     });
   };

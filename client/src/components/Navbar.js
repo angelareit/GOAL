@@ -1,7 +1,11 @@
 import React from 'react';
-import './Navbar.scss'
+import './Navbar.scss';
+import { useDispatch } from 'react-redux';
+
 
 export default function Navbar(props) {
+  const dispatch = useDispatch();
+
   return (
     <nav className='nav'>
       <h1>Project X</h1>

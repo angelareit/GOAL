@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const leftSidebarSlice = createSlice({
   name: 'leftSidebar',
@@ -12,13 +12,13 @@ export const leftSidebarSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.value = state.value === 'showing_goal_list' ? 'hidden' : 'showing_goal_list' ;
+      state.value = state.value === 'showing_goal_list' ? 'hidden' : 'showing_goal_list';
     },
-  
+
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { showGoalListPanel: showGoalListPanel} = leftSidebarSlice.actions
+export const { showGoalListPanel: showGoalListPanel } = leftSidebarSlice.actions;
 
-export default leftSidebarSlice.reducer
+export default leftSidebarSlice.reducer;

@@ -1,19 +1,47 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import "./Home.scss"
+import "./Home.scss";
 
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import  RightSidebar  from './RightSidebar';
-import  LeftSidebar  from './LeftSidebar';
+import RightSidebar from './RightSidebar';
+import LeftSidebar from './LeftSidebar';
 
+import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/socketsHelper";
+import axios from "axios";
 
-export default function Home (props) {
+import { setInterests } from "../features/sessionSlice";
+
+export default function Home(props) {
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.session.user);
+  const userInterests = useSelector(state => state.session.interests);
+
+  const startSession = function(user) {
+    socket.auth = { user: user.id };
+    socket.connect();
+    socketBuddyFunctions(dispatch);
+
+    axios.get(`/api/interests/${user.id}`).then(res => {
+      const { categories, interests } = res.data;
+      const interestsArray = categories.map(c => {
+        return { category: c.id, name: c.name, isInterest: interests.includes(c.id) };
+      });
+      dispatch(setInterests(interestsArray));
+    });
+
+  };
+
+  useEffect(() => {
+    startSession(user);
+    return () => { buddyFunctionsOff(); };
+  }, []);
+
   return (
-    <main>
-      <LeftSidebar/>
-      <div><h3> GOAL TREE</h3></div>
-      <RightSidebar/>
-      {/*   <Chat/> */}
+    <main className="Home">
+      <LeftSidebar />
+      <div className="goal-manager"><h3> GOAL TREE</h3></div>
+      <RightSidebar />
     </main>
   );
 }

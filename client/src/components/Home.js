@@ -25,9 +25,13 @@ export default function Home(props) {
     axios.get(`/api/interests/${user.id}`).then(res => {
       const { categories, interests } = res.data;
       const interestsArray = categories.map(c => {
-        return { category: c.id, name: c.name, isInterest: interests.includes(c.id) };
+        return;
       });
-      dispatch(setInterests(interestsArray));
+      const interestsObject = {};
+      categories.forEach(c => {
+        interestsObject[c.id] = { category: c.id, name: c.name, isInterest: interests.includes(c.id) };
+      });
+      dispatch(setInterests(interestsObject));
     });
 
   };
@@ -40,8 +44,8 @@ export default function Home(props) {
   return (
     <main className="Home">
       <LeftSidebar />
-      <Survey/>
-      {/* <div className="goal-manager"><h3> GOAL TREE</h3></div> */}
+      {/* <Survey/> */}
+      <div className="goal-manager"><h3> GOAL TREE</h3></div>
       <RightSidebar />
     </main>
   );

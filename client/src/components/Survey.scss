@@ -1,0 +1,27 @@
+.Survey {
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .interest-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .interest-box {
+    padding: 1em;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: burlywood;
+    width: 25%;
+  }
+
+  button {
+    margin-top: 2em;
+    padding: 1em;
+    display: inline-block;
+    width: 20%;
+  }
+}

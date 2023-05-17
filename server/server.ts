@@ -125,6 +125,7 @@ app.post('/logout', (req, res) => {
 // API routes
 
 app.get('/api/interests/:id', async (req, res) => {
+  console.log(req.cookies.token);
   const interests = await prisma.interests.findMany({
     where: {
       user_id: Number(req.params.id)

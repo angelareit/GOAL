@@ -9,7 +9,7 @@ import { showBuddyPanel } from '../../features/rightSidebarSlice';
 export default function RightSidebar(props) {
   const dispatch = useDispatch();
 
-  dispatch(showBuddyPanel());
+  // dispatch(showBuddyPanel());
 
   const drawerState = useSelector((state) => state.rightSidebar.value);
 

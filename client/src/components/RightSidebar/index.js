@@ -18,7 +18,7 @@ export default function RightSidebar(props) {
 
   const drawerState = useSelector((state) => state.rightSidebar.value);
   
-  const userState = useSelector(state => state.user.value);
+  const userState = useSelector(state => state.session.user);
     
   useEffect(() => {
     //Sends user information to server

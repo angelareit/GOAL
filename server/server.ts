@@ -167,4 +167,14 @@ app.delete('/interest/', async (req, res) => {
   res.json({ success: true });
 })
 
+app.get('/test', async (req, res) => {
+
+  const result = await prisma.$queryRaw`SELECT CAST(COUNT(*) AS INT) as num, u2c_others.user_id FROM interests u2c_main JOIN interests u2c_others ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id WHERE u2c_main.user_id = ${1} GROUP BY u2c_others.user_id;`;
+ 
+  console.log(result);
+
+  return res.send(result);
+
+});
+
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

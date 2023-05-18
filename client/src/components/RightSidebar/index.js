@@ -4,19 +4,17 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BuddyView from '../BuddyView';
 
-import { showBuddyPanel } from '../../features/rightSidebarSlice';
 
 export default function RightSidebar(props) {
+  const drawerState = useSelector((state) => state.viewManager.rightSideBar)  
   const dispatch = useDispatch();
 
-  // dispatch(showBuddyPanel());
-
-  const drawerState = useSelector((state) => state.rightSidebar.value);
-
   return (
-    drawerState !== 'hidden' &&
+    drawerState.visibility &&
     <section className='RightSidebar'>
-      {drawerState === 'showing_buddy' && <BuddyView />}
+      {drawerState.currentView === 'buddy' && <BuddyView />}
+      {drawerState.currentView === 'notifications' && <h2> NOTIFICATIONS </h2>}
+
     </section>
   );
 }

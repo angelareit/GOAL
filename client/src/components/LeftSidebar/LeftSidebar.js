@@ -2,15 +2,13 @@ import React, {useEffect} from 'react';
 import './LeftSidebar.scss'
 import axios from "axios";
 import { setUser } from '../../features/sessionSlice';
-import { setGoals } from '../../features/mainGoalSlice';
-
 import { useSelector, useDispatch } from 'react-redux'
 import CreateMainGoal from './CreateMainGoal'
 import MainGoalList from './MainGoalList';
 
 
 export default function LeftSidebar(props) {
-  const drawerState = useSelector((state) => state.leftSidebar.value)  
+  const drawerState = useSelector((state) => state.viewManager.leftSideBar)  
   const mainGoalState = useSelector((state) => state.mainGoal.value);
   const dispatch = useDispatch();    
 
@@ -26,10 +24,11 @@ export default function LeftSidebar(props) {
     });
   }, []);
  */
+
   return (
-    drawerState !== 'hidden' &&
+    drawerState.visibility &&
     <section className="left-sidebar">
-      <h3>{drawerState}</h3>
+      <h3>{drawerState.currentView}</h3>
       <MainGoalList goals={mainGoalState} />
       <CreateMainGoal />
     </section>

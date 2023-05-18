@@ -4,6 +4,8 @@ import axios from 'axios';
 import '../App.scss';
 import { setUser } from '../features/sessionSlice';
 import { setGoals } from '../features/mainGoalSlice';
+import { switchPage } from '../features/viewManagerSlice';
+
 
 import Login from './Login';
 import Register from './Register';
@@ -19,6 +21,7 @@ export default function Landing(props) {
     axios.get('/verify').then(res => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
+        dispatch(switchPage('Home'));
         console.log('verified user', userState);
       }
     }).catch((err) => {
@@ -38,6 +41,7 @@ export default function Landing(props) {
     )
       .then(res => {
         dispatch(setUser(res.data.user));
+        dispatch(switchPage('Home'));
         console.log('verified user ON LOGIN', res.data.user, userState);
         //window.location.reload();
 

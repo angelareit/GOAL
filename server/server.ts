@@ -212,7 +212,9 @@ app.put('/mainGoals/new', async (req, res) => {
 
 // SUB GOALS
 
-
+app.get('/subGoal', async (req, res) => {
+  
+});
 
 
 app.get('/test', async (req, res) => {

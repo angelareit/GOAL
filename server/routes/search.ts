@@ -4,9 +4,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 
-
-console.log(process.env) // remove this after you've confirmed it is working
-
 router.get('/', (req, res) => {
   res.send('This is the search route!')
 })

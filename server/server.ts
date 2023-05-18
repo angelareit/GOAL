@@ -31,9 +31,11 @@ app.use(morgan('dev'));
 app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
-const searchRoutes = require('./search')
+const searchRoutes = require('./routes/search')
+const requestRoutes = require('./routes/request')
 //mount search route
 app.use('/search', searchRoutes)
+app.use('/request', requestRoutes)
 import socketFunctions from './helpers/socketFunctions';
 socketFunctions(io, prisma);
 

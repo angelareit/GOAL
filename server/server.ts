@@ -32,6 +32,7 @@ app.use(cookieParser());
 
 import socketFunctions from './helpers/socketFunctions';
 import { type } from 'os';
+import { type } from 'os';
 socketFunctions(io, prisma);
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access

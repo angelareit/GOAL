@@ -1,5 +1,46 @@
 @mixin vertical-list {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+@mixin button-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 6px;
+  color: #3D3D3D;
+  background: #fff;
+  border: none;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:focus {
+    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+    outline: 0;
   }
+}
+
+@mixin button-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  padding: 6px 10px;
+  background-color: transparent;
+  border-radius: 3px;
+  color: $primary1;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  h3 {
+    font-weight: bold;
+    font-size: medium;
+    margin: 5px;
+  }
+}

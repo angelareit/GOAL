@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color:#1c5f83;
+  background-color: #1c5f83;
 
   .focused-goal {
     background-color: rgb(255, 111, 0);
@@ -19,7 +19,9 @@
     flex-direction: column;
     align-items: center;
     box-shadow: 5px 10px 20px #0008;
-    h1, h2 {
+
+    h1,
+    h2 {
       color: rgb(255, 243, 135);
     }
   }
@@ -28,7 +30,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;    
+    gap: 10px;
   }
 
   .add {
@@ -36,7 +38,8 @@
     height: 240px;
     margin: 5px;
     display: flex;
-    background-color: rgba(255, 243, 135, 0.4);
+    background-color: adjust-color($color: v.$light-warm, $alpha: -0.6);
+    color: v.$light-warm;
     justify-content: center;
     align-items: center;
     font-size: 128px;
@@ -44,9 +47,9 @@
     border: none;
     border-radius: 10px;
   }
-  
-  button:hover {
-    background-color: rgba(255, 243, 135, 0.6);
+
+  .add:hover {
+    background-color: adjust-color($color: v.$light-warm, $alpha: -0.4);
     cursor: pointer;
   }
 
@@ -63,34 +66,8 @@
   background-color: v.$light-warm;
   border-radius: 10px;
 
-  .subgoal-body {
-    flex-grow: 1;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .card-btn {
-    display: block;
-    font-size: 12px;
-    flex-grow: 1;
-    padding: 5px;
-    outline: none;
-    color: v.$light-warm;
-    border: 1px solid #0003;
-    border-radius: 5px;
-  }
-
-  .edit-btn {
-    background-color:seagreen;
-  }
-  
-  .delete-btn {
-    background-color:tomato;
-  }
-  
-  header, footer {
+  header,
+  footer {
     margin: 10px;
     display: flex;
     justify-content: space-between;
@@ -102,9 +79,112 @@
       margin: 0;
       font-size: 12px;
     }
+
     h4 {
       margin: 0%;
     }
+  }
+
+}
+
+.subgoal-body {
+  flex-grow: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-btn {
+  display: block;
+  font-size: 12px;
+  flex-grow: 1;
+  padding: 5px;
+  outline: none;
+  color: v.$light-warm;
+  font-weight: 600;
+  border: 1px solid #0003;
+  border-radius: 5px;
+}
+
+.card-btn:hover {
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: seagreen;
+}
+.edit-btn:hover {
+  background-color: rgb(83, 190, 129);
+}
+.edit-btn:active {
+  background-color: rgb(25, 101, 58);
+}
+
+.delete-btn {
+  background-color: tomato;
+}
+.delete-btn:hover {
+  background-color: rgb(255, 160, 122);
+}
+.delete-btn:active {
+  background-color: rgb(201, 65, 41);
+}
+
+.SubGoalForm {
+  width: 320px;
+  height: 240px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: v.$dark-cool;
+  background-color: v.$light-warm;
+  border-radius: 10px;
+
+  .form-container {
+    display: flex;
+  }
+
+  td {
+    text-align: right;
+  }
+
+  .label {
+    width: 30%;
+    font-weight: 600;
+  }
+
+  .input {
+    width: 60%;
+  }
+
+  label,
+  input {
+    display: block;
+    padding: 3px;
+  }
+
+  textarea {
+    display: block;
+    width: 90%;
+    height: 5em;
+    resize: none;
+    // border: none;
+  }
+
+  textarea:focus {
+    outline: none;
+  }
+
+
+  footer {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 1;
+    gap: 10px;
   }
 
 }

@@ -8,9 +8,8 @@ export default function SubGoalCard(props) {
       <div className='subgoal-body'>
         <p>{subGoal.note}</p>
         <p>{!subGoal.completed_on ? (subGoal.due_date ? `Deadline: ${new Date(subGoal.due_date).toLocaleDateString()}` : 'No Deadline') : (`Completed on: ${subGoal.completed_on}`)}</p>
-        {subGoal.completed_on}
       </div>
-      <footer><button className='card-btn edit-btn'>Edit</button><button className='card-btn delete-btn'>Delete</button></footer>
+      <footer><button className='card-btn edit-btn' onClick={props.onEdit}>Edit</button><button className='card-btn delete-btn'>Delete</button></footer>
     </div>
   );
 }

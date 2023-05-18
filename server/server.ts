@@ -253,9 +253,27 @@ app.get('/subgoal', async (req, res) => {
 
   }
 
-  res.send({children: childrenGoals});
+  res.send({ children: childrenGoals });
 });
 
+app.put('/subgoal', async (req, res) => {
+  const { updatedGoal } = req.body;
+
+  const check = await prisma.sub_goals.update({
+    where: {
+      id: updatedGoal.id
+    },
+    data: {
+      title: updatedGoal.title,
+      note: updatedGoal.note,
+      due_date: updatedGoal.due_date,
+      completed_on: updatedGoal.completed_on
+    }
+  });
+  console.log(check);
+  res.send("Success!");
+
+});
 
 app.get('/test', async (req, res) => {
 

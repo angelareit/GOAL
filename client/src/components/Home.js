@@ -1,13 +1,13 @@
 import "./Home.scss";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { setGoals } from '../features/mainGoalSlice';
 import { switchPage } from '../features/viewManagerSlice';
 
 
 import RightSidebar from './RightSidebar';
-import LeftSidebar from './LeftSidebar/LeftSidebar';
+import LeftSidebar from './LeftSidebar';
 import axios from "axios";
 import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/socketsHelper";
 
@@ -21,6 +21,10 @@ export default function Home(props) {
   const viewState = useSelector((state) => state.viewManager)  
 
   const user = useSelector(state => state.session.user);
+  
+  // When user selects a particular main goal, set it here
+  const goalState = useSelector(state => state.mainGoal.value);
+  const [currentGoal, setCurrentGoal] = useState(0);
 
   const startSession = function(user) {
     socket.auth = { user: user.id };
@@ -62,7 +66,7 @@ export default function Home(props) {
     <main className="Home">
       <LeftSidebar />
       {/* <Survey/> */}
-      <GoalManager/>
+      !goalState[currentGoal] ? <></> : <GoalManager currentGoal={goalState[currentGoal]}/>
       <RightSidebar />
     </main>
   );

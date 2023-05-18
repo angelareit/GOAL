@@ -166,12 +166,12 @@ app.delete('/interest/', async (req, res) => {
   });
   console.log(result);
   res.json({ success: true });
-})
+});
 
 app.get('/test', async (req, res) => {
 
   const result = await prisma.$queryRaw`SELECT CAST(COUNT(*) AS INT) as num, u2c_others.user_id FROM interests u2c_main JOIN interests u2c_others ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id WHERE u2c_main.user_id = ${1} GROUP BY u2c_others.user_id;`;
- 
+
   console.log(result);
 
   return res.send(result);
@@ -212,24 +212,64 @@ app.put('/mainGoals/new', async (req, res) => {
 
 // SUB GOALS
 
-app.get('/subGoal', async (req, res) => {
-  
+app.get('/subgoal', async (req, res) => {
+  console.log("Request:", req.query);
+  const goal = Number(req.query.goal);
+  const focusGoalID = Number(req.query.parent) || null;
+
+  let focusGoal = null;
+  let childrenGoals = null;
+
+  if (focusGoalID) {
+
+    focusGoal = await prisma.sub_goals.findUnique({
+      where: {
+        id: focusGoalID
+      },
+      select: {
+        id: true,
+        title: true,
+        note: true,
+        due_date: true,
+        created_at: true,
+        completed_on: true,
+      }
+    });
+
+    childrenGoals = await prisma.sub_goals.findMany({
+      where: {
+        main_goal_id: goal,
+        goal_relationship_goal_relationship_child_idTosub_goals: {
+          every: {
+            parent_id: focusGoalID
+          }
+        }
+      }
+    });
+
+  } else {
+
+    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null`;
+
+  }
+
+  res.send({children: childrenGoals});
 });
 
 
 app.get('/test', async (req, res) => {
 
-    const result = await prisma.$queryRaw
-   ` SELECT COUNT(*) as num, u2c_others.user_id
+  const result = await prisma.$queryRaw
+    ` SELECT COUNT(*) as num, u2c_others.user_id
    FROM interests u2c_main
    JOIN interests u2c_others
    ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
    WHERE u2c_main.user_id = 1
    GROUP BY u2c_others.user_id;
-   `
+   `;
   console.log(typeof result, result);
-  
-    return res.json({ success: true});
+
+  return res.json({ success: true });
 
 
 });

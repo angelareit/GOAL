@@ -1,3 +1,4 @@
+require('dotenv').config()
 const PORT = 6080;
 //JWT: secret cryptographic key used to sign and verify tokens
 const secret = "somekey";

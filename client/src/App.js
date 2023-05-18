@@ -32,8 +32,8 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Navbar username={userState?.username} onLogout={onLogout} />
-      {userState ? <Home /> : <Landing />} */}
+      <Navbar username={userState?.username} onLogout={onLogout} />
+      {userState ? <Home /> : <Landing />}
       {/* insert conditional for authentication. If Not logged in, show landing page. else show home. */}
        {/* <Landing/> */}
        <Search/>

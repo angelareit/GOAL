@@ -2,7 +2,10 @@ const express = require('express')
 const router = express.Router()
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const jwt = require('jsonwebtoken');
 
+
+console.log(process.env) // remove this after you've confirmed it is working
 
 router.get('/', (req, res) => {
   res.send('This is the search route!')
@@ -34,12 +37,21 @@ router.post('/', async (req, res) =>{
 
 //send buddy request
 router.post('/request', async (req,res)=> {
-  console.log(req.cookies.token)//user_id for from_user
+  //console.log(req.cookies.token)//user_id for from_user
+  
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return null;
+    }
+    return decoded;
+  })
+  console.log(userToken)
+  console.log(req.body)
   //console.log(req.body.id); // user_id for to_user
   const result = await prisma.buddy_requests.create({
     data:{
-      from_user:12,
-      to_user:1,
+      from_user:userToken.id,
+      to_user:req.body.user.id,
       request_message:"You have a buddy request."
     }
   })

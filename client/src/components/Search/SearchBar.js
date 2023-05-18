@@ -3,7 +3,7 @@ import axios from "axios";
 
 const SearchBar = () => {
   const[searchValue, setSearchValue] = useState("")
-  const[buddyName, setBuddyName] = useState("")
+  const[buddyName, setBuddyName] = useState({username:""})
   const[successMessage, setSuccessMessage] = useState("")
   
   const onChange = (evt) => {
@@ -14,12 +14,11 @@ const SearchBar = () => {
     evt.preventDefault();
     axios.post('/search', { searchValue: searchValue })
     .then((res) => {
-      console.log(res)
       setSearchValue("");
       if (res.data){
-        setBuddyName(res.data['username'])
+        setBuddyName(res.data)
       } else {
-        setBuddyName(null)
+        setBuddyName({username:null})
       }
       
       console.log(res.data)
@@ -28,10 +27,9 @@ const SearchBar = () => {
 
   const handleBuddyRequest = (evt) => {
     evt.preventDefault();
-    console.log("Thes es a mesge")
-    axios.post('/search/request',{username:buddyName})
+    axios.post('/search/request', {user:buddyName})
     .then((res) => {
-      setBuddyName("")
+      setBuddyName({username:""})
       setSuccessMessage("Friend request has been submitted.")
     })
   }
@@ -48,16 +46,16 @@ const SearchBar = () => {
         <button>Search</button>
       </form>
 
-      {buddyName === "" ? (
+      {buddyName.username === "" ? (
         <></>
       ):  
-      buddyName === null ? (
+      buddyName.username === null ? (
         <div>The user you are looking for does not exist or could not be added as buddy.</div>
       ) : (
         <form onSubmit={(evt) => handleBuddyRequest(evt)}>
-          <p>{buddyName} is available as a buddy!</p>
+          <p>{buddyName.username} is available as a buddy!</p>
         <input
-          value={buddyName}
+          value={buddyName.username}
           type="hidden"
         />
         <button>Send Request</button>

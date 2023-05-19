@@ -7,6 +7,7 @@ export default function Search(props) {
     <span>
     <NoBuddy/>
     <SearchBar/>
+    {/* {requestArray.length > 0 && <IncomingRequests/>} */}
     <IncomingRequests/>
     </span>
   );

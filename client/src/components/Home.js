@@ -1,19 +1,23 @@
 import "./Home.scss";
 
-import { useEffect } from "react";
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import { setGoals } from '../features/mainGoalSlice';
+import { switchPage } from '../features/viewManagerSlice';
+
 
 import RightSidebar from './RightSidebar';
-import LeftSidebar from './LeftSidebar';
-
-import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/socketsHelper";
+import LeftSidebar from './LeftSidebar/LeftSidebar';
 import axios from "axios";
+import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/socketsHelper";
+
 
 import { setInterests } from "../features/sessionSlice";
 import Survey from "./Survey";
 
 export default function Home(props) {
   const dispatch = useDispatch();
+  const viewState = useSelector((state) => state.viewManager)  
 
   const user = useSelector(state => state.session.user);
 
@@ -39,6 +43,18 @@ export default function Home(props) {
   useEffect(() => {
     startSession(user);
     return () => { buddyFunctionsOff(); };
+  }, []);
+
+
+  useEffect(() => {
+    axios.get('/mainGoals', { params: { userID: user.id, } }
+    ).then(res => {
+      if (res.data.success) {
+        dispatch(setGoals(res.data.result));
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   return (

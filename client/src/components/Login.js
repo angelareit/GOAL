@@ -1,20 +1,7 @@
-import React, { useState } from 'react';
-import { createStore } from 'redux';
+import React, { useState, useNavigate } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-// function counterReducer(state = { value: 0 }, action) {
-//   switch (action.type) {
-//     case 'counter/incremented':
-//       return { value: state.value + 1 }
-//     case 'counter/decremented':
-//       return { value: state.value - 1 }
-//     default:
-//       return state
-//   }
-// }
-
-
-
-const Login = (props) => {
+const Login = (props) => { 
   const [users, setUsers] = useState({
     email: "",
     password: ""
@@ -26,10 +13,12 @@ const Login = (props) => {
     // const email = evt.target.email.value;
     // const password = evt.target.password.value;
     props.onLogin(users.email, users.password);
+    //reset form value
     setUsers({
       email: "",
       password: ""
     });
+
   };
   return (
     <form onSubmit={onSubmit}>
@@ -59,7 +48,7 @@ const Login = (props) => {
 
       <div className="footer">
         <button type="submit" className="btn">
-          Log In
+          Create
         </button>
       </div>
     </form>

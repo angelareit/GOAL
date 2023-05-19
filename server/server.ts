@@ -37,6 +37,7 @@ const requestRoutes = require('./routes/request')
 app.use('/search', searchRoutes)
 app.use('/request', requestRoutes)
 import socketFunctions from './helpers/socketFunctions';
+import { type } from 'os';
 socketFunctions(io, prisma);
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
@@ -173,4 +174,75 @@ app.delete('/interest/', async (req, res) => {
   res.json({ success: true });
 })
 
+app.get('/test', async (req, res) => {
+
+  const result = await prisma.$queryRaw`SELECT CAST(COUNT(*) AS INT) as num, u2c_others.user_id FROM interests u2c_main JOIN interests u2c_others ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id WHERE u2c_main.user_id = ${1} GROUP BY u2c_others.user_id;`;
+ 
+  console.log(result);
+
+  return res.send(result);
+
+});
+
+//MAIN GOALS
+
+app.get('/mainGoals', async (req, res) => {
+  if (req.query) {
+    const mainGoals = await prisma.main_goals.findMany({
+      where: {
+        user_id: Number(req.query.userID),
+      },
+    });
+    return res.json({ success: true, result: mainGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
+});
+
+app.put('/mainGoals/new', async (req, res) => {
+  if (req.body) {
+    const mainGoals = await prisma.main_goals.create({
+      data: {
+        user_id: Number(req.body.userID),
+        title: req.body.goal.title,
+      },
+    });
+    return res.json({ success: true, result: mainGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
+});
+
+
+// SUB GOALS
+
+
+
+
+app.get('/test', async (req, res) => {
+
+    const result = await prisma.$queryRaw
+   ` SELECT COUNT(*) as num, u2c_others.user_id
+   FROM interests u2c_main
+   JOIN interests u2c_others
+   ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
+   WHERE u2c_main.user_id = 1
+   GROUP BY u2c_others.user_id;
+   `
+  console.log(typeof result, result);
+  
+    return res.json({ success: true});
+
+
+});
+/* 
+SELECT COUNT(*) as num, u2c_others.user_id
+FROM user_categories u2c_main
+JOIN user_categories u2c_others
+ON u2c_others.category_id = u2c_main.category
+WHERE u2c_main.user_id = 7
+GROUP BY u2c_others.user_id; 
+ */
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));

@@ -1,21 +1,23 @@
 import { useSelector } from "react-redux";
 
+import './GoalManager.scss';
+
 export default function FocusedGoal(props) {
-  const { mainGoal, subGoal } = props;
+  const data = props.goal;
 
-  const mainGoalInterest = useSelector(state => state.session.interests[mainGoal.category_id]);
+  const mainGoalInterest = useSelector(state => state.session.interests[data.category_id]);
 
-  const category = (subGoal.id || !mainGoalInterest) ? null : mainGoalInterest.name;
-
-  const data = subGoal.id ? subGoal : mainGoal;
+  const category = mainGoalInterest ? mainGoalInterest.name : null;
 
   return (
-    <div>
+    <div className='FocusedGoal'>
       <h1>{data.title}</h1>
-      <p>{data.note}</p>
-      {data.due_date && <p>Deadline: {new Date(subGoal.due_date).toLocaleDateString('en-CA')}</p>}
-      {data.category_id && <p>Category: {category}</p>}
-      {data.completed_on && <p>Completed on: {data.completed_on}</p>}
+      <p className='note'>{data.note}</p>
+      <section className='details'>
+        {data.due_date && <p><b>Deadline:</b> {new Date(data.due_date).toLocaleDateString('en-CA')}</p>}
+        {data.category_id && <p><b>Category:</b> {category}</p>}
+        {data.completed_on && <p><b>Completed on:</b> {data.completed_on}</p>}
+      </section>
     </div>
   );
 }

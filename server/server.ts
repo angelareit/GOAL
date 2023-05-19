@@ -219,42 +219,36 @@ app.put('/mainGoals/new', async (req, res) => {
 // SUB GOALS
 
 app.get('/subgoal', async (req, res) => {
-  console.log("Request:", req.query);
-  const goal = Number(req.query.goal);
-  const focusGoalID = Number(req.query.parent) || null;
-  let focusGoal = null;
+  const goal = req.query.goal;
+  const goalID = Number(goal.id);
+  const isMainGoal = !goal.main_goal_id;
   let childrenGoals = null;
+  let focusGoal = null;
 
-  if (focusGoalID) {
+  if (!isMainGoal) {
 
-    focusGoal = await prisma.sub_goals.findUnique({
-      where: {
-        id: focusGoalID,
-      },
-      select: {
-        id: true,
-        title: true,
-        note: true,
-        due_date: true,
-        created_at: true,
-        completed_on: true,
-      }
-    });
+    // focusGoal = await prisma.sub_goals.findUnique({
+    //   where: {
+    //     id: goalID,
+    //   },
+    //   select: {
+    //     id: true,
+    //     title: true,
+    //     note: true,
+    //     due_date: true,
+    //     created_at: true,
+    //     completed_on: true,
+    //   }
+    // });
 
     childrenGoals = await prisma.sub_goals.findMany({
       where: {
-        main_goal_id: goal,
         is_deleted: false,
         goal_relationship_goal_relationship_child_idTosub_goals: {
           some: {
-            parent_id: focusGoalID
+            parent_id: goalID
           }
         }
-        // goal_relationship_goal_relationship_child_idTosub_goals: {
-        //   every: {
-        //     parent_id: focusGoalID
-        //   }
-        // }
       }
     });
 
@@ -265,9 +259,8 @@ app.get('/subgoal', async (req, res) => {
     // childrenGoals = await prisma.$queryRaw(Prisma.sql`SELECT ${childrenQuery};`);
     
   } else {
-
     childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false`;
-
+    console.log(childrenGoals);
   }
 
   res.send({ children: childrenGoals });
@@ -313,7 +306,7 @@ app.post('/subgoal', async (req, res) => {
       }
     });
   }
-  res.send("Success!");
+  res.json({ id: createdGoal.id});
 
 });
 

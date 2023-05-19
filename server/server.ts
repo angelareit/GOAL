@@ -18,7 +18,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { triggerAsyncId } from 'async_hooks';
 
 
@@ -166,12 +166,12 @@ app.delete('/interest/', async (req, res) => {
   });
   console.log(result);
   res.json({ success: true });
-})
+});
 
 app.get('/test', async (req, res) => {
 
   const result = await prisma.$queryRaw`SELECT CAST(COUNT(*) AS INT) as num, u2c_others.user_id FROM interests u2c_main JOIN interests u2c_others ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id WHERE u2c_main.user_id = ${1} GROUP BY u2c_others.user_id;`;
- 
+
   console.log(result);
 
   return res.send(result);
@@ -212,22 +212,164 @@ app.put('/mainGoals/new', async (req, res) => {
 
 // SUB GOALS
 
+app.get('/subgoal', async (req, res) => {
+  console.log("Request:", req.query);
+  const goal = Number(req.query.goal);
+  const focusGoalID = Number(req.query.parent) || null;
+  let focusGoal = null;
+  let childrenGoals = null;
 
+  if (focusGoalID) {
 
+    focusGoal = await prisma.sub_goals.findUnique({
+      where: {
+        id: focusGoalID,
+      },
+      select: {
+        id: true,
+        title: true,
+        note: true,
+        due_date: true,
+        created_at: true,
+        completed_on: true,
+      }
+    });
+
+    childrenGoals = await prisma.sub_goals.findMany({
+      where: {
+        main_goal_id: goal,
+        is_deleted: false,
+        goal_relationship_goal_relationship_child_idTosub_goals: {
+          some: {
+            parent_id: focusGoalID
+          }
+        }
+        // goal_relationship_goal_relationship_child_idTosub_goals: {
+        //   every: {
+        //     parent_id: focusGoalID
+        //   }
+        // }
+      }
+    });
+
+    console.log(childrenGoals);
+
+    // const childrenQuery = 'sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS ' + focusGoalID + ' AND sub_goals.is_deleted = false';
+
+    // childrenGoals = await prisma.$queryRaw(Prisma.sql`SELECT ${childrenQuery};`);
+    
+  } else {
+
+    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false`;
+
+  }
+
+  res.send({ children: childrenGoals });
+});
+
+app.put('/subgoal', async (req, res) => {
+  const { updatedGoal } = req.body;
+
+  const check = await prisma.sub_goals.update({
+    where: {
+      id: updatedGoal.id
+    },
+    data: {
+      title: updatedGoal.title,
+      note: updatedGoal.note,
+      due_date: updatedGoal.due_date,
+      completed_on: updatedGoal.completed_on,
+      priority: updatedGoal.priority
+    }
+  });
+  console.log(check);
+  res.send("Success!");
+
+});
+
+app.post('/subgoal', async (req, res) => {
+  const { newGoal } = req.body;
+  const createdGoal = await prisma.sub_goals.create({
+    data: {
+      title: newGoal.title,
+      note: newGoal.note,
+      priority: newGoal.priority,
+      main_goal_id: newGoal.main_goal_id,
+      due_date: newGoal.due_date,
+    }
+  });
+  console.log(createdGoal);
+  if (newGoal.parent_id) {
+    await prisma.goal_relationship.create({
+      data: {
+        parent_id: newGoal.parent_id,
+        child_id: createdGoal.id
+      }
+    });
+  }
+  res.send("Success!");
+
+});
+
+const deleteSubGoal = async function(id) {
+
+  const childrenIDs = await prisma.goal_relationship.findMany({
+    where: {
+      parent_id: id
+    }
+  });
+
+  childrenIDs.forEach(async c => {
+    // prisma.goal_relationship.delete({
+    //   where: {
+    //     child_id: c.child_id
+    //   }
+    // })
+    await deleteSubGoal(c.child_id);
+  });
+
+  await prisma.sub_goals.delete({
+    where: {
+      id: id
+    },
+  });
+
+  // Alternate code if we want to just mark them as "is_deleted" instead, not tested
+  // await prisma.sub_goals.update({
+  //   where: {
+  //     id: id
+  //   },
+  //   data: {
+  //     is_deleted: true
+  //   }
+  // })
+
+};
+
+app.delete('/subgoal', async (req, res) => {
+  const id = Number(req.query.id);
+  deleteSubGoal(id)
+    .catch(err => {
+      console.log(err);
+      return res.json({ success: false });
+    });
+  res.json({ success: true });
+
+});
 
 app.get('/test', async (req, res) => {
 
-    const result = await prisma.$queryRaw
-   ` SELECT COUNT(*) as num, u2c_others.user_id
+  const result = await prisma.$queryRaw
+    ` SELECT COUNT(*) as num, u2c_others.user_id
    FROM interests u2c_main
    JOIN interests u2c_others
    ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
    WHERE u2c_main.user_id = 1
    GROUP BY u2c_others.user_id;
-   `
+    `;
   console.log(typeof result, result);
-  
-    return res.json({ success: true});
+
+  return res.json({ success: true });
 
 
 });
@@ -239,4 +381,4 @@ ON u2c_others.category_id = u2c_main.category
 WHERE u2c_main.user_id = 7
 GROUP BY u2c_others.user_id; 
  */
-server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is listening on port ${PORT} `));

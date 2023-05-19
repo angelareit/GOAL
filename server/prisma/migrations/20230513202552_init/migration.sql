@@ -130,10 +130,10 @@ ALTER TABLE "main_goals" ADD CONSTRAINT "main_goals_category_id_fkey" FOREIGN KE
 ALTER TABLE "main_goals" ADD CONSTRAINT "main_goals_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "sub_goals" ADD CONSTRAINT "sub_goals_main_goal_id_fkey" FOREIGN KEY ("main_goal_id") REFERENCES "main_goals"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "sub_goals" ADD CONSTRAINT "sub_goals_main_goal_id_fkey" FOREIGN KEY ("main_goal_id") REFERENCES "main_goals"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "goal_relationship" ADD CONSTRAINT "goal_relationship_child_id_fkey" FOREIGN KEY ("child_id") REFERENCES "sub_goals"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "goal_relationship" ADD CONSTRAINT "goal_relationship_child_id_fkey" FOREIGN KEY ("child_id") REFERENCES "sub_goals"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "goal_relationship" ADD CONSTRAINT "goal_relationship_parent_id_fkey" FOREIGN KEY ("parent_id") REFERENCES "sub_goals"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

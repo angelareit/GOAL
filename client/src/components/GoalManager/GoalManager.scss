@@ -1,0 +1,217 @@
+@use '../../styles/variables' as v;
+
+.GoalManager {
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: v.$medium-cool;
+
+  .focused-goal {
+    background-color: rgb(255, 111, 0);
+    max-width: 1080px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 10px 20px #0008;
+
+    h1,
+    h2 {
+      margin-top: 0px;
+      color: rgb(255, 243, 135);
+    }
+  }
+
+  .child-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .add {
+    width: 320px;
+    height: 240px;
+    margin: 5px;
+    display: flex;
+    background-color: adjust-color($color: v.$light-warm, $alpha: -0.6);
+    color: v.$light-warm;
+    justify-content: center;
+    align-items: center;
+    font-size: 128px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+  }
+
+  .add:hover {
+    background-color: adjust-color($color: v.$light-warm, $alpha: -0.4);
+    cursor: pointer;
+  }
+
+}
+
+.SubGoalCard {
+  width: 320px;
+  height: 240px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: v.$dark-cool;
+  background-color: v.$light-warm;
+  border-radius: 10px;
+
+  p {
+    margin: 0%;
+  }
+
+  progress {
+    height: 100%;
+    appearance: none;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  }
+
+  progress::-moz-progress-bar {
+    background: v.$medium-cool;
+  }
+  
+  progress::-webkit-progress-value {
+    background: v.$medium-cool;
+  }
+  
+  progress::-webkit-progress-bar {
+    background: v.$medium-cool;
+  }
+
+  header,
+  footer {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 1;
+    gap: 10px;
+
+    p {
+      font-size: 12px;
+    }
+
+    h3, h4 {
+      margin: 0%;
+    }
+    h3:hover {
+      cursor: pointer;
+    }
+  }
+
+}
+
+.subgoal-body {
+  flex-grow: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-btn {
+  display: block;
+  font-size: 12px;
+  flex-grow: 1;
+  padding: 5px;
+  outline: none;
+  color: v.$light-warm;
+  font-weight: 600;
+  border: 1px solid #0003;
+  border-radius: 5px;
+}
+
+.card-btn:hover {
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: seagreen;
+}
+.edit-btn:hover {
+  background-color: rgb(83, 190, 129);
+}
+.edit-btn:active {
+  background-color: rgb(25, 101, 58);
+}
+
+.delete-btn {
+  background-color: tomato;
+}
+.delete-btn:hover {
+  background-color: rgb(255, 160, 122);
+}
+.delete-btn:active {
+  background-color: rgb(201, 65, 41);
+}
+
+.SubGoalForm {
+  width: 320px;
+  height: 240px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: v.$dark-cool;
+  background-color: v.$light-warm;
+  border-radius: 10px;
+
+  .form-container {
+    display: flex;
+  }
+
+  td {
+    text-align: right;
+  }
+
+  .label {
+    width: 30%;
+    font-weight: 600;
+  }
+
+  .input {
+    width: 60%;
+  }
+
+  label,
+  input {
+    display: block;
+    padding: 3px;
+  }
+
+  textarea {
+    display: block;
+    width: 90%;
+    height: 4em;
+    resize: none;
+    // border: none;
+  }
+
+  textarea:focus {
+    outline: none;
+  }
+
+
+  footer {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 1;
+    gap: 10px;
+  }
+
+}

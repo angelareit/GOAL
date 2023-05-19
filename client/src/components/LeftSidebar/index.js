@@ -10,6 +10,7 @@ import MainGoalList from './MainGoalList';
 export default function LeftSidebar(props) {
   const drawerState = useSelector((state) => state.viewManager.leftSideBar)  
   const mainGoalState = useSelector((state) => state.mainGoal.value);
+  const activeGoal = useSelector(state => state.mainGoal.active);
   const dispatch = useDispatch();    
 
 /*   useEffect(() => {
@@ -29,7 +30,7 @@ export default function LeftSidebar(props) {
     drawerState.visibility &&
     <section className="left-sidebar">
       <h3>{drawerState.currentView}</h3>
-      <MainGoalList goals={mainGoalState} />
+      <MainGoalList goals={mainGoalState} active={activeGoal} />
       <CreateMainGoal />
     </section>
   )

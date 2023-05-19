@@ -1,14 +1,15 @@
-import { useEffect, useNavigate } from 'react';
+import react, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './Landing.scss';
-import { setUser } from '../features/sessionSlice';
-import { setGoals } from '../features/mainGoalSlice';
-import { switchPage } from '../features/viewManagerSlice';
+import { setUser } from '../../features/sessionSlice';
+import { setGoals } from '../../features/mainGoalSlice';
+import { switchPage } from '../../features/viewManagerSlice';
 
 
-import Login from './Login';
-import Register from './Register';
+import Login from '../Login';
+import Register from '../Register';
+import Splash from './Splash';
 
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
@@ -17,12 +18,13 @@ export default function Landing(props) {
   const userState = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
+  const [content, setContent] = useState('Login');
+
   useEffect(() => {
     axios.get('/verify').then(res => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
         dispatch(switchPage('Home'));
-        console.log('verified user', userState);
       }
     }).catch((err) => {
       console.log(err);
@@ -32,9 +34,6 @@ export default function Landing(props) {
 
   }, []);
 
-
-  
-
   const onLogin = (email, password) => {
     axios.post(
       '/login', { email, password }
@@ -42,17 +41,23 @@ export default function Landing(props) {
       .then(res => {
         dispatch(setUser(res.data.user));
         dispatch(switchPage('Home'));
-        console.log('verified user ON LOGIN', res.data.user, userState);
-        //window.location.reload();
-
       });
   };
 
   return (
     <div className="Landing">
-      {userState ? <h1>Logged in as {userState.username}</h1> : <h1>Not logged in</h1>}
-      <Register />
-      <Login onLogin={onLogin} />
+      <Splash />
+      <div className='action-area'>
+        <div className='tabs'>
+          <h3 className={`tab-header ${content === 'Login' && 'active'}`} onClick={() => setContent('Login')}>Login</h3>
+          <h3 className={`tab-header ${content === 'Register' && 'active'}`} onClick={() => setContent('Register')}>Sign up</h3>
+        </div>
+        <div className='content'>
+        {content === 'Login' ? <Login onLogin={onLogin} /> : <Register />}
+        </div>
+
+      </div>
+
     </div>
   );
 }

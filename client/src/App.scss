@@ -8,6 +8,17 @@ main {
   flex: 3;
   color: $primary1;
 }
+input[type=text] {
+  margin: 3px;
+  padding: 5px;
+  border: none;
+  background-color: $background-color2-05;
+  border-bottom: 2px solid $primary1;
+}
+button[type=submit]
+{
+  @include button-3($bg-color:$secondary3)
+}
 
 .App {
   display: flex;
@@ -15,7 +26,7 @@ main {
   text-align: center;
   height: 100vh;
 
-  background-color: #fffafa;
+  background-color: $background-color;
   background-image: url("https://www.transparenttextures.com/patterns/blizzard.png");
 }
 

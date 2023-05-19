@@ -1,38 +1,19 @@
+@import "./variables";
+
 @mixin vertical-list {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-@mixin button-2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6px 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-  border-radius: 6px;
-  color: #3D3D3D;
-  background: #fff;
-  border: none;
-  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-
-  &:focus {
-    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
-    outline: 0;
-  }
-}
-
-@mixin button-1 {
+@mixin button-1 ($main-col: $primary1){
   display: flex;
   flex-direction: row;
   align-items: center;
   border: none;
   padding: 6px 10px;
   background-color: transparent;
-  color: $primary1;
+  color: $main-col;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -43,8 +24,7 @@
     margin: 5px;
   }
 }
-
-@mixin button-2 {
+@mixin button-2($main-col: $primary1) {
   background: transparent;
 	border: none;
 	margin: 5px auto 5px;
@@ -57,7 +37,7 @@
 
 	&:before {
 		content: '';
-		border-bottom: 2px solid $primary1;
+		border-bottom: 2px solid $main-col;
 		padding: 0 10px;
 		position: absolute;
 		bottom: 0;
@@ -74,4 +54,42 @@
 			padding: 0;
 		}
 	}
+}
+
+@mixin button-3 ($bg-color: $primary1) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 6px;
+  color: #3D3D3D;
+  border: none;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:hover {
+    background-color:$bg-color;
+    outline: 0;
+  }
+}
+
+@mixin iconbtn-circle ($main-col: $primary1, $sec-col: $primary1, $fill-col: whitesmoke)  {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  color: $sec-col;
+  padding: 5px;
+  margin: 3px;
+
+  &:hover {
+    border: 2px solid transparent;
+    background-color: $main-col;
+    color:$fill-col;
+  }
 }

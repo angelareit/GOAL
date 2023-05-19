@@ -1,9 +1,10 @@
 $background-color: #ffffff;
 $text-color: #15131e;
-
+$background-color2: whitesmoke;
+$background-color2-05: rgba(245, 245, 245, 0.501);
 
 $primary1: #003049;
-$primary1-05: #002f4985;
+$primary1-05: #090a0b7e;
 $primary2: #D62828;
 $secondary1: #F77F00;
 $secondary2: #FCBF49;
@@ -19,3 +20,5 @@ $dark-cool: rgb(6, 20, 92);
 $btn-width: 120px;
 $btn-height: 40px;
 $block-padding: 60px;
+
+$border-lines:  1.5px solid $primary1-05;

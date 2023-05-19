@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './CreateMainGoal.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 export default function Form(props) {
 
@@ -38,17 +41,23 @@ export default function Form(props) {
 
 
   return (
-    <form onSubmit={handleSave}>
-      <label className="" htmlFor="Title">
-        Title
-      </label>
-      <input name="title" type="title" value={mainGoal.title} onChange={(event) => setMainGoal({...mainGoal, title: event.target.value})}/>
-      <button type="submit" className="btn">
-        CreateGoal
-      </button>
-      <button type="button" className="btn" onClick={handleCancel}>
-        Back
-      </button>
-    </form>
+    <section className="create-main-goal-form">
+      <div>
+        <h4>New Goal</h4>
+        <FontAwesomeIcon className="iconbtn-circle" onClick={handleCancel} icon={solid("xmark")} />
+      </div>
+
+      <form onSubmit={handleSave}>
+        <label htmlFor="Title">
+          Title
+        </label>
+        <input name="title" type="text" value={mainGoal.title} onChange={(event) => setMainGoal({ ...mainGoal, title: event.target.value })} />
+
+        <button type="submit">
+          CreateGoal
+        </button>
+      </form>
+    </section>
+
   );
 }

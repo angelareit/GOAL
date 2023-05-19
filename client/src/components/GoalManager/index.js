@@ -24,38 +24,49 @@ export default function GoalManager(props) {
   const saveChild = function(i, updatedGoal) {
     const children = [...subGoal.children];
     children[i] = updatedGoal;
+    console.log(updatedGoal);
     axios.put('/subgoal', { updatedGoal }).then(res => {
       setSubGoal({ ...subGoal, children: [...children] });
       console.log(updatedGoal);
     });
   };
 
-  const saveNew = function(i, updatedGoal) {
+  const saveNew = function(i, newGoal) {
+    if(!newGoal.title) {
+      return;
+    }
     const children = [...subGoal.children];
-    axios.post('/subgoal', { updatedGoal, parent_id: subGoal.id }).then(res => {
-      setSubGoal({ ...subGoal, children: [...children, updatedGoal] });
-      console.log(updatedGoal);
+    axios.post('/subgoal', { updatedGoal: newGoal }).then(res => {
+      setSubGoal({ ...subGoal, children: [...children, newGoal] });
+      console.log(newGoal);
+    });
+  };
+
+  const deleteChild = function(index, id) {
+    const children = [...subGoal.children];
+    children.splice(index, 1);
+    axios.delete('/subgoal', { params: { id } }).then(res => {
+      setSubGoal({ ...subGoal, children: [...children] });
+      console.log(children);
     });
   };
 
   const addNewGoal = function() {
     const goalTemplate = {
-      id: 1,
-      title: "Visit The Red Sea",
-      note: "I will need to buy a ticket to Egypt.",
-      main_goal_id: 1,
-      due_date: "2024-07-01T00:00:00.000Z",
+      title: "",
+      note: "",
+      main_goal_id: currentGoal.id,
+      due_date: null,
       completed_on: null,
-      is_deleted: false,
-      priority: 2,
-      parent_id: null,
-      created_at: "2023-05-17T19:21:09.819Z",
-      updated_at: "2023-05-17T19:21:09.819Z"
+      priority: 50,
+      parent_id: subGoal.id
     }
+
+    setNewGoal(goalTemplate);
   }
 
   const renderedChildren = subGoal.children.map((c, i) => {
-    return editing === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={setEditing} index={i} saveChild={saveChild} /> : <SubGoalCard key={c.id} onEdit={() => setEditing(c.id)} subGoal={c} />;
+    return editing === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={setEditing} index={i} saveChild={saveChild} /> : <SubGoalCard key={c.id} onEdit={() => setEditing(c.id)} onDelete={() => deleteChild(i, c.id)} subGoal={c} />;
   });
 
   return (
@@ -67,7 +78,7 @@ export default function GoalManager(props) {
         </form>
         <div className='child-container'>
           {renderedChildren}
-          <button className='add'>+</button>
+          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => {setNewGoal(null)}} index={-1} saveChild={saveNew} /> : <button className='add' onClick={addNewGoal}>+</button>}
         </div>
       </section>
     </div>

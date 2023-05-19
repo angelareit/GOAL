@@ -224,7 +224,7 @@ app.get('/subgoal', async (req, res) => {
 
     focusGoal = await prisma.sub_goals.findUnique({
       where: {
-        id: focusGoalID
+        id: focusGoalID,
       },
       select: {
         id: true,
@@ -239,6 +239,7 @@ app.get('/subgoal', async (req, res) => {
     childrenGoals = await prisma.sub_goals.findMany({
       where: {
         main_goal_id: goal,
+        is_deleted: false,
         goal_relationship_goal_relationship_child_idTosub_goals: {
           every: {
             parent_id: focusGoalID
@@ -249,7 +250,7 @@ app.get('/subgoal', async (req, res) => {
 
   } else {
 
-    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null`;
+    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false`;
 
   }
 
@@ -267,10 +268,83 @@ app.put('/subgoal', async (req, res) => {
       title: updatedGoal.title,
       note: updatedGoal.note,
       due_date: updatedGoal.due_date,
-      completed_on: updatedGoal.completed_on
+      completed_on: updatedGoal.completed_on,
+      priority: updatedGoal.priority
     }
   });
   console.log(check);
+  res.send("Success!");
+
+});
+
+app.post('/subgoal', async (req, res) => {
+  const { newGoal } = req.body;
+  const createdGoal = await prisma.sub_goals.create({
+    data: {
+      title: newGoal.title,
+      note: newGoal.note,
+      priority: newGoal.priority,
+      main_goal_id: newGoal.main_goal_id,
+      due_date: newGoal.due_date,
+    }
+  });
+  console.log(createdGoal);
+  if (newGoal.parent_id) {
+    await prisma.goal_relationship.create({
+      data: {
+        parent_id: newGoal.parent_id,
+        child_id: createdGoal.id
+      }
+    });
+  }
+  res.send("Success!");
+
+});
+
+const deleteSubGoal = async function(id) {
+  const childrenIDs = await prisma.goal_relationship.findMany({
+    where: {
+      parent_id: id
+    }
+  });
+  childrenIDs.forEach(c => {
+    // prisma.goal_relationship.delete({
+    //   where: {
+    //     child_id: c.child_id
+    //   }
+    // })
+    deleteSubGoal(c.child_id);
+  });
+  await prisma.sub_goals.delete({
+    where: {
+      id: id
+    },
+  });
+  // Alternate code if we want to just mark them as "is_deleted instead"
+  // await prisma.sub_goals.update({
+  //   where: {
+  //     id: id
+  //   },
+  //   data: {
+  //     is_deleted: true
+  //   }
+  // })
+
+};
+
+app.delete('/subgoal', async (req, res) => {
+  const id = Number(req.query.id);
+  // await prisma.$queryRaw`DELETE FROM sub_goals WHERE id = ${id}`
+  deleteSubGoal(id);
+  // await prisma.sub_goals.update({
+  //   where: {
+  //     id: id
+  //   },
+  //   data: {
+  //     is_deleted: true
+  //   }
+  // });
+  // console.log(relationships);
   res.send("Success!");
 
 });

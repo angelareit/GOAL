@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1c5f83;
+  background-color: v.$medium-cool;
 
   .focused-goal {
     background-color: rgb(255, 111, 0);
@@ -66,6 +66,30 @@
   background-color: v.$light-warm;
   border-radius: 10px;
 
+  p {
+    margin: 0%;
+  }
+
+  progress {
+    height: 100%;
+    appearance: none;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  }
+
+  progress::-moz-progress-bar {
+    background: v.$medium-cool;
+  }
+  
+  progress::-webkit-progress-value {
+    background: v.$medium-cool;
+  }
+  
+  progress::-webkit-progress-bar {
+    background: v.$medium-cool;
+  }
+
   header,
   footer {
     margin: 10px;
@@ -76,7 +100,6 @@
     gap: 10px;
 
     p {
-      margin: 0;
       font-size: 12px;
     }
 
@@ -168,7 +191,7 @@
   textarea {
     display: block;
     width: 90%;
-    height: 5em;
+    height: 4em;
     resize: none;
     // border: none;
   }

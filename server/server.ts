@@ -18,7 +18,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { triggerAsyncId } from 'async_hooks';
 
 
@@ -216,7 +216,6 @@ app.get('/subgoal', async (req, res) => {
   console.log("Request:", req.query);
   const goal = Number(req.query.goal);
   const focusGoalID = Number(req.query.parent) || null;
-
   let focusGoal = null;
   let childrenGoals = null;
 
@@ -241,13 +240,24 @@ app.get('/subgoal', async (req, res) => {
         main_goal_id: goal,
         is_deleted: false,
         goal_relationship_goal_relationship_child_idTosub_goals: {
-          every: {
+          some: {
             parent_id: focusGoalID
           }
         }
+        // goal_relationship_goal_relationship_child_idTosub_goals: {
+        //   every: {
+        //     parent_id: focusGoalID
+        //   }
+        // }
       }
     });
 
+    console.log(childrenGoals);
+
+    // const childrenQuery = 'sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS ' + focusGoalID + ' AND sub_goals.is_deleted = false';
+
+    // childrenGoals = await prisma.$queryRaw(Prisma.sql`SELECT ${childrenQuery};`);
+    
   } else {
 
     childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false`;
@@ -302,25 +312,29 @@ app.post('/subgoal', async (req, res) => {
 });
 
 const deleteSubGoal = async function(id) {
+
   const childrenIDs = await prisma.goal_relationship.findMany({
     where: {
       parent_id: id
     }
   });
-  childrenIDs.forEach(c => {
+
+  childrenIDs.forEach(async c => {
     // prisma.goal_relationship.delete({
     //   where: {
     //     child_id: c.child_id
     //   }
     // })
-    deleteSubGoal(c.child_id);
+    await deleteSubGoal(c.child_id);
   });
+
   await prisma.sub_goals.delete({
     where: {
       id: id
     },
   });
-  // Alternate code if we want to just mark them as "is_deleted instead"
+
+  // Alternate code if we want to just mark them as "is_deleted" instead, not tested
   // await prisma.sub_goals.update({
   //   where: {
   //     id: id
@@ -334,18 +348,12 @@ const deleteSubGoal = async function(id) {
 
 app.delete('/subgoal', async (req, res) => {
   const id = Number(req.query.id);
-  // await prisma.$queryRaw`DELETE FROM sub_goals WHERE id = ${id}`
-  deleteSubGoal(id);
-  // await prisma.sub_goals.update({
-  //   where: {
-  //     id: id
-  //   },
-  //   data: {
-  //     is_deleted: true
-  //   }
-  // });
-  // console.log(relationships);
-  res.send("Success!");
+  deleteSubGoal(id)
+    .catch(err => {
+      console.log(err);
+      return res.json({ success: false });
+    });
+  res.json({ success: true });
 
 });
 
@@ -358,7 +366,7 @@ app.get('/test', async (req, res) => {
    ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
    WHERE u2c_main.user_id = 1
    GROUP BY u2c_others.user_id;
-   `;
+    `;
   console.log(typeof result, result);
 
   return res.json({ success: true });
@@ -373,4 +381,4 @@ ON u2c_others.category_id = u2c_main.category
 WHERE u2c_main.user_id = 7
 GROUP BY u2c_others.user_id; 
  */
-server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is listening on port ${PORT} `));

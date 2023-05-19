@@ -13,7 +13,7 @@ export default function SubGoalForm(props) {
   };
 
   const setCompleted = function(data) {
-    const completed_on = data ? new Date(Date.now()).toLocaleDateString('en-CA') : null;
+    const completed_on = data ? new Date(Date.now()) : null;
     setSubGoal({ ...subGoal, completed_on });
   }
 

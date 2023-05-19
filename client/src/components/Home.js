@@ -24,18 +24,15 @@ export default function Home(props) {
   
   // When user selects a particular main goal, set it here
   const goalState = useSelector(state => state.mainGoal.value);
-  const [currentGoal, setCurrentGoal] = useState(0);
 
   const startSession = function(user) {
     socket.auth = { user: user.id };
     socket.connect();
     socketBuddyFunctions(dispatch);
 
+    //Fetch interests
     axios.get(`/api/interests/${user.id}`).then(res => {
       const { categories, interests } = res.data;
-      const interestsArray = categories.map(c => {
-        return;
-      });
       const interestsObject = {};
       categories.forEach(c => {
         interestsObject[c.id] = { category: c.id, name: c.name, isInterest: interests.includes(c.id) };
@@ -43,15 +40,7 @@ export default function Home(props) {
       dispatch(setInterests(interestsObject));
     });
 
-  };
-
-  useEffect(() => {
-    startSession(user);
-    return () => { buddyFunctionsOff(); };
-  }, []);
-
-
-  useEffect(() => {
+    // Fetch main goals
     axios.get('/mainGoals', { params: { userID: user.id, } }
     ).then(res => {
       if (res.data.success) {
@@ -60,13 +49,20 @@ export default function Home(props) {
     }).catch((err) => {
       console.log(err);
     });
+  };
+
+  useEffect(() => {
+    
+    startSession(user);
+
+    return () => { buddyFunctionsOff(); };
   }, []);
 
   return (
     <main className="Home">
       <LeftSidebar />
       {/* <Survey/> */}
-      !goalState[currentGoal] ? <></> : <GoalManager currentGoal={goalState[currentGoal]}/>
+      {goalState.length && <GoalManager mainGoal={goalState[0]}/>}
       <RightSidebar />
     </main>
   );

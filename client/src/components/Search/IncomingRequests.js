@@ -34,6 +34,7 @@ const IncomingRequests = () => {
 
   const handleReject = (evt) => {
     evt.preventDefault();
+    console.log('evt', evt.target[0].value);
     axios.post('/request/incoming/reject')
       .then((response) => {
         return () => { };
@@ -53,8 +54,17 @@ const IncomingRequests = () => {
             <div key={incomingRequest.id}>
               <p>From User: {incomingRequest.users_buddy_requests_from_userTousers.username}</p>
               <p>{incomingRequest.message}</p>
-              <button onClick={handleAccept}>Accept</button>
-              <button onClick={handleReject}>Reject</button>
+              <form>
+                <button >Accept</button>
+              </form>
+              <form onSubmit={handleReject}>
+                <input
+                  value={incomingRequest.id}
+                  type="hidden"
+                />
+                <button>Reject</button>
+
+              </form>
             </div>
           ))}
         </>

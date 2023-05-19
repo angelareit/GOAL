@@ -7,16 +7,16 @@ const jwt2 = require('jsonwebtoken');
 
 router2.get('/incoming', async (req, res) => {
   // res.send('This is the request route!')
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt2.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
     if (err) {
       return null;
     }
     return decoded;
   })
-
+  
   try{
     const result = await prisma2.buddy_requests.findMany({
-      where:{to_user:1,
+      where:{to_user:userToken.id,
       is_deleted:false},
       orderBy:{
         created_at:'desc'

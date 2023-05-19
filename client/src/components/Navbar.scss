@@ -1,23 +1,117 @@
-.nav{
-  display:flex;
-  justify-content: space-between;
-  padding-left: 5%;
-  padding-right: 5%;
-  background-color: #003049;
-  color: #eae2b7;
+@import "../styles/variables";
+@import "../styles/mixins";
 
-  div{
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2%;
+  padding-right: 2%;
+  height: 60px;
+  border-bottom: $border-lines;
+
+  div {
     display: flex;
     flex-direction: row;
+    align-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+
+    h1 {
+      margin: 10px;
+      color: $primary1;
+    }
   }
 
-  .log_out{
-    background-color: #eae2b7;
-    color: #003049;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-weight: bold;
-    font-size: medium;
+
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 5px;
+
+    .dropbtn {
+      @include button-1;
+      border-radius: 3px;
+
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 140px;
+      box-shadow: 0px 8px 16px 0px rgba(162, 162, 162, 0.2);
+      z-index: 1;
+
+
+      button {
+        color: black;
+        padding: 12px 15px;
+        text-decoration: none;
+        display: block;
+        background: none;
+        border: none;
+
+        &:hover {
+          background-color: $secondary3;
+        }
+      }
+    }
+
+    &:hover .dropdown-content {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &:hover .dropbtn {
+      background-color: $primary1;
+      color: white;
+      border-radius: 3px 3px 0px 0px;
+    }
   }
+
+  .iconbtn-circle {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid $primary1;
+    color: $primary1;
+    padding: 8px;
+    margin: 3px;
+
+    &:hover {
+      border: 2px solid transparent;
+      background-color: $secondary3;
+      color:  $primary1;
+    }
+  }
+
+  .iconbtn {
+    display: block;
+    aspect-ratio: 1;
+    color: $primary1;
+    padding: 8px;
+    margin: 3px;
+
+    &:hover {
+      background-color: $secondary3;
+      color:  $primary1;
+    }
+  }
+
+  .active {
+    background-color: $primary1;
+    color: #f1f1f1;
+  }
+
+
+
+
+
+
+
+
 }

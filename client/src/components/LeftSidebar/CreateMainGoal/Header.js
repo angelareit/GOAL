@@ -1,4 +1,5 @@
 import React from "react";
+import './CreateMainGoal.scss'
 
 export default function Header(props) {
 

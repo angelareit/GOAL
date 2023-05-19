@@ -7,7 +7,7 @@ import { switchPage } from '../features/viewManagerSlice';
 
 
 import RightSidebar from './RightSidebar';
-import LeftSidebar from './LeftSidebar/LeftSidebar';
+import LeftSidebar from './LeftSidebar';
 import axios from "axios";
 import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/socketsHelper";
 

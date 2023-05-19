@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useVisualMode from "../../../hooks/useVisualMode.js";
+import './MainGoalItem.scss'
 
 const SHOW = "SHOW";
 const EDITING = "EDITING";
@@ -12,8 +13,8 @@ export default function MainGoalItem(props) {
   const { mode, transition, back } = useVisualMode(SHOW);
 
   return (
-    <article className="mainGoal">
-      <h3>{props.title}</h3>
+    <article className={`main-goal-item ${props.selected && 'active'}`} onClick={props.onSelect}>
+      <span>{props.title}</span>
     </article>
   );
 }

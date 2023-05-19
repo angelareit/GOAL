@@ -29,7 +29,7 @@ export default function Navbar(props) {
                 <h3>{props.username}</h3>
                 <FontAwesomeIcon icon={solid("caret-down")} />
               </div>
-              <div class="dropdown-content">
+              <div className="dropdown-content">
                 <button onClick={() => { }}>Account Settings</button>
                 <button onClick={props.onLogout}>Log Out</button>
               </div>

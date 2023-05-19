@@ -1,3 +1,7 @@
+@import "../../styles/mixins";
+@import "../../styles/variables";
+
+
 .main-goal-list
 {
   display: flex;
@@ -25,4 +29,7 @@
    /*  background: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%);
     background: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%); */
   }
+}
+.active{
+  background-color:$secondary3;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useNavigate } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import '../App.scss';
+import './Landing.scss';
 import { setUser } from '../features/sessionSlice';
 import { setGoals } from '../features/mainGoalSlice';
 import { switchPage } from '../features/viewManagerSlice';

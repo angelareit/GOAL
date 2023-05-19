@@ -1,3 +1,4 @@
+require('dotenv').config()
 const PORT = 6080;
 //JWT: secret cryptographic key used to sign and verify tokens
 const secret = "somekey";
@@ -30,6 +31,11 @@ app.use(morgan('dev'));
 app.use(express.json()); //parse the body of axios post request
 app.use(cookieParser());
 
+const searchRoutes = require('./routes/search')
+const requestRoutes = require('./routes/request')
+//mount search route
+app.use('/search', searchRoutes)
+app.use('/request', requestRoutes)
 import socketFunctions from './helpers/socketFunctions';
 import { type } from 'os';
 socketFunctions(io, prisma);

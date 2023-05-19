@@ -14,6 +14,7 @@ import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/sock
 
 import { setInterests } from "../features/sessionSlice";
 import Survey from "./Survey";
+import Search from "./Search/Search";
 import GoalManager from "./GoalManager";
 
 export default function Home(props) {
@@ -64,6 +65,7 @@ export default function Home(props) {
       {/* <Survey/> */}
       {goalState.length && <GoalManager mainGoal={goalState[0]}/>}
       <RightSidebar />
+    <Search/>
     </main>
   );
 }

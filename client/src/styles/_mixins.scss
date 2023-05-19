@@ -32,7 +32,6 @@
   border: none;
   padding: 6px 10px;
   background-color: transparent;
-  border-radius: 3px;
   color: $primary1;
   user-select: none;
   -webkit-user-select: none;
@@ -43,4 +42,36 @@
     font-size: medium;
     margin: 5px;
   }
+}
+
+@mixin button-2 {
+  background: transparent;
+	border: none;
+	margin: 5px auto 5px;
+	display: block;
+	font-size: 20px;
+	outline: none;
+	position: relative;
+	transition: 0.3s;
+	padding: 10px;
+
+	&:before {
+		content: '';
+		border-bottom: 2px solid $primary1;
+		padding: 0 10px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		width: 0;
+		transition: 0.3s;
+	}
+
+	&:hover {
+		&:before {
+			width: 100%;
+			padding: 0;
+		}
+	}
 }

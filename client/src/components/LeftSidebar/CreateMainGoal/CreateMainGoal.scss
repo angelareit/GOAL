@@ -1,0 +1,18 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+.create-main-goal
+{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+
+  span {
+    font-size: medium;
+  }
+
+  .create-bttn{
+    @include button-2;
+  }
+}

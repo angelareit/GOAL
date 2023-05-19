@@ -1,6 +1,5 @@
 @import "../styles/variables";
 @import "../styles/mixins";
-@import "../styles/theme";
 
 
 .nav {
@@ -9,7 +8,7 @@
   padding-left: 2%;
   padding-right: 2%;
   height: 60px;
-  border-bottom: 2px solid $primary1;
+  border-bottom: 2px solid $primary1-05;
 
   div {
     display: flex;
@@ -33,7 +32,9 @@
     margin-right: 5px;
 
     .dropbtn {
-      @include button-1
+      @include button-1;
+      border-radius: 3px;
+
     }
 
     .dropdown-content {
@@ -68,7 +69,7 @@
     &:hover .dropbtn {
       background-color: $primary1;
       color: white;
-
+      border-radius: 3px 3px 0px 0px;
     }
   }
 

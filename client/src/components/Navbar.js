@@ -13,11 +13,10 @@ export default function Navbar(props) {
   return (
     <nav className='nav'>
       <div>
-        {props?.username && 
-          <FontAwesomeIcon 
-            className={`iconbtn`}
-            onClick={() => dispatch(showGoalListPanel())}
-            icon={icon({ name: "bars-staggered" })} 
+        {props?.username &&
+          <FontAwesomeIcon
+          className={`iconbtn ${viewState.leftSideBar.currentView === 'goal_list' && viewState.leftSideBar.visibility ? 'active' : undefined}`}            onClick={() => dispatch(showGoalListPanel())}
+            icon={icon({ name: "bars-staggered" })}
           />
         }
         <h1>Project X</h1>
@@ -26,7 +25,10 @@ export default function Navbar(props) {
         {props?.username &&
           <>
             <div className='dropdown'>
-              <div className='dropbtn'><h3>{props.username}</h3><FontAwesomeIcon icon={solid("caret-down")} /></div>
+              <div className='dropbtn'>
+                <h3>{props.username}</h3>
+                <FontAwesomeIcon icon={solid("caret-down")} />
+              </div>
               <div class="dropdown-content">
                 <button onClick={() => { }}>Account Settings</button>
                 <button onClick={props.onLogout}>Log Out</button>

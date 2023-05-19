@@ -24,3 +24,16 @@ main {
   display: flex;
   align-items: stretch;
 }
+
+
+//SCROLL BAR
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: $primary1-05;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.233);
+} 

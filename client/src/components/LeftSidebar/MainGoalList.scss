@@ -1,0 +1,28 @@
+.main-goal-list
+{
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  text-align: left;
+
+
+  h4{
+    margin: 5px;
+    font-size: medium;
+  }
+
+  ul{
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 0px;
+    max-height:400px;
+    overflow-y: scroll; /* Show vertical scrollbar */
+    overflow-y: scroll;
+    direction: rtl;
+
+
+   /*  background: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%);
+    background: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%); */
+  }
+}

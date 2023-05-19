@@ -2,7 +2,7 @@ import React from 'react';
 import './RightSidebar.scss';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import BuddyView from '../BuddyView';
+import BuddyView from './BuddyView';
 
 
 export default function RightSidebar(props) {

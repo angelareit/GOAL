@@ -46,18 +46,6 @@ export default function Landing(props) {
         //window.location.reload();
 
       });
-
-      /* axios.get('/mainGoals').then(res => {
-        console.log('TESTING MAIN GOALS', res.data);
-        if (res.data.success)
-        {
-          dispatch(setGoals(res.data.result));
-        }
-      }).catch((err) => {
-        console.log(err);
-      }); */
-
-
   };
 
   return (

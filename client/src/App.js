@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from './components/Navbar';
 import Landing from './components/Landing';
 import Home from './components/Home';
+import Search from './components/Search/Search';
 import { resetViews } from './features/viewManagerSlice';
 import { resetGoals } from './features/mainGoalSlice';
 import Survey from './components/Survey';
@@ -37,7 +38,7 @@ export default function App() {
   return (
     <div className="App">
       <Navbar username={userState?.username} onLogout={onLogout} />
-      {viewState === 'Home' ? <Home /> : <Landing />}
+      {userState ? <Home /> : <Landing />}
     </div>
   );
 };

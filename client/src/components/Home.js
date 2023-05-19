@@ -14,6 +14,7 @@ import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../helpers/sock
 
 import { setInterests } from "../features/sessionSlice";
 import Survey from "./Survey";
+import Search from "./Search/Search";
 
 export default function Home(props) {
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ export default function Home(props) {
       {/* <Survey/> */}
       <div className="goal-manager"><h3> GOAL TREE</h3></div>
       <RightSidebar />
+    <Search/>
     </main>
   );
 }

@@ -11,42 +11,36 @@
 
   .focused-goal {
     background-color: rgb(255, 111, 0);
-    max-width: 1080px;
-    margin: 20px;
+    max-width: 80em;
     padding: 20px;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 5px 10px 20px #0008;
-
-    h1,
-    h2 {
-      margin-top: 0px;
-      color: rgb(255, 243, 135);
-    }
   }
 
   .child-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 10px;
   }
 
   .add {
-    width: 320px;
-    height: 240px;
-    margin: 5px;
+    width: 1em;
+    height: 1em;
+    margin: 0.5em;
     display: flex;
     background-color: adjust-color($color: v.$light-warm, $alpha: -0.6);
     color: v.$light-warm;
     justify-content: center;
     align-items: center;
-    font-size: 128px;
+    font-size: 72px;
     font-weight: bold;
     border: none;
-    border-radius: 10px;
+    border-radius: 50%;
   }
 
   .add:hover {
@@ -54,10 +48,61 @@
     cursor: pointer;
   }
 
+  .up {
+    border-radius: 50%;
+    margin: 1em;
+    border: none;
+    box-shadow: 5px 5px 5px #0008;
+    width: 4em;
+    height: 4em;
+    font-weight: bold;
+    background-color:tomato;
+    color: v.$light-warm;
+  }
+  .up:hover {
+    background-color: adjust-color($color: tomato, $lightness: +10%);
+    color: adjust-color($color: v.$light-warm, $lightness: +10%);
+    cursor: pointer;
+  }
+  .up:active {
+    background-color: adjust-color($color: tomato, $lightness: -10%);
+    color: adjust-color($color: v.$light-warm, $lightness: -10%);
+  }
+}
+
+.GoalStructure {
+  margin: 10px;
+  color: v.$light-cool;
+}
+
+.FocusedGoal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1em;
+  h1 {
+    font-size: 30px;
+    margin: 0px;
+    color: rgb(255, 243, 135);
+  }
+
+  .details {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .note {
+    font-size: 20px;
+  }
+
+  p {
+    margin: 0%;
+  }
 }
 
 .SubGoalCard {
-  width: 320px;
+  width: 20em;
   height: 240px;
   padding: 5px;
   display: flex;
@@ -69,6 +114,7 @@
 
   p {
     margin: 0%;
+    min-height: 1em;
   }
 
   progress {
@@ -82,11 +128,11 @@
   progress::-moz-progress-bar {
     background: v.$medium-cool;
   }
-  
+
   progress::-webkit-progress-value {
     background: v.$medium-cool;
   }
-  
+
   progress::-webkit-progress-bar {
     background: v.$medium-cool;
   }
@@ -104,9 +150,11 @@
       font-size: 12px;
     }
 
-    h3, h4 {
+    h3,
+    h4 {
       margin: 0%;
     }
+
     h3:hover {
       cursor: pointer;
     }
@@ -141,9 +189,11 @@
 .edit-btn {
   background-color: seagreen;
 }
+
 .edit-btn:hover {
   background-color: rgb(83, 190, 129);
 }
+
 .edit-btn:active {
   background-color: rgb(25, 101, 58);
 }
@@ -151,9 +201,11 @@
 .delete-btn {
   background-color: tomato;
 }
+
 .delete-btn:hover {
   background-color: rgb(255, 160, 122);
 }
+
 .delete-btn:active {
   background-color: rgb(201, 65, 41);
 }

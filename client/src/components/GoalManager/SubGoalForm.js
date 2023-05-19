@@ -20,7 +20,7 @@ export default function SubGoalForm(props) {
   return (
     <form key={subGoal.id} onSubmit={event => {
       event.preventDefault();
-      props.saveChild(props.index, subGoal);
+      props.saveChild(subGoal);
       props.onCancel(null);
     }} className='SubGoalForm'>
       <table>

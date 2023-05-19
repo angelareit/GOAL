@@ -1,0 +1,13 @@
+
+export default function GoalStructure(props) {
+
+  const { chain } = props;
+
+  const renderedChain = chain.display().map((g, i) => {
+    return <span key={i}>{g.goal.title} {i > 0 && '>'} </span>;
+  }).reverse();
+
+  return (
+    <header className='GoalStructure'>{renderedChain}</header>
+  );
+};

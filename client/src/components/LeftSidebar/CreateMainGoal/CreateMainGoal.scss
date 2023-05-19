@@ -1,0 +1,43 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+.create-main-goal {
+  display: flex;
+  flex-direction: column;
+  text-align: left; 
+
+  span {
+    font-size: medium;
+  }
+
+  .create-bttn {
+    @include button-2;
+  }
+}
+
+.create-main-goal-form {
+  margin: 10px;
+  padding: 15px;
+  border: 0px solid #1C6EA4;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  box-shadow: 4px 4px 12px 1px rgba(0, 0, 0, 0.025);
+
+  div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    h4 {
+      margin: 0px 0px;
+    }
+    .iconbtn-circle {
+     @include iconbtn-circle($main-col: $secondary3, $sec-col: $primary1, $fill-col: $primary1)
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+}

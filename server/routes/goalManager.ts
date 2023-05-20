@@ -23,6 +23,9 @@ router.get('/', async (req, res) => {
             parent_id: goalID
           }
         }
+      },
+      orderBy: {
+        created_at: 'asc'
       }
     });
 
@@ -30,7 +33,7 @@ router.get('/', async (req, res) => {
 
 
   } else {
-    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false`;
+    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false ORDER BY created_at asc`;
     console.log(childrenGoals);
   }
 
@@ -79,7 +82,7 @@ router.post('/', async (req, res) => {
       }
     });
   }
-  res.json({ id: createdGoal.id });
+  res.json({ id: createdGoal.id, created_at: createdGoal.created_at });
 
 });
 

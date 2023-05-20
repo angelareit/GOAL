@@ -16,16 +16,16 @@ import { setInterests } from "../features/sessionSlice";
 import Survey from "./Survey";
 import Search from "./Search/Search";
 import GoalManager from "./GoalManager";
+import CreateGoalPrompt from "./CreateGoalPrompt";
 
 export default function Home(props) {
   const dispatch = useDispatch();
   const viewState = useSelector((state) => state.viewManager)  
 
+  const activeGoal = useSelector(state => state.mainGoal.active);
+
   const user = useSelector(state => state.session.user);
   
-  // When user selects a particular main goal, set it here
-  const goalState = useSelector(state => state.mainGoal.value);
-
   const startSession = function(user) {
     socket.auth = { user: user.id };
     socket.connect();
@@ -61,11 +61,9 @@ export default function Home(props) {
 
   return (
     <main className="Home">
-      {/* <Survey/> */}
       <LeftSidebar />
-      {goalState.length && <GoalManager mainGoal={goalState[0]}/>}
+      {activeGoal ? <GoalManager activeGoal={activeGoal} /> : <CreateGoalPrompt />}
       <RightSidebar />
-    {/* <Search/> */}
     </main>
   );
 }

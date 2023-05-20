@@ -31,7 +31,6 @@ class LinkedList {
       output.head = new Node(data);
       return output;
     }
-    console.log("Prepend:", output);
     const newHead = new Node(data);
     newHead.next = output.head;
     output.head = newHead;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import './GoalManager.scss';
 import axios from 'axios';
 
@@ -11,25 +10,24 @@ import FocusedGoal from './FocusedGoal';
 import SubGoalCard from './SubGoalCard';
 import SubGoalForm from './SubGoalForm';
 
-import { LinkedList } from '../../helpers/classes';
+// import { LinkedList } from '../../helpers/classes';
+import { useSelector, useDispatch } from 'react-redux';
+import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend } from '../../features/goalManagerSlice';
 
-export default function GoalManager(props) {
+export default function GoalBoard(props) {
+  const dispatch = useDispatch();
 
-  const mainGoal = props.mainGoal;
-  // const [subGoal, setSubGoal] = useState({ id: null, children: [] });
-  const [editing, setEditing] = useState(null);
-  const [newGoal, setNewGoal] = useState(null);
-  const [goalStructure, setGoalStructure] = useState(new LinkedList({ goal: mainGoal, children: [] }));
+  const mainGoal = props.activeGoal;
+
+  const goalStructure = useSelector(state => state.goalManager.goalStructure);
+  const newGoal = useSelector(state => state.goalManager.newGoal);
+  const editingID = useSelector(state => state.goalManager.editing);
 
   const setFocus = function(goal) {
     axios.get('/subgoal', { params: { goal } }).then(res => {
-      setGoalStructure(LinkedList.prepend(goalStructure, { goal, ...res.data }));
+      dispatch(prepend({ goal, ...res.data }));
     });
   };
-
-  useEffect(() => {
-    setFocus(mainGoal);
-  }, []);
 
   const updateSubGoal = function(i, updatedGoal) {
     const subGoal = goalStructure.head.data;
@@ -37,7 +35,7 @@ export default function GoalManager(props) {
     children[i] = updatedGoal;
     console.log(updatedGoal);
     axios.put('/subgoal', { updatedGoal }).then(res => {
-      setGoalStructure(LinkedList.modifyHeadData(goalStructure, { ...subGoal, children: [...children] }));
+      dispatch(modifyHeadData({ ...subGoal, children: [...children] }));
       console.log(updatedGoal);
     });
   };
@@ -52,25 +50,24 @@ export default function GoalManager(props) {
       console.log(res.data);
       newGoal.id = res.data.id;
       newGoal.created_at = res.data.created_at;
-      setGoalStructure(LinkedList.modifyHeadData(goalStructure, { ...subGoal, children: [...children, newGoal] }));
+      dispatch(modifyHeadData({ ...subGoal, children: [...children, newGoal] }));
     });
   };
 
   const deleteSubGoal = function(index, id) {
-    console.log(id);
     const subGoal = goalStructure.head.data;
     const children = [...subGoal.children];
     children.splice(index, 1);
     axios.delete('/subgoal', { params: { id } }).then(res => {
-      setGoalStructure(LinkedList.modifyHeadData(goalStructure, { ...subGoal, children: [...children] }));
+      dispatch(modifyHeadData({ ...subGoal, children: [...children] }));
       console.log(children);
     });
   };
 
   const addNewGoal = function() {
-    setEditing(null);
+    dispatch(setEditing(null));
     const subGoal = goalStructure.head.data.goal;
-    console.log("Subgoal: ", subGoal);
+    console.log("Subgoal: ", goalStructure.head.data);
     const goalTemplate = {
       title: "",
       note: "",
@@ -81,29 +78,41 @@ export default function GoalManager(props) {
       parent_id: subGoal.main_goal_id ? subGoal.id : null
     };
 
-    setNewGoal(goalTemplate);
+    dispatch(setNewGoal(goalTemplate));
   };
 
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
-    console.log(c);
-    return editing === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={setEditing} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onEdit={() => { setNewGoal(null); setEditing(c.id); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
+    return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
   });
+
+
+  useEffect(() => {
+    console.log(mainGoal);
+    axios.get('/subgoal', { params: { goal: mainGoal } }).then(res => {
+      dispatch(modifyHeadData({ goal: mainGoal, ...res.data }));
+    });
+  }, []);
+
+  if (!mainGoal || !goalStructure.head) {
+    return (
+      <div className='GoalManager' />
+    );
+  }
 
   return (
     <div className='GoalManager'>
-
       <GoalStructure chain={goalStructure} />
       <section className='focused-goal'>
         <section className='goal-details'>
-          <FocusedGoal goal={goalStructure.head.data.goal} />
+          {goalStructure.head.data.goal && <FocusedGoal goal={goalStructure.head.data.goal} />}
         </section>
         <section className='child-container'>
           {renderedChildren}
-          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { setNewGoal(null); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <button className='add' onClick={addNewGoal}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></button>}
+          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <button className='add' onClick={addNewGoal}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></button>}
         </section>
       </section>
-      {goalStructure.head.next !== null && <button className="up" onClick={() => setGoalStructure(LinkedList.removeHead(goalStructure))}>Back</button>}
+
     </div>
   );
 }

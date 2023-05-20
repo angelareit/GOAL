@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 //Get all children
 router.get('/', async (req, res) => {
   const goal = req.query.goal;
+  console.log(req.query);
   const goalID = Number(goal.id);
   const isMainGoal = !goal.main_goal_id;
   let childrenGoals = null;
@@ -33,7 +34,20 @@ router.get('/', async (req, res) => {
 
 
   } else {
-    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.is_deleted = false ORDER BY created_at asc`;
+    // childrenGoals = await prisma.sub_goals.findMany({
+    //   where: {
+    //     is_deleted: false,
+    //     goal_relationship_goal_relationship_child_idTosub_goals: {
+    //       some: {
+    //         parent_id: null
+    //       }
+    //     }
+    //   },
+    //   orderBy: {
+    //     created_at: 'asc'
+    //   }
+    // });
+    childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.main_goal_id = ${goalID} AND sub_goals.is_deleted = false ORDER BY created_at asc`;
     console.log(childrenGoals);
   }
 

@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { useDispatch } from 'react-redux';
+
 export const mainGoalSlice = createSlice({
   name: 'mainGoals',
   initialState: {
     value: [],
-    active: {}
+    active: null
   },
   reducers: {
     addNewGoal: (state, action) => {
@@ -13,7 +15,7 @@ export const mainGoalSlice = createSlice({
     },
     setGoals: (state,action) => {
       state.value = action.payload;
-      if(action.payload.length > 0)
+      if(action.payload.length)
       {
         state.active = state.value[0];
       }

@@ -19,7 +19,7 @@
     flex-direction: column;
     align-items: center;
     background-color: rgb(255, 111, 0);
-    box-shadow: 5px 5px 16px #0008;
+    box-shadow: 0px 5px 10px #0008;
   }
 
   .child-container {
@@ -58,12 +58,12 @@
     border-radius: 50%;
     margin: 1em;
     border: none;
-    box-shadow: 5px 5px 5px #0008;
     min-width: 4em;
     min-height: 4em;
     font-weight: bold;
     background-color:tomato;
     color: v.$light-warm;
+    box-shadow: 0px 5px 10px #0008;
   }
   .up:hover {
     background-color: adjust-color($color: tomato, $lightness: +10%);

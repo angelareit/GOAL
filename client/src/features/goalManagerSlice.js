@@ -25,22 +25,32 @@ export const goalManagerSlice = createSlice({
     prepend: (state, action) => {
       return { ...state, goalStructure: LinkedList.prepend(state.goalStructure, action.payload) };
     },
-    // reparentChild: (state, action) => {
-    //   return {
-
-    //   }
-    // },
-    resetGoalManager: (state, action) => {
-      return {
-        goalStructure: new LinkedList({ id: null, children: [] }),
-        editing: null,
-        newGoal: null
-      };
+    reparentChild: (state, action) => {
+      const newParent = action.payload.parent;
+      const child = action.payload.child;
+      const children = [...state.goalStructure.head.data.children];
+      const childIndex = children.findIndex(c => c === child);
+      children.splice(childIndex, 1);
+      const next = state.goalStructure.head.next ? {...state.goalStructure.head.next} : null;
+      if(newParent){
+        return { ...state, goalStructure: LinkedList.modifyHeadData(state.goalStructure, {...state.goalStructure.head.data, children: children } ) };
+      }
+      if(next !== null) {
+        next.data.children.push(child);
+        return { ...state, goalStructure: LinkedList.modifyHead({...state.goalStructure.head.data, children: children }, {...next} ) };
+      }
     }
   },
+  resetGoalManager: (state, action) => {
+    return {
+      goalStructure: new LinkedList({ id: null, children: [] }),
+      editing: null,
+      newGoal: null
+    };
+  }
 });
 
 // Action creators are generated for each case reducer function
-export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend } = goalManagerSlice.actions;
+export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } = goalManagerSlice.actions;
 
 export default goalManagerSlice.reducer;

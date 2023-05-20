@@ -3,8 +3,11 @@ import './GoalManager.scss';
 export default function SubGoalCard(props) {
   const { subGoal } = props;
   return (
-    <div key={subGoal.id} className='SubGoalCard'>
-      <header className='sub-header'><h3 onClick={props.onFocus}>{subGoal.title}</h3><p>Created: {new Date(subGoal.created_at).toLocaleDateString('en-CA')}</p></header>
+    <div key={subGoal.id} className='SubGoalCard' onClick={event => {event.stopPropagation(); props.onClick(); }}>
+      <header className='sub-header'><h3 onClick={event => {
+        event.stopPropagation();
+        props.onFocus();
+      }}>{subGoal.title}</h3><p>Created: {new Date(subGoal.created_at).toLocaleDateString('en-CA')}</p></header>
       <div className='subgoal-body'>
         <p>{subGoal.note}</p>
         <p><b>Priority:</b> <progress value={subGoal.priority} max={100}>

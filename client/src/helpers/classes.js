@@ -62,6 +62,14 @@ class LinkedList {
   static modifyHeadData(list, data) {
     return new LinkedList(data, list.head.next);
   }
+  
+  static modifyHeadNext(list, next) {
+    return new LinkedList(list.head.data, next);
+  }
+  
+  static modifyHead(data, next) {
+    return new LinkedList(data, next);
+  }
 
   display() {
     let node = this.head;

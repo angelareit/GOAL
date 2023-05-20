@@ -61,11 +61,11 @@ export default function Home(props) {
 
   return (
     <main className="Home">
-      <LeftSidebar />
       {/* <Survey/> */}
+      <LeftSidebar />
       {goalState.length && <GoalManager mainGoal={goalState[0]}/>}
       <RightSidebar />
-    <Search/>
+    {/* <Search/> */}
     </main>
   );
 }

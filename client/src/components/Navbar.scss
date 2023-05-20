@@ -4,10 +4,13 @@
 
 .nav {
   display: flex;
+  position: fixed;
+  width: 98vw;
+  background-color: $light-cool;
   justify-content: space-between;
-  padding-left: 2%;
-  padding-right: 2%;
-  height: 60px;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  height: $navbar-height;
   border-bottom: $border-lines;
 
   div {
@@ -23,8 +26,6 @@
       color: $primary1;
     }
   }
-
-
 
   .dropdown {
     position: relative;

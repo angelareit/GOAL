@@ -5,6 +5,8 @@
 {
   display: flex;
   flex-direction: column;
-  width: 20%;
+  background-color: $background-color2;
+  box-shadow: 10px 0px 8px #0003;
+  width: $sidebar-width;
   border-right: $border-lines;
 }

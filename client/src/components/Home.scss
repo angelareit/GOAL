@@ -1,8 +1,14 @@
+@import "../styles/variables";
+
 .Home {
+  margin-top: $navbar-height;
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  height: 100%;
+  height: calc(100vh - $navbar-height);
+  background-color: $medium-cool;
+  box-shadow: inset 0px 10px 8px #0003;
+
 }
 .goal-manager {
   flex-grow: 3;

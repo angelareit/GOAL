@@ -4,90 +4,14 @@ import './GoalManager.scss';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import GoalStructure from './GoalStructure';
 import FocusedGoal from './FocusedGoal';
 import SubGoalCard from './SubGoalCard';
 import SubGoalForm from './SubGoalForm';
 
-class Node {
-  constructor(data, next = null) {
-    this.data = data;
-    this.next = next;
-  }
-}
-
-class LinkedList {
-
-  constructor(data, next) {
-    this.head = data ? new Node(data, next) : null;
-  }
-
-  static append(list, data) {
-    const output = new LinkedList(list.data, list.next);
-    if (!output.head) {
-      output.head = new Node(data);
-      return output;
-    }
-    let current = output.head;
-    while (current.next !== null) {
-      current = current.next;
-    }
-    current.next = new Node(data);
-    return output;
-  }
-
-  static prepend(list, data) {
-    const output = new LinkedList(list.head.data, list.head.next);
-    if (output.head === null) {
-      output.head = new Node(data);
-      return output;
-    }
-    console.log("Prepend:", output);
-    const newHead = new Node(data);
-    newHead.next = output.head;
-    output.head = newHead;
-    return output;
-  }
-
-  static deleteWithValue(list, data) {
-    const output = new LinkedList(list.data, list.next);
-    let node = output.head;
-    while (node.next !== null) {
-      if (node.next.data === data) {
-        node.next = node.next.next;
-        return;
-      }
-      node = node.next;
-    }
-  }
-
-  static removeHead(list) {
-    const output = new LinkedList(list.head.data, list.head.next);
-    console.log(output.head);
-    if (output.head.next === null) {
-      return output;
-    }
-    output.head = output.head.next;
-    return output;
-  }
-
-  static modifyHeadData(list, data) {
-    return new LinkedList(data, list.head.next);
-  }
-
-  display() {
-    let node = this.head;
-    const output = [];
-    while (node) {
-      output.push(node.data);
-      node = node.next;
-    }
-    return output;
-  }
-
-}
+import { LinkedList } from '../../helpers/classes';
 
 export default function GoalManager(props) {
 
@@ -122,7 +46,7 @@ export default function GoalManager(props) {
     if (!newGoal.title) {
       return;
     }
-    const subGoal = {...goalStructure.head.data};
+    const subGoal = { ...goalStructure.head.data };
     const children = [...subGoal.children];
     axios.post('/subgoal', { newGoal }).then(res => {
       console.log(res.data);
@@ -144,6 +68,7 @@ export default function GoalManager(props) {
   };
 
   const addNewGoal = function() {
+    setEditing(null);
     const subGoal = goalStructure.head.data.goal;
     console.log("Subgoal: ", subGoal);
     const goalTemplate = {
@@ -162,7 +87,7 @@ export default function GoalManager(props) {
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
     console.log(c);
-    return editing === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={setEditing} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onEdit={() => setEditing(c.id)} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
+    return editing === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={setEditing} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onEdit={() => { setNewGoal(null); setEditing(c.id); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
   });
 
   return (
@@ -175,7 +100,7 @@ export default function GoalManager(props) {
         </section>
         <section className='child-container'>
           {renderedChildren}
-          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { setNewGoal(null); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <button className='add' onClick={addNewGoal}><FontAwesomeIcon icon={solid("circle-plus")} /></button>}
+          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { setNewGoal(null); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <button className='add' onClick={addNewGoal}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></button>}
         </section>
       </section>
       {goalStructure.head.next !== null && <button className="up" onClick={() => setGoalStructure(LinkedList.removeHead(goalStructure))}>Back</button>}

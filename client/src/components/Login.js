@@ -48,7 +48,7 @@ const Login = (props) => {
 
       <div className="footer">
         <button type="submit" className="btn">
-          Create
+          Login
         </button>
       </div>
     </form>

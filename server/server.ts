@@ -220,28 +220,21 @@ app.put('/mainGoals/new', async (req, res) => {
   }
 });
 
-app.get('/test', async (req, res) => {
-
-  const result = await prisma.$queryRaw
-    ` SELECT COUNT(*) as num, u2c_others.user_id
-   FROM interests u2c_main
-   JOIN interests u2c_others
-   ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
-   WHERE u2c_main.user_id = 1
-   GROUP BY u2c_others.user_id;
-    `;
-  console.log(typeof result, result);
-
-  return res.json({ success: true });
-
-
+app.get('/progress', async (req, res) => {
+  if (true) {
+    const sub_goals = await prisma.sub_goals.findMany({
+      where: {
+        main_goal_id: {in: [1,2,3]},
+        completed_on: {
+         gte: new Date("2022-01-30").toISOString()
+        },
+      },
+    });
+    return res.json({ success: true, result: sub_goals });
+  }
+  else {
+    return res.json({ success: false });
+  }
 });
-/* 
-SELECT COUNT(*) as num, u2c_others.user_id
-FROM user_categories u2c_main
-JOIN user_categories u2c_others
-ON u2c_others.category_id = u2c_main.category
-WHERE u2c_main.user_id = 7
-GROUP BY u2c_others.user_id; 
- */
+
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT} `));

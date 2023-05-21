@@ -29,7 +29,6 @@ export default function LeftSidebar(props) {
   return (
     drawerState.visibility &&
     <section className="left-sidebar">
-      <h3>{drawerState.currentView}</h3>
       <MainGoalList goals={mainGoalState} active={activeGoal} />
       <CreateMainGoal />
     </section>

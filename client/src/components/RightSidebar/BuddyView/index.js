@@ -7,6 +7,7 @@ import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/vi
 
 import Chat from './Chat';
 import BuddyStatus from './BuddyStatus';
+import Progress from './Progress';
 
 function BuddyView(props) {
   const viewState = useSelector((state) => state.viewManager.rightSideBar);
@@ -30,7 +31,7 @@ function BuddyView(props) {
         </>}
       {viewState.currentTab === 'buddy-progress' &&
         <>
-          <h3>PROGRESS</h3>
+         <Progress/>
         </>}
     </div>
   );

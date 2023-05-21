@@ -135,7 +135,9 @@ export default function GoalBoard(props) {
         setChildRef(null);
         dispatch(removeHead(goalStructure));
       }}>Back</button>} */}
-      {goalStructure.head.next !== null && <button className="up">Back</button>}
+      {goalStructure.head.next !== null && <button className="up" onClick={() => {
+        dispatch(removeHead(goalStructure));
+      }}>Back</button>}
     </div>
   );
 }

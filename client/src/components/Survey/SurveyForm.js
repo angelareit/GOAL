@@ -4,9 +4,9 @@ import './Survey.scss';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { updateInterest } from '../features/sessionSlice';
+import { updateInterest } from '../../features/sessionSlice';
 
-export default function Survey(props) {
+export default function Survey() {
 
   const dispatch = useDispatch();
 
@@ -34,11 +34,8 @@ export default function Survey(props) {
   });
 
   return (
-    <div className="Survey">
-      <h1>Tell us about yourself!</h1>
-      <p>What kinds of goals will you be working on? If you'd like an accountability buddy, this will helps others with similar goals find you. (Placeholder text, there will be more.)</p>
+    <div className="SurveyForm">
       <section className="interest-container">{renderedCategories}</section>
-      <button type="submit">Back</button>
     </div>
   );
 }

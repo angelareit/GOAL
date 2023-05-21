@@ -2,9 +2,11 @@ import react, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './Landing.scss';
-import { setUser } from '../../features/sessionSlice';
+import { setUser, setInterests } from '../../features/sessionSlice';
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
+
+import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../../helpers/socketsHelper";
 
 import Login from '../Login';
 import Register from '../Register';
@@ -19,27 +21,60 @@ export default function Landing(props) {
 
   const [content, setContent] = useState('Login');
 
-  useEffect(() => {
-    axios.get('/verify').then(res => {
+  const initiateSession = function(user) {
+    if(!user) {
+      return;
+    }
+    dispatch(setUser(user));
+    socket.auth = { user: userState.id };
+    socket.connect();
+    socketBuddyFunctions(dispatch);
+
+    //Fetch interests
+    axios.get(`/api/interests/${user.id}`).then(res => {
+      const { categories, interests } = res.data;
+      const interestsObject = {};
+      categories.forEach(c => {
+        interestsObject[c.id] = { category: c.id, name: c.name, isInterest: interests.includes(c.id) };
+      });
+      dispatch(setInterests(interestsObject));
+      if(!Object.values(interestsObject).some(interest => interest.isInterest === true )){
+        return dispatch(switchPage('survey'));
+      }
+      dispatch(switchPage('home'));
+    });
+
+    // Fetch main goals
+    axios.get('/mainGoals', { params: { userID: user.id, } }
+    ).then(res => {
       if (res.data.success) {
-        dispatch(setUser(res.data.user));
-        dispatch(switchPage('Home'));
+        dispatch(setGoals(res.data.result));
       }
     }).catch((err) => {
       console.log(err);
     });
 
-    return () => { };
+  };
 
-  }, []);
+  useEffect(() => {
+    axios.get('/verify').then(res => {
+      if (res.data.success) {
+        initiateSession(res.data.user);
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    return () => { buddyFunctionsOff(); };
+
+  }, [userState]);
 
   const onLogin = (email, password) => {
     axios.post(
       '/login', { email, password }
     )
       .then(res => {
-        dispatch(setUser(res.data.user));
-        dispatch(switchPage('Home'));
+        initiateSession(res.data.user);
       });
   };
   

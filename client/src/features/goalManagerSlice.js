@@ -39,15 +39,15 @@ export const goalManagerSlice = createSlice({
         next.data.children.push(child);
         return { ...state, goalStructure: LinkedList.modifyHead({...state.goalStructure.head.data, children: children }, {...next} ) };
       }
+    },
+    resetGoalManager: (state, action) => {
+      return {
+        goalStructure: new LinkedList({ id: null, children: [] }),
+        editing: null,
+        newGoal: null
+      };
     }
   },
-  resetGoalManager: (state, action) => {
-    return {
-      goalStructure: new LinkedList({ id: null, children: [] }),
-      editing: null,
-      newGoal: null
-    };
-  }
 });
 
 // Action creators are generated for each case reducer function

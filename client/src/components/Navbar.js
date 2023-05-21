@@ -8,7 +8,9 @@ import { showGoalListPanel, showBuddyPanel, showNotificationPanel, showAccountSe
 
 export default function Navbar(props) {
   const dispatch = useDispatch()
-  const viewState = useSelector((state) => state.viewManager)
+  const viewState = useSelector((state) => state.viewManager);
+  const user = useSelector(state => state.session.user);
+  const username = user?.username;
   const buddy = useSelector(state => state.session.buddy);
 
   function checkBuddy() {
@@ -23,7 +25,7 @@ export default function Navbar(props) {
   return (
     <nav className='nav'>
       <div>
-        {props?.username &&
+        {username &&
           <FontAwesomeIcon
             className={`iconbtn ${viewState.leftSideBar.currentView === 'goal_list' && viewState.leftSideBar.visibility ? 'active' : undefined}`} onClick={() => dispatch(showGoalListPanel())}
             icon={icon({ name: "bars-staggered" })}
@@ -32,11 +34,11 @@ export default function Navbar(props) {
         <h1>Project X</h1>
       </div>
       <div>
-        {props?.username &&
+        {username &&
           <>
             <div className='dropdown'>
               <div className='dropbtn'>
-                <h3>{props.username}</h3>
+                <h3>{username}</h3>
                 <FontAwesomeIcon icon={solid("caret-down")} />
               </div>
               <div className="dropdown-content">

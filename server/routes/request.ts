@@ -66,6 +66,15 @@ router.post('/incoming/accept', async (req, res) => {
         buddy_id: req.body.b_id
       }
     });
+
+    const result3 = await prisma.users.update({
+      where:{
+        id: req.body.b_id
+      },
+      data:{
+        buddy_id:userToken.id
+      }
+    })
     res.send({ result, result2 });
   }
   catch (error) {

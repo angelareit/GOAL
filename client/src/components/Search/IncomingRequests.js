@@ -50,35 +50,41 @@ const IncomingRequests = () => {
 
   return (
     <span>
-      <h3>{incomingResponse}</h3>
-      {incomingResponse === 'People are asking to be your buddy!' ? (
-        <>
-          <p>Incoming Requests</p>
-          {incomingRequests.map((incomingRequest) => (
-            <div key={incomingRequest.id}>
-              <p>From User: {incomingRequest.users_buddy_requests_from_userTousers.username}</p>
-              <p>{incomingRequest.message}</p>
-              <form onSubmit={handleAccept}>
-              <input
-                  value={[incomingRequest.id, incomingRequest.from_user]}
-                  type="hidden"
-                />
-                <button >Accept</button>
-              </form>
-              <form onSubmit={handleReject}>
-                <input
-                  value={incomingRequest.id}
-                  type="hidden"
-                />
-                <button>Reject</button>
+      {incomingRequests?.length !== 0 && (
+     <>
+     <h3>{incomingResponse}</h3>
+     {incomingResponse === 'People are asking to be your buddy!' ? (
+       <>
+         <p>Incoming Requests</p>
+         {incomingRequests.map((incomingRequest) => (
+           <div key={incomingRequest.id}>
+             <p>From User: {incomingRequest.users_buddy_requests_from_userTousers.username}</p>
+             <p>{incomingRequest.message}</p>
+             <form onSubmit={handleAccept}>
+             <input
+                 value={[incomingRequest.id, incomingRequest.from_user]}
+                 type="hidden"
+               />
+               <button >Accept</button>
+             </form>
+             <form onSubmit={handleReject}>
+               <input
+                 value={incomingRequest.id}
+                 type="hidden"
+               />
+               <button>Reject</button>
 
-              </form>
-            </div>
-          ))}
-        </>
-      ) : (<></>
+             </form>
+           </div>
+         ))}
+       </>
+     ) : (<></>
+     )}
+ </>
+
+
       )}
-
+ 
     </span>
   );
 };

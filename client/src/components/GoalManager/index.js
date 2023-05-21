@@ -100,7 +100,8 @@ export default function GoalBoard(props) {
 
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
-    return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onClick={() => reparent(c)} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
+    // return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onClick={() => reparent(c)} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
+    return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
   });
 
 
@@ -118,7 +119,8 @@ export default function GoalBoard(props) {
   }
 
   return (
-    <div className='GoalManager' onClick={() => { reparent(null); }}>
+    // <div className='GoalManager' onClick={() => { reparent(null); }}>
+    <div className='GoalManager'>
       <GoalStructure chain={goalStructure} />
       <section className='focused-goal'>
         <section className='goal-details'>
@@ -129,10 +131,11 @@ export default function GoalBoard(props) {
           {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <button className='add' onClick={addNewGoal}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></button>}
         </section>
       </section>
-      {goalStructure.head.next !== null && <button className="up" onClick={() => {
+      {/* {goalStructure.head.next !== null && <button className="up" onClick={() => {
         setChildRef(null);
         dispatch(removeHead(goalStructure));
-      }}>Back</button>}
+      }}>Back</button>} */}
+      {goalStructure.head.next !== null && <button className="up">Back</button>}
     </div>
   );
 }

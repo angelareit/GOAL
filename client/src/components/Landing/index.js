@@ -26,7 +26,7 @@ export default function Landing(props) {
       return;
     }
     dispatch(setUser(user));
-    socket.auth = { user: userState.id };
+    socket.auth = { user: user.id };
     socket.connect();
     socketBuddyFunctions(dispatch);
 

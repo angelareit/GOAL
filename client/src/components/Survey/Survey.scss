@@ -1,5 +1,8 @@
+@import "../../styles/variables";
+
 .Survey {
-  
+
+  margin-top: $navbar-height;
   display: flex;
   flex-direction: column;
   align-items: center;

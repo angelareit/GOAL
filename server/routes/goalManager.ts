@@ -75,6 +75,40 @@ router.put('/', async (req, res) => {
 
 });
 
+//reparent child
+router.post('/reparent', async (req, res) => {
+  const { parent, child } = req.body;
+
+  if (!parent) {
+    await prisma.goal_relationship.delete({
+      where: {
+        child_id: child.id
+      },
+    }).catch(err => {
+      console.log("Record not found");
+    });
+    return res.send("Parent deleted (if existed)");
+  }
+
+
+  const check = await prisma.goal_relationship.upsert({
+    where: {
+      child_id: child.id
+    },
+    create: {
+      child_id: child.id,
+      parent_id: parent.id
+    },
+    update: {
+      parent_id: parent.id
+    }
+  });
+  console.log(check);
+  return res.send(`Goal relationship changed to ${check}`);
+
+
+});
+
 //Add new sub-goal
 router.post('/', async (req, res) => {
   const { newGoal } = req.body;

@@ -56,7 +56,8 @@
         border: none;
 
         &:hover {
-          background-color: $secondary3;
+          color: $secondary3;
+          background-color: $primary1;
         }
       }
     }

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const viewManagerSlice = createSlice({
   name: 'viewManager',
   initialState: {
-    page: '',
+    page: 'landing',
     leftSideBar: { visibility: false, currentView: '' },
     rightSideBar: { visibility: false, currentView: '', currentTab: 'buddy-progress'},
     mainArea: { visibility: true, currentView: '' }
@@ -17,7 +17,7 @@ export const viewManagerSlice = createSlice({
       state.leftSideBar = { visibility: false, currentView: '' };
       state.rightSideBar = { visibility: false, currentView: '', currentTab: 'buddy-progress' };
       state.mainArea = { visibility: true, currentView: '' };
-      state.page = 'Landing';
+      state.page = 'landing';
     },
     //Right Side Bar
     showNotificationPanel: (state) => {
@@ -58,7 +58,7 @@ export const viewManagerSlice = createSlice({
     },
     //Left Side Bar
     showGoalListPanel: (state) => {
-      state.leftSideBar = { visibility: !state.leftSideBar.visibility, currentView: 'goal_list' };
+      state.leftSideBar = { visibility: !state.leftSideBar.visibility, currentView: 'goal-list' };
     },
     showLeftSideBarContent: (state, action) => {
       state.leftSideBar = { visibility: !state.leftSideBar.visibility, currentView: action.payload };

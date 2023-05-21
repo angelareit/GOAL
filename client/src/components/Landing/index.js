@@ -6,7 +6,6 @@ import { setUser } from '../../features/sessionSlice';
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
 
-
 import Login from '../Login';
 import Register from '../Register';
 import Splash from './Splash';
@@ -43,7 +42,7 @@ export default function Landing(props) {
         dispatch(switchPage('Home'));
       });
   };
-
+  
   return (
     <div className="Landing">
       <Splash />

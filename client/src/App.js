@@ -11,6 +11,7 @@ import { resetGoals } from './features/mainGoalSlice';
 import Survey from './components/Survey';
 
 import { resetSession } from './features/sessionSlice';
+import { resetGoalManager } from './features/goalManagerSlice';
 import socket from './helpers/socketsHelper';
 
 //enables axios to save cookie on the client
@@ -22,13 +23,13 @@ export default function App() {
   const userState = useSelector((state) => state.session.user);
   const viewState = useSelector((state) => state.viewManager.page)
 
-
   const onLogout = () => {
     axios.post('/logout').then(res => {
       if (res.data.success) {
-        dispatch(resetSession());
         socket.disconnect();
+        dispatch(resetSession());
         dispatch(resetGoals());
+        dispatch(resetGoalManager());
         dispatch(resetViews());
       }
     });

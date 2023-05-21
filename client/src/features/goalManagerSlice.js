@@ -51,6 +51,6 @@ export const goalManagerSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } = goalManagerSlice.actions;
+export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild, resetGoalManager } = goalManagerSlice.actions;
 
 export default goalManagerSlice.reducer;

@@ -17,7 +17,8 @@ import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend } from '../
 export default function GoalBoard(props) {
   const dispatch = useDispatch();
 
-  const mainGoal = props.activeGoal;
+  const mainGoal =  useSelector(state => state.mainGoal.active);
+  
 
   const goalStructure = useSelector(state => state.goalManager.goalStructure);
   const newGoal = useSelector(state => state.goalManager.newGoal);
@@ -88,7 +89,7 @@ export default function GoalBoard(props) {
 
 
   useEffect(() => {
-    console.log(mainGoal);
+    console.log('useEFFECTGOALMANAGER:',mainGoal);
     axios.get('/subgoal', { params: { goal: mainGoal } }).then(res => {
       dispatch(modifyHeadData({ goal: mainGoal, ...res.data }));
     });

@@ -222,15 +222,19 @@ app.put('/mainGoals/new', async (req, res) => {
 
 app.get('/progress', async (req, res) => {
   if (true) {
+    const d = new Date();
+    d.setDate(d.getDate() - 14);
+
+    console.log(d.toISOString());
     const sub_goals = await prisma.sub_goals.findMany({
       where: {
-        main_goal_id: {in: [1,2,3]},
+        main_goal_id: { in: [1, 2, 3] },
         completed_on: {
-         gte: new Date("2022-01-30").toISOString()
+          gte: d.toISOString()
         },
       },
     });
-    return res.json({ success: true, result: sub_goals });
+    return res.json({ success: true, duration: d ,result: sub_goals });
   }
   else {
     return res.json({ success: false });

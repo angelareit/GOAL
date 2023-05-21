@@ -2,19 +2,24 @@ import React from "react";
 import MainGoalItem from "./MainGoalItem";
 import { useSelector, useDispatch } from 'react-redux';
 import { addNewGoal, setActiveGoal } from '../../features/mainGoalSlice';
+import { setNewGoalManager } from '../../features/goalManagerSlice';
 
 import './MainGoalList.scss'
 
 export default function MainGoalList(props) {
   const dispatch = useDispatch();
 
-
+  function onSelectMainGoal(goal)
+  {
+    dispatch(setActiveGoal(goal));
+    dispatch(setNewGoalManager(goal.id));
+  }
   const mainGoals = props.goals.map((goal) => {
     return <MainGoalItem
       key={goal.id}
       title={goal.title}
       selected={ goal.id === props.active.id}
-      onSelect={() => dispatch(setActiveGoal(goal))}
+      onSelect={() => onSelectMainGoal(goal)}
     />
   });
 

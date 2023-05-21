@@ -62,7 +62,9 @@ export default function Home(props) {
   return (
     <main className="Home">
       <LeftSidebar />
-      {activeGoal ? <GoalManager activeGoal={activeGoal} /> : <CreateGoalPrompt />}
+{/*       {activeGoal ? <h3>HERE  </h3>: <CreateGoalPrompt />}
+      {activeGoal ? <GoalManager /> : <CreateGoalPrompt />}
+ */}
       <RightSidebar />
     </main>
   );

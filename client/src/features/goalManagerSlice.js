@@ -10,6 +10,7 @@ export const goalManagerSlice = createSlice({
     newGoal: null
   },
   reducers: {
+    
     setEditing: (state, action) => {
       return { ...state, editing: action.payload };
     },
@@ -36,11 +37,19 @@ export const goalManagerSlice = createSlice({
         editing: null,
         newGoal: null
       };
+    },
+    setNewGoalManager: (state, action) => {
+      console.log('setting new tree', action);
+      return {
+        goalStructure: new LinkedList({ id: action.payload, children: [] }),
+        editing: null,
+        newGoal: null
+      };
     }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend } = goalManagerSlice.actions;
+export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, setNewGoalManager } = goalManagerSlice.actions;
 
 export default goalManagerSlice.reducer;

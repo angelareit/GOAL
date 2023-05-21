@@ -8,7 +8,6 @@ const SearchByInterest = () => {
   const fetchInterestMatches = async () =>{
     try {
       const response = await axios.get("/search/interest");
-      // console.log("FUCK YOU")
       console.log("Search By Interest", response.data);
       setInterestMatches(response.data);
     } catch (error) {

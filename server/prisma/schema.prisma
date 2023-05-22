@@ -8,7 +8,7 @@ datasource db {
 }
 
 model users {
-  id                                             Int              @id @default(autoincrement())
+  id                                             Int              @id @default(autoincrement()) @unique
   username                                       String           @unique @db.VarChar
   email                                          String           @unique @db.VarChar
   password                                       String?          @db.VarChar
@@ -27,7 +27,7 @@ model users {
 }
 
 model buddy_requests {
-  id                                    Int       @id @default(autoincrement())
+  id                                    Int       @id @default(autoincrement()) @unique
   from_user                             Int
   to_user                               Int
   request_message                       String?   @db.VarChar
@@ -38,7 +38,7 @@ model buddy_requests {
 }
 
 model messages {
-  id                                Int       @id @default(autoincrement())
+  id                                Int       @id @default(autoincrement()) @unique
   sender_id                         Int?
   receiver_id                       Int?
   content                           String?   @db.VarChar
@@ -49,14 +49,14 @@ model messages {
 }
 
 model categories {
-  id         Int          @id @default(autoincrement())
+  id         Int          @id @default(autoincrement()) @unique
   name       String?      @unique @db.VarChar
   interests  interests[]
   main_goals main_goals[]
 }
 
 model interests {
-  id          Int         @id @default(autoincrement())
+  id          Int         @id @default(autoincrement()) @unique
   user_id     Int
   category_id Int
   categories  categories @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -65,7 +65,7 @@ model interests {
 }
 
 model main_goals {
-  id           Int         @id @default(autoincrement())
+  id           Int         @id @default(autoincrement()) @unique
   title        String?     @db.VarChar
   note         String?
   user_id      Int?
@@ -80,7 +80,7 @@ model main_goals {
 }
 
 model sub_goals {
-  id                                                       Int                 @id @default(autoincrement())
+  id                                                       Int                 @id @default(autoincrement()) @unique
   main_goal_id                                             Int
   title                                                    String?             @db.VarChar
   note                                                     String?
@@ -96,7 +96,7 @@ model sub_goals {
 }
 
 model goal_relationship {
-  id                                               Int         @id @default(autoincrement())
+  id                                               Int         @id @default(autoincrement()) @unique
   parent_id                                        Int
   child_id                                         Int         @unique
   sub_goals_goal_relationship_child_idTosub_goals  sub_goals @relation("goal_relationship_child_idTosub_goals", fields: [child_id], references: [id], onDelete: Cascade, onUpdate: NoAction)

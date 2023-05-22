@@ -1,3 +1,5 @@
+@import "../../../styles/variables";
+
 .Chat {
   flex-grow: 1;
   display: flex;
@@ -7,7 +9,7 @@
 .message-box {
   height: 0px;
   flex-grow: 1;
-  padding: 10px;
+  padding: 0.5em;
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -36,19 +38,48 @@
 .message {
   display: block;
   max-width: 70%;
-  padding: 10px;
+  padding: 0.5em;
+  margin-top: 0.5em;
   border-radius: 5px;
   white-space: pre-wrap;
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    .sender-name {
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .timestamp {
+      font-size: 10px;
+    }
+  }
+  blockquote {
+    margin: 0%;
+  }
+  footer {
+    padding-top: 0.2em;
+    display: flex;
+    justify-content: flex-end;
+    :hover {
+      cursor: pointer;
+      color: $medium-cool;
+    }
+  }
 }
 
 .message-incoming {
-  margin-left: 0%;
-  background-color:khaki;
+  margin-right: 30%;
+  background-color:$light-warm;
   text-align: left;
 }
 
 .message-outgoing {
-  margin-right: 0%;
-  background-color:lightblue;
+  margin-left: 30%;
+  background-color: $light-cool;
   text-align: left;
+}
+
+.deleted {
+  background-color:darkgrey;
 }

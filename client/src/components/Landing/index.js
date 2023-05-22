@@ -6,8 +6,6 @@ import { setUser, setInterests, setBuddyProgress } from '../../features/sessionS
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
 
-import socket, { socketBuddyFunctions, buddyFunctionsOff } from "../../helpers/socketsHelper";
-
 import Login from '../Login';
 import Register from '../Register';
 import Splash from './Splash';
@@ -22,14 +20,12 @@ export default function Landing(props) {
   const [content, setContent] = useState('Login');
 
   const initiateSession = function(user) {
-    if(!user) {
+    console.log("Initiate");
+    if (!user) {
       return;
     }
     dispatch(setUser(user));
-    socket.auth = { user: user.id };
-    socket.connect();
-    socketBuddyFunctions(dispatch);
-
+    
     //Fetch interests
     axios.get(`/api/interests/${user.id}`).then(res => {
       const { categories, interests } = res.data;
@@ -38,7 +34,7 @@ export default function Landing(props) {
         interestsObject[c.id] = { category: c.id, name: c.name, isInterest: interests.includes(c.id) };
       });
       dispatch(setInterests(interestsObject));
-      if(!Object.values(interestsObject).some(interest => interest.isInterest === true )){
+      if (!Object.values(interestsObject).some(interest => interest.isInterest === true)) {
         return dispatch(switchPage('survey'));
       }
       dispatch(switchPage('home'));
@@ -76,10 +72,7 @@ export default function Landing(props) {
     }).catch((err) => {
       console.log(err);
     });
-
-    return () => { buddyFunctionsOff(); };
-
-  }, [userState]);
+  }, []);
 
   const onLogin = (email, password) => {
     axios.post(
@@ -89,7 +82,7 @@ export default function Landing(props) {
         initiateSession(res.data.user);
       });
   };
-  
+
   return (
     <div className="Landing">
       <Splash />
@@ -99,7 +92,7 @@ export default function Landing(props) {
           <h3 className={`tab-header ${content === 'Register' && 'active'}`} onClick={() => setContent('Register')}>Sign up</h3>
         </div>
         <div className='content'>
-        {content === 'Login' ? <Login onLogin={onLogin} /> : <Register />}
+          {content === 'Login' ? <Login onLogin={onLogin} /> : <Register />}
         </div>
 
       </div>

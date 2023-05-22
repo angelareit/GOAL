@@ -10,10 +10,14 @@ export const messagesSlice = createSlice({
     appendMessage: (state, action) => {
       console.log(action.payload);
       return [...state, action.payload];
+    },
+    deleteMessage: (state, action) => {
+      const index = state.findIndex(m => m.id === action.payload.id);
+      state[index].content = "";
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchMessageHistory, appendMessage } = messagesSlice.actions;
+export const { fetchMessageHistory, appendMessage, deleteMessage } = messagesSlice.actions;
 export default messagesSlice.reducer;

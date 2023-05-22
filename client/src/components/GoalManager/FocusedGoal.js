@@ -16,7 +16,7 @@ export default function FocusedGoal(props) {
       <section className='details'>
         {data.due_date && <p><b>Deadline:</b> {new Date(data.due_date).toLocaleDateString('en-CA')}</p>}
         {data.category_id && <p><b>Category:</b> {category}</p>}
-        {data.completed_on && <p><b>Completed on:</b> {data.completed_on}</p>}
+        {data.completed_on && <p><b>Completed on:</b> {new Date(data.completed_on).toLocaleDateString('en-CA')}</p>}
       </section>
     </div>
   );

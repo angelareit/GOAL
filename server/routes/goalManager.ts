@@ -30,8 +30,7 @@ router.get('/', async (req, res) => {
       }
     });
 
-    console.log(childrenGoals);
-
+    // console.log(childrenGoals);
 
   } else {
     // childrenGoals = await prisma.sub_goals.findMany({
@@ -48,8 +47,28 @@ router.get('/', async (req, res) => {
     //   }
     // });
     childrenGoals = await prisma.$queryRaw`SELECT sub_goals.*, g.parent_id FROM sub_goals LEFT OUTER JOIN goal_relationship g ON sub_goals.id = g.child_id WHERE g.parent_id IS null AND sub_goals.main_goal_id = ${goalID} AND sub_goals.is_deleted = false ORDER BY created_at asc`;
-    console.log(childrenGoals);
+    // console.log(childrenGoals);
   }
+
+  childrenGoals = await Promise.all(childrenGoals.map(async (subgoal, i) => {
+    const childrenIncomplete = await prisma.sub_goals.aggregate({
+      _count: {
+        id: true
+      },
+      where: {
+        completed_on: null,
+        is_deleted: false,
+        goal_relationship_goal_relationship_child_idTosub_goals: {
+          some: {
+            parent_id: subgoal.id
+          }
+        }
+      }
+    });
+    return {...subgoal, childrenIncomplete: childrenIncomplete._count.id };
+  }));
+
+  console.log(childrenGoals);
 
   res.send({ children: childrenGoals });
 });

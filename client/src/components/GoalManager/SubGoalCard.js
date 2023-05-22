@@ -3,7 +3,7 @@ import './GoalManager.scss';
 export default function SubGoalCard(props) {
   const { subGoal } = props;
   return (
-    <div key={subGoal.id} className='SubGoalCard'>
+    <div key={subGoal.id} className={`SubGoalCard${subGoal.completed_on ? ' completed' : ''}`}>
     {/* <div key={subGoal.id} className='SubGoalCard' onClick={event => {event.stopPropagation(); props.onClick(); }}> */}
       <header className='sub-header'><h3 onClick={event => {
         event.stopPropagation();

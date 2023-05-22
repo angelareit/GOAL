@@ -112,7 +112,7 @@ export default function GoalBoard(props) {
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
     // return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onClick={() => reparent(c)} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
-    return editingID === c.id ? <SubGoalForm key={c.id} parentIncomplete={!subGoal.goal.completed_on} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
+    return (editingID === c.id && !subGoal.goal.completed_on) ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} parentIncomplete={!subGoal.goal.completed_on} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
   });
 
 
@@ -133,7 +133,7 @@ export default function GoalBoard(props) {
     // <div className='GoalManager' onClick={() => { reparent(null); }}>
     <div className='GoalManager'>
       <GoalStructure chain={goalStructure} />
-      <section className='focused-goal'>
+      <section className={`focused-goal${goalStructure.head.data.goal?.completed_on ? ' focused-complete' : ''}`}>
         <section className='goal-details'>
           {goalStructure.head.data.goal && <FocusedGoal goal={goalStructure.head.data.goal} />}
         </section>

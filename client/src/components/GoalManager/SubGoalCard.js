@@ -3,7 +3,7 @@ import './GoalManager.scss';
 export default function SubGoalCard(props) {
   const { subGoal } = props;
   return (
-    <div key={subGoal.id} className={`SubGoalCard${subGoal.completed_on ? ' completed' : ''}`}>
+    <div key={subGoal.id} className={`SubGoalCard${subGoal.completed_on ? ' child-complete' : ''}`}>
     {/* <div key={subGoal.id} className='SubGoalCard' onClick={event => {event.stopPropagation(); props.onClick(); }}> */}
       <header className='sub-header'><h3 onClick={event => {
         event.stopPropagation();
@@ -18,7 +18,7 @@ export default function SubGoalCard(props) {
         </progress></p>
         <p>{!subGoal.completed_on ? (subGoal.due_date ? `Deadline: ${new Date(subGoal.due_date).toLocaleDateString('en-CA')}` : 'No Deadline') : (`Completed on: ${new Date(subGoal.completed_on).toLocaleDateString('en-CA')}`)}</p>
       </div>
-      <footer><button className='card-btn edit-btn' onClick={props.onEdit}>Edit</button><button className='card-btn delete-btn' onClick={props.onDelete}>Delete</button></footer>
+      {props.parentIncomplete && <footer><button className='card-btn edit-btn' onClick={props.onEdit}>Edit</button><button className='card-btn delete-btn' onClick={props.onDelete}>Delete</button></footer>}
     </div>
   );
 }

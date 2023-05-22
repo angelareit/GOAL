@@ -228,7 +228,7 @@ app.get('/progress', async (req, res) => {
     console.log(d.toISOString());
     const sub_goals = await prisma.sub_goals.findMany({
       where: {
-        main_goal_id: { in: [1, 2, 3] },
+        main_goal_id: { in: [6,7] },
         completed_on: {
           gte: d.toISOString()
         },

@@ -14,9 +14,9 @@ export default function Home() {
   return (
     <main className="Home">
       <LeftSidebar />
-{/*       {activeGoal ? <h3>HERE  </h3>: <CreateGoalPrompt />}
+     {/*  {activeGoal ? <h3>HERE  </h3>: <CreateGoalPrompt />} */}
       {activeGoal ? <GoalManager /> : <CreateGoalPrompt />}
- */}
+
       <RightSidebar />
     </main>
   );

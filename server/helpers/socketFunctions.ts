@@ -6,17 +6,17 @@ const socketFunctions = function(io, prisma) {
   io.on('connection', socket => {
     const id = socket.handshake.auth.user;
     // If for some reason a user connects to our socket without being logged in (which shouldn't happen), disconnect them.
-    if(!id) {
+    if (!id) {
       return io.disconnect();
     }
     users[id] = socket.id;
     console.log(users);
 
     //Update the user's buddy that they just got online
-    updateBuddy(socket, id);
+    // updateBuddy(socket, id);
 
     //Retrieve message history
-    getMessages(socket, id);
+    // getMessages(socket, id);
 
     // Event listener for when the user sends a message
     socket.on('MESSAGE_SEND', async payload => {
@@ -31,8 +31,28 @@ const socketFunctions = function(io, prisma) {
         });
     });
 
+    socket.on('MESSAGE_DELETE', async payload => {
+      console.log(payload);
+      return prisma.messages.update({
+        where: {
+          id: payload.id
+        },
+        data: {
+          is_deleted:true 
+        }
+      }).then(() => {
+        socket.to(users[payload.receiver_id]).emit('MESSAGE_DELETE', { message: payload });
+      }).catch(err => {
+        console.log(err);
+      });
+    });
+
     socket.on('GET_BUDDY_INFO', payload => {
       updateBuddy(socket, id);
+    });
+
+    socket.on('MESSAGE_HISTORY', payload => {
+      getMessages(socket, id);
     })
 
     //Remove the user object from the users array upon disconnection to clean up the session and update their buddy
@@ -41,8 +61,8 @@ const socketFunctions = function(io, prisma) {
       // Find user ID of the user who got disconnected
       const userID = Object.keys(users).find(key => users[key] === socket.id);
       console.log(userID);
-      
-      if(!userID) {
+
+      if (!userID) {
         return;
       }
       // Find their buddy
@@ -74,7 +94,7 @@ const socketFunctions = function(io, prisma) {
     if (!user.buddy_id) {
       return;
     }
-    
+
     const buddy = await prisma.users.findUnique({
       where: {
         id: user.buddy_id
@@ -96,6 +116,9 @@ const socketFunctions = function(io, prisma) {
   const getMessages = async function(socket, id) {
     const messages = await prisma.messages.findMany({
       where: {
+        NOT :{
+          is_deleted: true
+        },
         OR: [
           {
             sender_id: id
@@ -105,18 +128,18 @@ const socketFunctions = function(io, prisma) {
           }
         ]
       },
-      select: {
-        sender_id: true,
-        content: true,
-        created_at: true
-      },
+      // select: {
+      //   sender_id: true,
+      //   content: true,
+      //   created_at: true
+      // },
       orderBy: {
         created_at: "asc"
       }
     });
     socket.emit('MESSAGE_HISTORY', messages);
   };
-  
+
 };
 
 export default socketFunctions;

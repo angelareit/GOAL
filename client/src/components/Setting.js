@@ -29,7 +29,7 @@ const Setting = () => {
 
   return (
     <span>
-      <h1>SETTING</h1>
+      <h1>SETTINGS</h1>
     {
       userState.buddy_availability ? (
         <div>

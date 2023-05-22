@@ -12,7 +12,6 @@ export default function MainGoalList(props) {
   function onSelectMainGoal(goal)
   {
     dispatch(setActiveGoal(goal));
-    dispatch(setNewGoalManager(goal.id));
   }
   const mainGoals = props.goals.map((goal) => {
     return <MainGoalItem

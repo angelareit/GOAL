@@ -6,7 +6,7 @@ export const sessionSlice = createSlice({
     user: null,
     buddy: { id: null, name: null, online: null },
     buddyProgress: {},
-    interests: [],
+    interests: {},
     mainGoals: [],
   },
   reducers: {

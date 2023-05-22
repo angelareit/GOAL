@@ -8,16 +8,21 @@ const Setting = () => {
   const buddyState = useSelector(state => state.session.buddy);
   const userState = useSelector((state) => state.session.user);
 
+  const [isAvailable, setIsAvailable] = useState(userState.buddy_availability);
+
+  
   const availabilityOn = (evt) => {
     // evt.preventDefault();
     axios.post('/setting/availability', { avilability: true });
-    alert('Your are available as accountability buddy.')
+    setIsAvailable(true);
+    // alert('Your are available as accountability buddy.')
   };
 
   const availabilityOff = (evt) => {
     // evt.preventDefault();
     axios.post('/setting/availability', { avilability: false });
-    alert('Your are no longer available as accountability buddy.')
+    setIsAvailable(false);
+    // alert('Your are no longer available as accountability buddy.')
 
   };
   
@@ -31,7 +36,7 @@ const Setting = () => {
     <span>
       <h1>SETTINGS</h1>
     {
-      userState.buddy_availability ? (
+      isAvailable ? (
         <div>
         <p>You are available as an accountability buddy.</p>
         <button className="btn" onClick={availabilityOff}>Turn off availability</button>
@@ -44,7 +49,7 @@ const Setting = () => {
       )
     }
   <div>
-    <h3>Update your interest and pair with accountability buddy!</h3>
+    <h5>Update your interest helps to better your connection </h5>
     <button className="btn" type='submit' onClick={()=>updateInterest(1)}>Health & Fitness</button>
     <button className="btn" type='submit' onClick={()=>updateInterest(2)}>Job & Career</button>
     <button className="btn" type='submit' onClick={()=>updateInterest(3)}>Travel</button>

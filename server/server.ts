@@ -35,11 +35,13 @@ app.use(cookieParser());
 import requestRoutes from './routes/request';
 import searchRoutes from './routes/search';
 import subGoalRoutes from './routes/goalManager';
+import settingRoutes from './routes/setting'
 
 //mount search route
 app.use('/search', searchRoutes);
 app.use('/request', requestRoutes);
 app.use('/subgoal', subGoalRoutes);
+app.use('/setting', settingRoutes);
 
 import socketFunctions from './helpers/socketFunctions';
 import { type } from 'os';

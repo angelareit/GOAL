@@ -13,9 +13,6 @@ export default function Search(props) {
   const buddyState = useSelector(state => state.session.buddy);
   const userState = useSelector((state) => state.session.user);
 
-  console.log('This is userstate', userState.buddy_availability
-  );
-
   return (
 
     buddyState.id ? (<></>) : (

@@ -16,7 +16,7 @@ export default function Progress(props) {
   }, []);
 
 
-  let bars = buddyProgressState.goalCounts.map(mainGoal => {
+  let progressBars = buddyProgressState.goalCounts.map(mainGoal => {
     let value = (mainGoal.completed_count / mainGoal.total_count) * 100;
     console.log('MainGoal:', mainGoal.main_goal_id, value);
     return <ProgressCard title={mainGoal.main_goal_title} barValue={value} barMax={100} recentHistory={buddyProgressState.subGoalHistory[mainGoal.main_goal_id]}/>
@@ -28,8 +28,7 @@ export default function Progress(props) {
 
   return (
     <div className="progress">
-      <h3>buddyProgressState</h3>
-      {bars}
+      {progressBars}
     </div>
   )
 }

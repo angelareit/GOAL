@@ -1,3 +1,7 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+
 .BuddyView {
   height: 100%;
   display: flex;
@@ -14,16 +18,53 @@
 .progress {
   display: flex;
   flex-direction: column;
-  background-color: rgb(205, 120, 11);
 
-  .progress-card{
+
+  .progress-card {
     display: flex;
     flex-direction: column;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+
+    h3 {
+      margin: 0;
+      display: block;
+      text-align: left;
+    }
+
+    progress {
+      -webkit-appearance: none;
+      padding: 5px;
+      width: 100%;
+    }
+
+    .progress1::-webkit-progress-bar {
+      border-radius: 5px;
+      background-color: $secondary3;
+      height: 10px;
+    }
+
+    .progress1::-webkit-progress-value {
+      border-radius: 5px;
+      background-color: $secondary2;
+    }
+
+    .subgoal-history {
+      padding: 5px;
+
+      .subgoal-history-entry {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-style: italic;
+        color: $text-color-secondary;
+        font-size: 0.875em;
+      }
+    }
+
+
   }
 
-  .subgoal-history-entry {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+
 }

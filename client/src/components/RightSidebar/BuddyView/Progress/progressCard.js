@@ -24,7 +24,7 @@ export default function ProgressCard(props) {
   function displayHistory() {
     let history;
     if (!props.recentHistory) {
-      return <div className='subgoal-history-entry'><span>No Recent Activity</span> </div>; 
+      return <div className='subgoal-history-entry'><span>No Recent Activity</span> </div>;
     }
     else {
     }
@@ -35,15 +35,17 @@ export default function ProgressCard(props) {
         <span>{getRelativeTime(new Date(subGoal.completed_on).getTime())}</span>
       </div>
     });
-   return  history.slice(- 5);
+    return history.slice(- 5);
   }
 
 
   return (
     <div className="progress-card">
-      <span>{props.title}</span>
-      <progress value={props.barValue} max={props.barMax}> {props.barValue} </progress>
-      {displayHistory()}
+      <h3>{props.title}</h3>
+      <progress className='progress1' value={props.barValue} max={props.barMax}> {props.barValue} </progress>
+      <div className='subgoal-history'>
+        {displayHistory()}
+      </div>
     </div>
   )
 }

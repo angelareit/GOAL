@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import './Search.scss'
 
 const IncomingRequests = () => {
   const [incomingRequests, setIncomingRequests] = useState([]);
@@ -49,7 +50,7 @@ const IncomingRequests = () => {
   };
 
   return (
-    <span>
+    <span className="search-list">
       {incomingRequests?.length !== 0 && (
      <>
      <h3>{incomingResponse}</h3>
@@ -57,7 +58,7 @@ const IncomingRequests = () => {
        <>
          <p>Incoming Requests</p>
          {incomingRequests.map((incomingRequest) => (
-           <div key={incomingRequest.id}>
+           <div key={incomingRequest.id} className='list-item'>
              <p>From User: {incomingRequest.users_buddy_requests_from_userTousers.username}</p>
              <p>{incomingRequest.message}</p>
              <form onSubmit={handleAccept}>
@@ -65,14 +66,14 @@ const IncomingRequests = () => {
                  value={[incomingRequest.id, incomingRequest.from_user]}
                  type="hidden"
                />
-               <button >Accept</button>
+               <button class='btn'>Accept</button>
              </form>
              <form onSubmit={handleReject}>
                <input
                  value={incomingRequest.id}
                  type="hidden"
                />
-               <button>Reject</button>
+               <button class ='btn'>Reject</button>
 
              </form>
            </div>

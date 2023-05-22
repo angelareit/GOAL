@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'
-
-
+import axios from 'axios';
+import './Search.scss';
 
 const SearchByInterest = () => {
   const [interestMatches, setInterestMatches] = useState([])
@@ -21,18 +20,18 @@ const SearchByInterest = () => {
   }, []);
 
   return(
-    <div className=''>
-    <h5>These users share your interest. Connect with them and motivate eachother</h5>
+    <div class='search-list'>
+    <h4>These users share your interest. Connect with them and motivate eachother</h4>
     {interestMatches.map((interestMatch)=>(
    
-      <li key={interestMatch.id}>
-        {   console.log(interestMatch)}
-      <div>{interestMatch.username}</div>
+      <li key={interestMatch.id} className='list-item'>
+      <h4>{interestMatch.username}</h4>
       <div>{interestMatch.interest.map(item => {
         return (<div>
           {console.log(item.name)}
           {item.name}</div>)
       })}</div>
+    <button class='btn'>Send Request</button>
       </li>
     )
 

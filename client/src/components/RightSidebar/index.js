@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 import BuddyView from './BuddyView';
-import Search from '../Search/Search';
+import Search from '../Search/';
 
 
 export default function RightSidebar(props) {

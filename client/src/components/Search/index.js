@@ -19,7 +19,7 @@ export default function Search(props) {
   return (
 
     buddyState.id ? (<></>) : (
-      <span>
+      <div className="Search">
         <NoBuddy />
         {userState.buddy_availability ? (<>
           <SearchBar />
@@ -28,7 +28,7 @@ export default function Search(props) {
         </>) :
           (<Availability />)
         }
-      </span>
+      </div>
     )
   );
 }

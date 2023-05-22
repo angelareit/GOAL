@@ -19,7 +19,10 @@ function Chat() {
 
   const messageBox = useRef(null);
 
-  const scrollToBottom = function() {
+  const scrollToBottom = function(instant) {
+    if(instant) {
+      return messageBox.current?.scrollIntoView({ behavior: 'instant' });
+    }
     messageBox.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -40,6 +43,10 @@ function Chat() {
   
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    scrollToBottom(true);
   }, [messages]);
 
   const renderedMessages = messages.map((m, i) => {

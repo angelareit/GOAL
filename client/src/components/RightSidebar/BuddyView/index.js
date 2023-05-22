@@ -1,7 +1,7 @@
 import React from 'react';
 import './BuddyView.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useSelector, useDispatch } from 'react-redux';
 import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
 
@@ -11,7 +11,7 @@ import Progress from './Progress';
 
 function BuddyView(props) {
   const viewState = useSelector((state) => state.viewManager.rightSideBar);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
 
   return (
@@ -19,9 +19,11 @@ function BuddyView(props) {
       <BuddyStatus />
       <div className='tabs'>
         <FontAwesomeIcon
+          className={`${viewState.currentTab === 'buddy-progress' ? 'active' : ''}`}
           onClick={() => dispatch(showBuddyProgressPanel())}
           icon={solid("bars-progress")} />
         <FontAwesomeIcon
+          className={`${viewState.currentTab === 'buddy-chat' ? 'active' : ''}`}
           onClick={() => dispatch(showBuddyChatPanel())}
           icon={solid("comments")} />
       </div>
@@ -31,7 +33,7 @@ function BuddyView(props) {
         </>}
       {viewState.currentTab === 'buddy-progress' &&
         <>
-         <Progress/>
+          <Progress />
         </>}
     </div>
   );

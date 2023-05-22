@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './Search.scss';
 
 const SearchBar = () => {
   const[searchValue, setSearchValue] = useState("")
@@ -35,7 +36,7 @@ const SearchBar = () => {
   }
   
   return (
-    <>
+    <span className='search-list'>
       <form onSubmit={(evt) => onSubmit(evt)}>
         <input
           key="search-bar"
@@ -43,7 +44,7 @@ const SearchBar = () => {
           placeholder={"Find buddy by username"}
           onChange={(evt) => onChange(evt)}
         />
-        <button>Search</button>
+        <button class='btn'>Search</button>
       </form>
 
       {buddyName.username === "" ? (
@@ -58,13 +59,13 @@ const SearchBar = () => {
           value={buddyName.username}
           type="hidden"
         />
-        <button>Send Request</button>
+        <button class='btn'>Send Request</button>
         </form>
       )}
 
       <span>
         {successMessage}
       </span>
-    </>
+    </span>
   );}
 export default SearchBar;

@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import './LeftSidebar.scss'
 import axios from "axios";
-import { setUser } from '../../features/sessionSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import CreateMainGoal from './CreateMainGoal'
 import MainGoalList from './MainGoalList';

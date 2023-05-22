@@ -12,5 +12,18 @@
 }
 
 .progress {
+  display: flex;
+  flex-direction: column;
   background-color: rgb(205, 120, 11);
+
+  .progress-card{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subgoal-history-entry {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

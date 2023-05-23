@@ -9,8 +9,24 @@
   width: 100%;
   height: calc(100vh - $navbar-height);
   background-color: $main4;
-
 }
+
+.CreateGoalPrompt {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $main7;
+}
+
+.call-to-action {
+  color: $green3;
+}
+.call-to-action:hover {
+  cursor: pointer;
+}
+
+
 .goal-manager {
   flex-grow: 3;
 }

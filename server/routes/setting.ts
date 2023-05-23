@@ -30,6 +30,28 @@ router.post('/availability', async (req,res) => {
   }
 })
 
+router.get('/interest', async (req, res) => {
+  try {
+    const userToken = await jwt.verify(req.cookies.token, process.env.SECRET);
+    
+    const resultObj = await prisma.interests.findMany({
+      where: { user_id: userToken.id },
+      select: {
+        category_id: true,
+      },
+    });
+    const result = resultObj.map(item => item.category_id);
+
+    console.log(result);
+    
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error retrieving interests:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 router.post('/interest', async (req,res) => {
   const i_id = req.body.interest_id
   const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
@@ -44,8 +66,7 @@ router.post('/interest', async (req,res) => {
       where: { user_id: userToken.id },
       select: {
         category_id: true,
-      },
-  
+      }, 
     });
     console.log(result);
     const exists = result.some(obj => obj.category_id === i_id);
@@ -73,15 +94,12 @@ router.post('/interest', async (req,res) => {
             user_id: userToken.id,
             category_id: i_id
           },
-        });
-    
+        });   
         console.log('Interest added:', addInterest);
       } catch (error) {
         console.error('Error adding interest:', error);
       }
     }
-
-
   }
   catch (error) {
     console.error(error);

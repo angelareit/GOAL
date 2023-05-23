@@ -82,7 +82,7 @@ router.post('/interest', async (req,res) => {
         });
     
         console.log('Interest deleted:', deleteInterest);
-        return (deleteInterest)
+        return res.json({status:"deleted", deleteInterest})
       } catch (error) {
         console.error('Error deleting interest:', error);
       }
@@ -96,6 +96,7 @@ router.post('/interest', async (req,res) => {
           },
         });   
         console.log('Interest added:', addInterest);
+        return res.json({status:"added", addInterest})
       } catch (error) {
         console.error('Error adding interest:', error);
       }

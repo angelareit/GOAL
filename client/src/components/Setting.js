@@ -26,28 +26,24 @@ const Setting = () => {
   };
   const updateInterest = (evt) => {
     // evt.preventDefault();
-    axios.post('/setting/interest', { interest_id: evt });
+    axios.post('/setting/interest', { interest_id: evt })
+    .then(response => {
+      if (response.data.status === 'added'){
+        console.log("print out added")
+        setData(prev => [... prev, evt])
+      } else {
+        console.log("print out deleted")
+        setData(prev => prev.filter(i => i !== evt))
+      }
+      console.log(response)
+    });
 
   };
 
   useEffect(() => {
     axios.get('/setting/interest')
       .then(response => {
-        console.log('response', response.data);
         setData(response.data);
-        console.log('data', data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, [updateInterest]);
-
-  useEffect(() => {
-    axios.get('/setting/interest')
-      .then(response => {
-        console.log('response', response.data);
-        setData(response.data);
-        console.log('data', data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);

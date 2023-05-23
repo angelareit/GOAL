@@ -16,6 +16,7 @@ export default function Notifications(props) {
       <div className='header'>
       <FontAwesomeIcon icon={regular("bell")} /> <h4> Notifications </h4>
       </div>
+      <span>Buddy Requests</span>
     </div>
   );
 }

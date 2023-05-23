@@ -3,21 +3,21 @@
 
 main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   flex: 3;
-  color: $primary1;
+  color: $main1;
 }
 input {
   margin: 3px;
   padding: 5px;
   border: none;
-  background-color: $background-color;
-  border-bottom: 2px solid $primary1;
+  background-color: white;
+  border-bottom: 2px solid $main1;
 }
 button[type=submit]
 {
-  @include button-3($bg-color: $dark-warm)
+  @include button-3;
 }
 
 .App {
@@ -26,7 +26,7 @@ button[type=submit]
   align-items: center;
   text-align: center;
   height: 100vh;
-  background-color: $background-color;
+  background-color: $main8;
   background-image: url("https://www.transparenttextures.com/patterns/blizzard.png");
 }
 
@@ -45,6 +45,6 @@ button[type=submit]
 
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-color: $primary1-05;
+  background-color: $main1;
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.233);
 } 

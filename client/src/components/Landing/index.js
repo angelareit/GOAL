@@ -2,9 +2,10 @@ import react, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './Landing.scss';
-import { setUser, setInterests, setBuddyProgress } from '../../features/sessionSlice';
+import { setUser, setInterests, fetchBuddyProgress } from '../../features/sessionSlice';
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
+import socket from '../../helpers/socketsHelper';
 
 import Login from './Login';
 import Register from './Register';
@@ -50,12 +51,15 @@ export default function Landing(props) {
       console.log(err);
     });
 
+   // socket.emit('BUDDY_PROGRESS_UPDATE',{ ... buddyState,});
+
+
     //Fetch buddy progress
     axios.get('/progress', { params: { userID: user.buddy_id } }
     ).then(res => {
       console.log('progress',res.data);
       if (res.data.success) {
-        dispatch(setBuddyProgress(res.data));
+        dispatch(fetchBuddyProgress(res.data));
       }
     }).catch((err) => {
       console.log(err);

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './GoalManager.scss';
 import axios from 'axios';
+import socket from '../../helpers/socketsHelper';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -13,6 +15,7 @@ import SubGoalForm from './SubGoalForm';
 // import { LinkedList } from '../../helpers/classes';
 import { useSelector, useDispatch } from 'react-redux';
 import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } from '../../features/goalManagerSlice';
+import { fetchBuddyProgress } from '../../features/sessionSlice';
 
 export default function GoalBoard(props) {
   const dispatch = useDispatch();
@@ -22,10 +25,11 @@ export default function GoalBoard(props) {
   const goalStructure = useSelector(state => state.goalManager.goalStructure);
   const newGoal = useSelector(state => state.goalManager.newGoal);
   const editingID = useSelector(state => state.goalManager.editing);
+  const buddyState = useSelector((state) => state.session.buddy);
 
   const [childRef, setChildRef] = useState(null);
 
-  const resetManagerSettings = function(){
+  const resetManagerSettings = function() {
     setChildRef(null);
     dispatch(setEditing(null));
   }
@@ -39,17 +43,25 @@ export default function GoalBoard(props) {
   };
 
   const updateSubGoal = function(i, updatedGoal) {
-    const subGoal = {...goalStructure.head.data};
+    const subGoal = { ...goalStructure.head.data };
     const children = [...subGoal.children];
     children[i] = updatedGoal;
     console.log(subGoal.goal.main_goal_id);
-    if(subGoal.goal.main_goal_id) {
+    if (subGoal.goal.main_goal_id) {
       const childrenIncomplete = children.filter(child => child.completed_on === null);
       subGoal.goal.childrenIncomplete = childrenIncomplete.length;
     }
 
     axios.put('/subgoal', { updatedGoal }).then(res => {
       dispatch(modifyHeadData({ ...subGoal, children: [...children] }));
+
+      //emit socket emit for fetchProgress
+      /*       if (updatedGoal.completed_on !== subGoal.goal.completed_on) {
+              console.log('i get here', buddyState.id);
+              socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
+            } */
+
+      socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
       console.log(updatedGoal);
     });
   };
@@ -61,9 +73,10 @@ export default function GoalBoard(props) {
     const subGoal = { ...goalStructure.head.data };
     const children = [...subGoal.children];
     axios.post('/subgoal', { newGoal }).then(res => {
-      console.log(res.data);
+      console.log('NEW SUB GOAL', res.data);
       newGoal.id = res.data.id;
       newGoal.created_at = res.data.created_at;
+      socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
       dispatch(modifyHeadData({ ...subGoal, children: [...children, newGoal] }));
     });
   };
@@ -89,6 +102,7 @@ export default function GoalBoard(props) {
       due_date: null,
       completed_on: null,
       priority: 50,
+      childrenIncomplete: 0,
       parent_id: subGoal.main_goal_id ? subGoal.id : null
     };
 

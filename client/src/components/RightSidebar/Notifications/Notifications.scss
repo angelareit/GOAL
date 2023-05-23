@@ -1,0 +1,24 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px;
+
+    h4 {
+      margin: 0px;
+      margin-left: 15px;
+      padding: 0px;
+    }
+  }
+
+
+}

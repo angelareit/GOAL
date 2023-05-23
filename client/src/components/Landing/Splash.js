@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import logo from '../../images/GOAL-Logo.svg';
 import './Landing.scss';
 
 
 export default function Splash(props) {
   return (
     <section className='Splash'>
-     
-    <img src=" https://cdn.dribbble.com/users/3050354/screenshots/14646894/media/1f31948afd5401c44d4bae934f07641a.gif"/>  
-    {/*       <img src="https://designbuffs.com/wp-content/uploads/2020/11/Boy-Working-From-Home.gif"/> */}    </section>
+      <header>
+        <img className='logo' src={logo} />
+        <h1>GOAL</h1>
+      </header>
+      <article>
+        <h2>Growth Organization Achievement Life</h2>
+<p>Our mission is to help you stay on track and finish what you set out to do and we’ve approached it from a personal and a social perspective. GOAL is a tool to help you organize and achieve your objective that much easier as well as help you get in touch with a single accountability buddy to encourage one another and to report to in order to help you stay on task and persist with your progress.</p>
+      </article>
+    </section>
   );
 }

@@ -87,7 +87,7 @@ app.get('/verify', async (req, res) => {
 
   //Since we're storing the hash in the token, here we can compare it directly without bcrypt
   if (!user || userToken.password !== user.password) {
-    console.log(user);
+    //console.log(user);
     return res.clearCookie("token").json({ success: false });
   }
   return res.json({ user, success: true });
@@ -124,7 +124,7 @@ app.post('/login', async (req, res) => {
   const passwordMatch = await bcrypt.compare(req.body.password, user.password);
   if (passwordMatch) {
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
-    console.log(token);
+    //console.log(token);
     return res.cookie("token", token).json({ success: true, user });
   }
   else {
@@ -139,7 +139,7 @@ app.post('/logout', (req, res) => {
 // API routes
 
 app.get('/api/interests/:id', async (req, res) => {
-  console.log(req.cookies.token);
+  //console.log(req.cookies.token);
   const interests = await prisma.interests.findMany({
     where: {
       user_id: Number(req.params.id)
@@ -177,17 +177,71 @@ app.delete('/interest/', async (req, res) => {
       }
     }
   });
-  console.log(result);
+  // console.log(result);
   res.json({ success: true });
 });
 
 app.get('/test', async (req, res) => {
+  let userID = 1;
+  if (true) {
+    const currentDate = new Date();
+    const d = new Date();
+    d.setDate(currentDate.getDate() - 14);
 
-  const result = await prisma.$queryRaw`SELECT CAST(COUNT(*) AS INT) as num, u2c_others.user_id FROM interests u2c_main JOIN interests u2c_others ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id WHERE u2c_main.user_id = ${1} GROUP BY u2c_others.user_id;`;
+    const subGoals = await prisma.sub_goals.findMany({
+      where: {
+        main_goals: {
+          user_id: userID ,
+        },
+        completed_on: {
+          gte: d.toISOString(),
+          not: null,
+        },
+      },
+      orderBy: {
+        completed_on: 'desc',
+      },
+    });
 
-  console.log(result);
+    const groupedSubGoals = subGoals.reduce((result, subGoal) => {
+      const { main_goal_id, ...rest } = subGoal;
+      if (!result[main_goal_id]) {
+        result[main_goal_id] = [];
+      }
+      result[main_goal_id].push(rest);
+      return result;
+    }, {});
 
-  return res.send(result);
+    const goal_counts = await prisma.main_goals.findMany({
+      where: {
+        user_id: userID ,
+      },
+      select: {
+        id: true,
+        title: true,
+        sub_goals: {
+          select: {
+            main_goal_id: true,
+            completed_on: true,
+          },
+          take: 5
+        },
+      },
+    });
+
+    const groupedGoalCounts = goal_counts.map((mainGoal) => ({
+      main_goal_id: mainGoal.id,
+      main_goal_title: mainGoal.title,
+      total_count: mainGoal.sub_goals.length,
+      completed_count: mainGoal.sub_goals.filter((subGoal) => subGoal.completed_on !== null).length,
+    }));
+
+
+    return res.json({ success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
 
 });
 
@@ -222,28 +276,67 @@ app.put('/mainGoals/new', async (req, res) => {
   }
 });
 
-app.get('/test', async (req, res) => {
+app.get('/progress', async (req, res) => {
 
-  const result = await prisma.$queryRaw
-    ` SELECT COUNT(*) as num, u2c_others.user_id
-   FROM interests u2c_main
-   JOIN interests u2c_others
-   ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
-   WHERE u2c_main.user_id = 1
-   GROUP BY u2c_others.user_id;
-    `;
-  console.log(typeof result, result);
+  if (req.query.userID) {
+    const currentDate = new Date();
+    const d = new Date();
+    d.setDate(currentDate.getDate() - 14);
 
-  return res.json({ success: true });
+    const subGoals = await prisma.sub_goals.findMany({
+      where: {
+        main_goals: {
+          user_id: Number(req.query.userID),
+        },
+        completed_on: {
+          gte: d.toISOString(),
+          not: null,
+        },
+      },
+      orderBy: {
+        completed_on: 'asc',
+      },
+    });
+
+    const groupedSubGoals = subGoals.reduce((result, subGoal) => {
+      const { main_goal_id, ...rest } = subGoal;
+      if (!result[main_goal_id]) {
+        result[main_goal_id] = [];
+      }
+      result[main_goal_id].push(rest);
+      return result;
+    }, {});
+
+    const goal_counts = await prisma.main_goals.findMany({
+      where: {
+        user_id: Number(req.query.userID),
+      },
+      select: {
+        id: true,
+        title: true,
+        sub_goals: {
+          select: {
+            main_goal_id: true,
+            completed_on: true,
+          },
+          take: 5
+        },
+      },
+    });
+
+    const groupedGoalCounts = goal_counts.map((mainGoal) => ({
+      main_goal_id: mainGoal.id,
+      main_goal_title: mainGoal.title,
+      total_count: mainGoal.sub_goals.length,
+      completed_count: mainGoal.sub_goals.filter((subGoal) => subGoal.completed_on !== null).length,
+    }));
 
 
+    return res.json({ success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
 });
-/* 
-SELECT COUNT(*) as num, u2c_others.user_id
-FROM user_categories u2c_main
-JOIN user_categories u2c_others
-ON u2c_others.category_id = u2c_main.category
-WHERE u2c_main.user_id = 7
-GROUP BY u2c_others.user_id; 
- */
+
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT} `));

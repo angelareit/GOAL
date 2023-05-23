@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../images/GOAL-Logo.svg';
 import './Navbar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
@@ -31,7 +32,8 @@ export default function Navbar(props) {
             icon={icon({ name: "bars-staggered" })}
           />
         }
-        <h1>Project X</h1>
+        <img className='logo' src={logo}/>
+        <h1>GOAL</h1>
       </div>
       <div>
         {username &&

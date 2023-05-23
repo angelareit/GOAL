@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import './LeftSidebar.scss'
 import axios from "axios";
-import { setUser } from '../../features/sessionSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import CreateMainGoal from './CreateMainGoal'
 import MainGoalList from './MainGoalList';
@@ -29,7 +28,6 @@ export default function LeftSidebar(props) {
   return (
     drawerState.visibility &&
     <section className="left-sidebar">
-      <h3>{drawerState.currentView}</h3>
       <MainGoalList goals={mainGoalState} active={activeGoal} />
       <CreateMainGoal />
     </section>

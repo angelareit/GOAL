@@ -6,7 +6,7 @@
   display: flex;
   position: fixed;
   width: 98vw;
-  background-color: $light-cool;
+  background-color: $background-color;
   justify-content: space-between;
   padding-left: 1vw;
   padding-right: 1vw;
@@ -22,9 +22,14 @@
     padding: 0px;
 
     h1 {
-      margin: 10px;
+      margin: 0.1em;
       color: $primary1;
     }
+  }
+
+  img {
+    width: 2em;
+    filter: invert(15%) sepia(11%) saturate(7274%) hue-rotate(170deg) brightness(96%) contrast(102%);
   }
 
   .dropdown {
@@ -87,7 +92,7 @@
     &:hover {
       border: 2px solid transparent;
       background-color: $secondary3;
-      color:  $primary1;
+      color: $primary1;
     }
   }
 
@@ -100,7 +105,7 @@
 
     &:hover {
       background-color: $secondary3;
-      color:  $primary1;
+      color: $primary1;
     }
   }
 

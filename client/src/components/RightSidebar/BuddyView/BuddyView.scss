@@ -1,3 +1,7 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+
 .BuddyView {
   height: 100%;
   display: flex;
@@ -7,5 +11,82 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 1em;
+    padding: 0.5em;
+    svg {
+      padding: 0.2em;
+      border-radius: 5px;
+    }
+    :hover {
+      background-color: $dark-cool;
+      color: $light-cool;
+      cursor: pointer;
+    }
+    .active {
+      background-color: $dark-cool;
+      color: $light-cool;
+    }
   }
+
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+
+  h3 {
+    margin: 0;
+    display: block;
+    font-style: italic;
+    color: $text-color-secondary;
+    font-size: 0.875em;
+  } 
+
+  .progress-card {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+
+    h3 {
+      margin: 0;
+      display: block;
+      text-align: left;
+    }
+
+    progress {
+      -webkit-appearance: none;
+      padding: 5px;
+      width: 100%;
+    }
+
+    .progress1::-webkit-progress-bar {
+      border-radius: 5px;
+      background-color: $secondary3;
+      height: 10px;
+    }
+
+    .progress1::-webkit-progress-value {
+      border-radius: 5px;
+      background-color: $secondary2;
+    }
+
+    .subgoal-history {
+      padding: 5px;
+
+      .subgoal-history-entry {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-style: italic;
+        color: $text-color-secondary;
+        font-size: 0.775em;
+      }
+    }
+
+
+  }
+
+
 }

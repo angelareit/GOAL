@@ -7,19 +7,20 @@
   flex-direction: column;
   align-items: center;
   overflow-y: scroll; 
-  box-shadow: inset 0px 10px 16px #0008;
-
+  padding-bottom: 1em;
+  box-shadow: inset 0px 10px 64px #0005;
 
   .focused-goal {
     margin: 0px 20px 0px 20px;
     max-width: 80em;
     padding: 20px;
-    border-radius: 30px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(255, 111, 0);
-    box-shadow: 0px 5px 10px #0008;
+    background-color: $main5;
+    box-shadow: 0px 5px 32px #0003;
+    border: $border-lines;
   }
 
   .focused-complete {
@@ -35,55 +36,57 @@
   }
 
   .add {
+    
     width: 20em;
     height: 15em;
     // margin: 0.5em;
     display: flex;
-    background-color: adjust-color($color: $light-warm, $alpha: -0.6);
-    color: $light-warm;
+    background-color: adjust-color($color: $main7, $alpha: -0.6);
+    color: $main8;
     justify-content: center;
     align-items: center;
     font-size: medium;
     font-weight: bold;
     border: none;
-    border-radius: 10px;
-
+    border-radius: 3px;
+    border: $border-lines;
+    
     .plus {
       font-size: 6em; 
     }
   }
 
   .add:hover {
-    background-color: adjust-color($color: $light-warm, $alpha: -0.4);
+    background-color: adjust-color($color: $main7, $alpha: -0.4);
     cursor: pointer;
   }
 
   .up {
     border-radius: 50%;
-    margin: 1em;
+    margin: 0.5em;
     border: none;
     min-width: 4em;
     min-height: 4em;
     font-weight: bold;
-    background-color:tomato;
-    color: $light-warm;
-    box-shadow: 0px 5px 10px #0008;
+    background-color:$red3;
+    color: $main8;
+    box-shadow: 0px 5px 10px #0003;
   }
   .up:hover {
-    background-color: adjust-color($color: tomato, $lightness: +10%);
-    color: adjust-color($color: $light-warm, $lightness: +10%);
+    background-color: adjust-color($color: $red3, $lightness: +10%, $saturation: +20%);
+    color: adjust-color($color: $main8, $lightness: +10%);
     cursor: pointer;
   }
   .up:active {
-    background-color: adjust-color($color: tomato, $lightness: -10%);
-    color: adjust-color($color: $light-warm, $lightness: -10%);
+    background-color: adjust-color($color: $red3, $lightness: -10%, $saturation: +20%);
+    color: adjust-color($color: $main8, $lightness: -10%);
   }
 }
 
 .GoalStructure {
   margin: 10px;
   font-weight: bold;
-  color: $light-cool;
+  color: $main6;
 }
 
 .FocusedGoal {
@@ -94,7 +97,7 @@
   h1 {
     font-size: 30px;
     margin: 0px;
-    color: rgb(255, 243, 135);
+    color: $main8;
   }
 
   .details {
@@ -113,6 +116,8 @@
 }
 
 .SubGoalCard {
+  border: $border-lines;
+
   font-size: medium;
   width: 19em;
   height: 14em;
@@ -120,9 +125,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: $dark-cool;
-  background-color: $light-warm;
-  border-radius: 10px;
+  color: $main2;
+  background-color: $main7;
+  border-radius: 3px;
 
   p {
     margin: 0%;
@@ -138,15 +143,15 @@
   }
 
   progress::-moz-progress-bar {
-    background: $medium-cool;
+    background: $main4;
   }
 
   progress::-webkit-progress-value {
-    background: $medium-cool;
+    background: $main4;
   }
 
   progress::-webkit-progress-bar {
-    background: $medium-cool;
+    background: $main4;
   }
 
   header,
@@ -195,7 +200,7 @@
   flex-grow: 1;
   padding: 5px;
   outline: none;
-  color: $light-warm;
+  color: $main8;
   font-weight: 600;
   border: 1px solid #0003;
   border-radius: 5px;
@@ -206,39 +211,41 @@
 }
 
 .edit-btn {
-  background-color: seagreen;
+  background-color: $green2;
 }
 
 .edit-btn:hover {
-  background-color: rgb(83, 190, 129);
+  background-color: $green3;
 }
 
 .edit-btn:active {
-  background-color: rgb(25, 101, 58);
+  background-color: $green1;
 }
 
 .delete-btn {
-  background-color: tomato;
+  background-color: $red2;
 }
 
 .delete-btn:hover {
-  background-color: rgb(255, 160, 122);
+  background-color: $red3;
 }
 
 .delete-btn:active {
-  background-color: rgb(201, 65, 41);
+  background-color: $red1;
 }
 
 .SubGoalForm {
+  border: $border-lines;
+
   width: 19em;
   height: 14em;
   padding: 0.5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: $dark-cool;
-  background-color: $light-warm;
-  border-radius: 10px;
+  color: $main2;
+  background-color: $main8;
+  border-radius: 3px;
 
   .form-container {
     display: flex;

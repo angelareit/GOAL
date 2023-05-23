@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { useSelector, useDispatch } from 'react-redux';
 import { addNewGoal } from '../../../features/mainGoalSlice';
+
 import useVisualMode from "../../../hooks/useVisualMode.js";
 import './CreateMainGoal.scss'
 import Form from "./Form";
 import Header from "./Header";
+import socket from '../../../helpers/socketsHelper';
 
 
 const CREATE = "CREATE";
@@ -21,15 +23,19 @@ export default function CreateMainGoal(props) {
   const { mode, transition, back } = useVisualMode(SHOW);
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.session.user);
+  const buddyState = useSelector((state) => state.session.buddy);
+
 
   function saveGoal(mainGoal) {
     transition(SAVING);
+
     axios.put(`/mainGoals/new`, { goal: mainGoal, userID: userState.id })
       .then((res) => {
         //update redux state for mainGoals
         if (res.data.success) {
           console.log('NEW HERE', res.data.result);
           dispatch(addNewGoal(res.data.result));
+          socket.emit('BUDDY_PROGRESS_UPDATE',{ ... buddyState,});
           transition(SHOW);
         }
       }).catch((err) => {

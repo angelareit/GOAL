@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 //Get all children
 router.get('/', async (req, res) => {
   const goal = req.query.goal;
-  console.log(req.query);
+  //console.log(req.query);
   const goalID = Number(goal.id);
   const isMainGoal = !goal.main_goal_id;
   let childrenGoals = null;
@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
     return {...subgoal, childrenIncomplete: childrenIncomplete._count.id };
   }));
 
-  console.log(childrenGoals);
+ // console.log(childrenGoals);
 
   res.send({ children: childrenGoals });
 });
@@ -89,7 +89,7 @@ router.put('/', async (req, res) => {
       priority: updatedGoal.priority
     }
   });
-  console.log(check);
+ // console.log(check);
   res.send("Success!");
 
 });
@@ -122,7 +122,7 @@ router.post('/reparent', async (req, res) => {
       parent_id: parent.id
     }
   });
-  console.log(check);
+ //console.log(check);
   return res.send(`Goal relationship changed to ${check}`);
 
 
@@ -140,7 +140,7 @@ router.post('/', async (req, res) => {
       due_date: newGoal.due_date,
     }
   });
-  console.log(createdGoal);
+  console.log('SUB GOAL', createdGoal);
   if (newGoal.parent_id) {
     await prisma.goal_relationship.create({
       data: {

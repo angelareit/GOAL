@@ -13,18 +13,19 @@
     justify-content: center;
     gap: 1em;
     padding: 0.5em;
+    font-size: 1.5em;
     svg {
       padding: 0.2em;
       border-radius: 5px;
     }
     :hover {
-      background-color: $dark-cool;
-      color: $light-cool;
+      background-color: $main2;
+      color: $main7;
       cursor: pointer;
     }
     .active {
-      background-color: $dark-cool;
-      color: $light-cool;
+      background-color: $main2;
+      color: $main7;
     }
   }
 
@@ -38,7 +39,7 @@
     margin: 0;
     display: block;
     font-style: italic;
-    color: $text-color-secondary;
+    color: $main1;
     font-size: 0.875em;
   } 
 
@@ -63,13 +64,13 @@
 
     .progress1::-webkit-progress-bar {
       border-radius: 5px;
-      background-color: $secondary3;
+      background-color: $main8;
       height: 10px;
     }
 
     .progress1::-webkit-progress-value {
       border-radius: 5px;
-      background-color: $secondary2;
+      background-color: $main6;
     }
 
     .subgoal-history {
@@ -80,7 +81,7 @@
         flex-direction: row;
         justify-content: space-between;
         font-style: italic;
-        color: $text-color-secondary;
+        color: tomato;
         font-size: 0.775em;
       }
     }

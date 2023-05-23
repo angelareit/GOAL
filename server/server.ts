@@ -35,6 +35,7 @@ app.use(cookieParser());
 import requestRoutes from './routes/request';
 import searchRoutes from './routes/search';
 import subGoalRoutes from './routes/goalManager';
+import settingRoutes from './routes/setting'
 import mainGoalRoutes from './routes/mainGoal';
 
 
@@ -42,6 +43,7 @@ import mainGoalRoutes from './routes/mainGoal';
 app.use('/search', searchRoutes);
 app.use('/request', requestRoutes);
 app.use('/subgoal', subGoalRoutes);
+app.use('/setting', settingRoutes);
 app.use('/mainGoals', mainGoalRoutes);
 
 

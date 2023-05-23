@@ -42,8 +42,8 @@ export const sessionSlice = createSlice({
       return { ...state, mainGoals: action.payload };
     },
     //BUDDY PROGRESS
-    setBuddyProgress: (state, action) => {
-      console.log('buddy progress',action.payload);
+    fetchBuddyProgress: (state, action) => {
+      console.log('buddy progress reducer', action.payload);
       return { ...state, buddyProgress: { ...action.payload } };
     },
 
@@ -51,5 +51,5 @@ export const sessionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBuddy, setInterests, updateInterest, resetSession, setBuddyProgress } = sessionSlice.actions;
+export const { setUser, setBuddy, setInterests, updateInterest, resetSession, fetchBuddyProgress } = sessionSlice.actions;
 export default sessionSlice.reducer;

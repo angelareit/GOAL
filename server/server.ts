@@ -191,13 +191,13 @@ app.get('/test', async (req, res) => {
         main_goals: {
           user_id: userID ,
         },
-        completed_on: {
+        updated_at: {
           gte: d.toISOString(),
           not: null,
         },
       },
       orderBy: {
-        completed_on: 'desc',
+        updated_at: 'desc',
       },
     });
 
@@ -274,7 +274,7 @@ app.put('/mainGoals/new', async (req, res) => {
   }
 });
 
-app.get('/progress', async (req, res) => {
+ app.get('/progress', async (req, res) => {
 
   if (req.query.userID) {
     const currentDate = new Date();
@@ -286,13 +286,13 @@ app.get('/progress', async (req, res) => {
         main_goals: {
           user_id: Number(req.query.userID),
         },
-        completed_on: {
+        updated_at: {
           gte: d.toISOString(),
           not: null,
         },
       },
       orderBy: {
-        completed_on: 'asc',
+        updated_at: 'asc',
       },
     });
 
@@ -335,6 +335,6 @@ app.get('/progress', async (req, res) => {
   else {
     return res.json({ success: false });
   }
-});
+}); 
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT} `));

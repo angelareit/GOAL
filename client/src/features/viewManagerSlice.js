@@ -44,11 +44,9 @@ export const viewManagerSlice = createSlice({
     },
     showBuddyChatPanel: (state) => {
       state.rightSideBar = { ...state.rightSideBar, visibility: true, currentTab: 'buddy-chat' };
-      console.log('CHATSTATE',state.rightSideBar );
     },
     showBuddyProgressPanel: (state) => {
       state.rightSideBar = { ...state.rightSideBar, visibility: true, currentTab: 'buddy-progress' };
-      console.log('PROGRESSSTATE',state.rightSideBar.currentTab );
     },
     showRightSideBarContent: (state, action) => {
       state.rightSideBar = {  ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: action.payload };

@@ -25,8 +25,8 @@ const socketFunctions = function(io, prisma) {
         data: { ...payload }
       })
         .then(data => {
-          console.log(data);
-          console.log(users[payload.receiver_id]);
+          //console.log(data);
+          //console.log(users[payload.receiver_id]);
           socket.to(users[payload.receiver_id]).emit('MESSAGE_RECEIVE', data);
         });
     });
@@ -38,7 +38,7 @@ const socketFunctions = function(io, prisma) {
           id: payload.id
         },
         data: {
-          is_deleted:true 
+          is_deleted: true
         }
       }).then(() => {
         socket.to(users[payload.receiver_id]).emit('MESSAGE_DELETE', { message: payload });
@@ -54,6 +54,13 @@ const socketFunctions = function(io, prisma) {
     socket.on('MESSAGE_HISTORY', payload => {
       getMessages(socket, id);
     })
+
+    socket.on('BUDDY_PROGRESS_UPDATE', async payload => {
+      console.log('SERVER PROGRESS', payload.id);
+
+      getBuddyProgress(socket, payload.id);
+    })
+
 
     //Remove the user object from the users array upon disconnection to clean up the session and update their buddy
     socket.on('disconnect', async reason => {
@@ -106,7 +113,7 @@ const socketFunctions = function(io, prisma) {
     });
     const buddyOnline = buddy.id in users;
     const payload = { id: buddy.id, name: buddy.username, online: buddyOnline };
-    console.log(users[id]);
+    //   console.log(users[id]);
     socket.emit('BUDDY_UPDATE', payload);
     if (buddyOnline) {
       socket.to(users[buddy.id]).emit('BUDDY_UPDATE', { online: true });
@@ -116,7 +123,7 @@ const socketFunctions = function(io, prisma) {
   const getMessages = async function(socket, id) {
     const messages = await prisma.messages.findMany({
       where: {
-        NOT :{
+        NOT: {
           is_deleted: true
         },
         OR: [
@@ -139,6 +146,83 @@ const socketFunctions = function(io, prisma) {
     });
     socket.emit('MESSAGE_HISTORY', messages);
   };
+
+  const getBuddyProgress = async function(socket, id) {
+    console.log('IM HERE, ', id);
+    const user = await prisma.users.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        username: true,
+        buddy_id: true
+      }
+    });
+    if (!user.buddy_id) {
+      return;
+    }
+    let buddy_id = user.buddy_id;
+    if (buddy_id) {
+      const currentDate = new Date();
+      const d = new Date();
+      d.setDate(currentDate.getDate() - 14);
+
+      const subGoals = await prisma.sub_goals.findMany({
+        where: {
+          main_goals: {
+            user_id: Number(buddy_id),
+          },
+          completed_on: {
+            gte: d.toISOString(),
+            not: null,
+          },
+        },
+        orderBy: {
+          completed_on: 'asc',
+        },
+      });
+
+      const groupedSubGoals = subGoals.reduce((result, subGoal) => {
+        const { main_goal_id, ...rest } = subGoal;
+        if (!result[main_goal_id]) {
+          result[main_goal_id] = [];
+        }
+        result[main_goal_id].push(rest);
+        return result;
+      }, {});
+
+      const goal_counts = await prisma.main_goals.findMany({
+        where: {
+          user_id: Number(buddy_id),
+        },
+        select: {
+          id: true,
+          title: true,
+          sub_goals: {
+            select: {
+              main_goal_id: true,
+              completed_on: true,
+            },
+            take: 5
+          },
+        },
+      });
+
+      const groupedGoalCounts = goal_counts.map((mainGoal) => ({
+        main_goal_id: mainGoal.id,
+        main_goal_title: mainGoal.title,
+        total_count: mainGoal.sub_goals.length,
+        completed_count: mainGoal.sub_goals.filter((subGoal) => subGoal.completed_on !== null).length,
+      }));
+
+      socket.to(users[id]).emit('BUDDY_PROGRESS', { success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+
+      //  socket.emit('BUDDY_PROGRESS', { success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+    }
+    else {
+      socket.to(users[id]).emit('BUDDY_PROGRESS', { success: false });
+    }
+  }
 
 };
 

@@ -6,8 +6,8 @@ import { setUser, setInterests, setBuddyProgress } from '../../features/sessionS
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
 
-import Login from '../Login';
-import Register from '../Register';
+import Login from './Login';
+import Register from './Register';
 import Splash from './Splash';
 
 //enables axios to save cookie on the client
@@ -96,7 +96,6 @@ export default function Landing(props) {
         </div>
 
       </div>
-
     </div>
   );
 }

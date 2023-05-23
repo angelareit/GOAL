@@ -1,7 +1,7 @@
 import React, { useState, useNavigate } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-const Login = (props) => { 
+const Login = (props) => {
   const [users, setUsers] = useState({
     email: "",
     password: ""
@@ -21,18 +21,21 @@ const Login = (props) => {
 
   };
   return (
-    <form onSubmit={onSubmit}>
-      <label className="form__label" htmlFor="email">
-        Email
-      </label>
-      <input
-        name="email"
-        type="email"
-        value={users.email}
-        onChange={(e) =>
-          setUsers({ ...users, email: e.target.value })
-        }
-      />
+    <form className="Login form" onSubmit={onSubmit}>
+      <div className='form-group'>
+        <label className="form__label" htmlFor="email">
+          Email
+        </label>
+        <input
+          name="email"
+          type="email"
+          value={users.email}
+          onChange={(e) =>
+            setUsers({ ...users, email: e.target.value })
+          }
+        />
+      </div>
+      <div className='form-group'>
 
       <label className="form__label" htmlFor="password">
         Password
@@ -45,12 +48,13 @@ const Login = (props) => {
           setUsers({ ...users, password: e.target.value })
         }
       />
+      </div>
 
-      <div className="footer">
+      <footer>
         <button type="submit" className="btn">
           Login
         </button>
-      </div>
+      </footer>
     </form>
   );
 };

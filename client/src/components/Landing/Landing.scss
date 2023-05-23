@@ -1,10 +1,11 @@
 @import "../../styles/mixins";
 @import "../../styles/variables";
 
-.Landing{
+.Landing {
+  padding-top: $navbar-height;
   display: flex;
   flex-direction: row;
-  justify-content: center;  
+  justify-content: space-around;
   align-items: center;
 
   span {
@@ -14,49 +15,120 @@
   .create-bttn {
     @include button-2;
   }
-  .action-area
-  {
+
+  .action-area {
+    flex: 2;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
-    margin: 20px;
-    width: 30%;
-    height: 50%;
+    padding: 1em;
 
-
-    div.tabs
-    {
+    div.tabs {
       display: flex;
       flex-direction: row;
       border-radius: 10px 10px 0px 0px;
       background-color: $background-color3;
       padding: 5px;
       width: 200px;
-      
-      
-      .tab-header{
+
+      :hover {
+        cursor: pointer;
+      }
+
+      .tab-header {
         margin: 5px;
         @include button-2
       }
-      .active{
+
+      .active {
         background-color: $primary1;
-        color:white;
+        color: white;
       }
     }
-    div.content{
+
+    div.content {
       background-color: $background-color3;
       height: inherit;
+
     }
 
+    footer {
+      display: flex;
+      justify-content: center;
+    }
   }
 
 }
-.Splash
-{
+
+.form {
+  padding: 1em;
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.2em;
+
+    label {
+      text-align: right;
+      flex: 1;
+    }
+
+    input {
+      flex: 2;
+    }
+  }
+
+  footer {
+    margin-top: 1em;
+  }
+
+  .btn {
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: $medium-warm;
+
+    :hover {
+      /* Change background color to red on hover */
+      background-color: $primary2;
+      color: white;
+    }
+  }
+}
+
+.Splash {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
   img {
-    border-radius: 10px;
-    max-width: 550px;
-    margin: 10px;
+    height: 64px;
+    filter: invert(15%) sepia(11%) saturate(7274%) hue-rotate(170deg) brightness(96%) contrast(102%);
+  }
+  header {
+    display: flex;
+    align-items: center;
+  }
+  article {
+    h2 {
+      margin: 0%;
+      color: $dark-cool;
+    }
+    p{
+      padding: 1em;
+      background-color: $dark-cool;
+      color: $background-color;
+    }
+  }
+  h1 {
+    margin: 6px;
+    font-size: 64px;
+    color: $primary1;
   }
 }

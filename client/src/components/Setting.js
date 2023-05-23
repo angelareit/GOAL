@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const Setting = () => {
-  
+
   const buddyState = useSelector(state => state.session.buddy);
   const userState = useSelector((state) => state.session.user);
   const [data, setData] = useState([]);
@@ -16,20 +16,20 @@ const Setting = () => {
     setIsAvailable(true);
     // alert('Your are available as accountability buddy.')
   };
-  
+
   const availabilityOff = (evt) => {
     // evt.preventDefault();
     axios.post('/setting/availability', { avilability: false });
     setIsAvailable(false);
     // alert('Your are no longer available as accountability buddy.')
-    
+
   };
   const updateInterest = (evt) => {
     // evt.preventDefault();
     axios.post('/setting/interest', { interest_id: evt });
-    
+
   };
-  
+
   useEffect(() => {
     axios.get('/setting/interest')
       .then(response => {
@@ -79,12 +79,39 @@ const Setting = () => {
         >
           Health & Fitness
         </button>
-        <button className="btn" type='submit' onClick={() => updateInterest(2)}>Job & Career</button>
-        <button className="btn" type='submit' onClick={() => updateInterest(3)}>Travel</button>
-        <button className="btn" type='submit' onClick={() => updateInterest(4)}>Arts</button>
-        <button className="btn" type='submit' onClick={() => updateInterest(5)}>Personal Project</button>
-        <button className="btn" type='submit' onClick={() => updateInterest(6)}>Education</button>
-        <button className="btn" type='submit' onClick={() => updateInterest(7)}>Social</button>
+        <button
+          className={`btn ${data.includes(2) ? 'active' : 'inactive'}`}
+          type='submit'
+          onClick={() => updateInterest(2)}>
+          Job & Career
+        </button>
+        <button
+          className={`btn ${data.includes(3) ? 'active' : 'inactive'}`}
+          type='submit'
+          onClick={() => updateInterest(3)}>
+          Travel
+        </button>
+        <button
+          className={`btn ${data.includes(4) ? 'active' : 'inactive'}`} type='submit'
+          onClick={() => updateInterest(4)}>
+          Arts
+        </button>
+        <button
+          className={`btn ${data.includes(5) ? 'active' : 'inactive'}`} type='submit'
+          onClick={() => updateInterest(5)}>
+          Personal Project
+        </button>
+        <button
+          className={`btn ${data.includes(6) ? 'active' : 'inactive'}`}
+          type='submit'
+          onClick={() => updateInterest(6)}>
+          Education
+        </button>
+        <button className={`btn ${data.includes(7) ? 'active' : 'inactive'}`}
+          type='submit'
+          onClick={() => updateInterest(7)}>
+          Social
+        </button>
       </div>
 
 

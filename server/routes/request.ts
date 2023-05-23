@@ -75,7 +75,7 @@ router.post('/incoming/accept', async (req, res) => {
         buddy_id:userToken.id
       }
     })
-    res.send({ result, result2 });
+    res.send({ result, result2, result3 });
   }
   catch (error) {
     console.error(error);

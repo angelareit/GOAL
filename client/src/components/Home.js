@@ -4,6 +4,7 @@ import socket, { socketBuddyFunctions, socketsDisconnect } from "../helpers/sock
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import { showGoalListPanel } from "../features/viewManagerSlice";
 
 import RightSidebar from './RightSidebar';
 import LeftSidebar from './LeftSidebar';
@@ -30,7 +31,7 @@ export default function Home() {
     <main className="Home">
       <LeftSidebar />
      {/*  {activeGoal ? <h3>HERE  </h3>: <CreateGoalPrompt />} */}
-      {activeGoal ? <GoalManager /> : <CreateGoalPrompt />}
+      {activeGoal ? <GoalManager /> : <CreateGoalPrompt onClick={() => dispatch(showGoalListPanel()) } />}
 
       <RightSidebar />
     </main>

@@ -4,7 +4,7 @@
 
 .nav {
   display: flex;
-  position: fixed;
+  position: absolute;
   width: 98vw;
   background-color: $main7;
   justify-content: space-between;
@@ -87,7 +87,7 @@
     border: 2px solid $main2;
     color: $main2;
     padding: 8px;
-    margin: 3px;
+    margin: 0.5em;
 
     &:hover {
       border: 2px solid transparent;
@@ -101,7 +101,7 @@
     aspect-ratio: 1;
     color: $main2;
     padding: 8px;
-    margin: 3px;
+    margin: 0.5em;
     border-radius: 3px;
 
     &:hover {
@@ -114,12 +114,4 @@
     background-color: $main2;
     color: #f1f1f1;
   }
-
-
-
-
-
-
-
-
 }

@@ -8,10 +8,7 @@
   justify-content: space-around;
   align-items: center;
   color: $main1;
-
-  span {
-    font-size: medium;
-  }
+  max-width: 1920px;
 
   .create-bttn {
     @include button-2;

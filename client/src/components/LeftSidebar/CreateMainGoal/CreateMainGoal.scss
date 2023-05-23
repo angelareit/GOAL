@@ -6,10 +6,6 @@
   flex-direction: column;
   text-align: left; 
 
-  span {
-    font-size: medium;
-  }
-
   .create-bttn {
 
     @include button-2;

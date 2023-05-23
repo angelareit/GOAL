@@ -55,14 +55,11 @@
   header {
     display: flex;
     justify-content: space-between;
-    .sender-name {
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .timestamp {
-      font-size: 10px;
-    }
+
   }
+
+
+
   blockquote {
     margin: 0%;
   }
@@ -92,4 +89,27 @@
 
 .deleted {
   background-color:darkgrey;
+}
+
+.sender-name {
+  font-size: 12px;
+  font-weight: bold;
+}
+.timestamp {
+  font-size: 10px;
+  
+}
+
+@media (min-width: 1921px) {
+  .sender-name {
+    font-size: 24px;
+  }
+
+  .timestamp {
+    font-size: 18px;
+  }
+
+  .message {
+    font-size: 24px;
+  }
 }

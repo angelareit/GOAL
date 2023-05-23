@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setBuddy } from '../features/sessionSlice';
 import axios from 'axios';
 
+/**id:null
+name: null
+online:null */
 const Setting = () => {
 
   const buddyState = useSelector(state => state.session.buddy);
   const userState = useSelector((state) => state.session.user);
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   const [isAvailable, setIsAvailable] = useState(userState.buddy_availability);
 
+  const removeBuddy = () => {
+    axios.post('setting/remove_buddy', { b_id: buddyState.id })
+      .then(
+        res => {
+          return dispatch(setBuddy({
+            id: null,
+            name: null,
+            online: null
+          }));
+        }
+      )
+      .then(
+        console.log('deleted buddyState', buddyState)
+      );
+    console.log(buddyState.id);
+  };
   const availabilityOn = (evt) => {
     // evt.preventDefault();
     axios.post('/setting/availability', { avilability: true });
@@ -27,16 +48,16 @@ const Setting = () => {
   const updateInterest = (evt) => {
     // evt.preventDefault();
     axios.post('/setting/interest', { interest_id: evt })
-    .then(response => {
-      if (response.data.status === 'added'){
-        console.log("print out added")
-        setData(prev => [... prev, evt])
-      } else {
-        console.log("print out deleted")
-        setData(prev => prev.filter(i => i !== evt))
-      }
-      console.log(response)
-    });
+      .then(response => {
+        if (response.data.status === 'added') {
+          console.log("print out added");
+          setData(prev => [...prev, evt]);
+        } else {
+          console.log("print out deleted");
+          setData(prev => prev.filter(i => i !== evt));
+        }
+        console.log(response);
+      });
 
   };
 
@@ -109,7 +130,16 @@ const Setting = () => {
           Social
         </button>
       </div>
-
+      <div>
+        {buddyState?.name ?
+          (<div>
+            <h5>Your accountability buddy is {buddyState.name}.</h5>
+            <button className="btn" onClick={removeBuddy}>
+              Remove Buddy
+            </button>
+          </div>)
+          : (<></>)}
+      </div>
 
     </span>
   );

@@ -87,7 +87,6 @@ export default function GoalBoard(props) {
     children.splice(index, 1);
     axios.delete('/subgoal', { params: { id } }).then(res => {
       dispatch(modifyHeadData({ ...subGoal, children: [...children] }));
-      console.log(children);
     });
   };
 
@@ -103,7 +102,8 @@ export default function GoalBoard(props) {
       completed_on: null,
       priority: 50,
       childrenIncomplete: 0,
-      parent_id: subGoal.main_goal_id ? subGoal.id : null
+      parent_id: subGoal.main_goal_id ? subGoal.id : null,
+      newGoal: true
     };
 
     dispatch(setNewGoal(goalTemplate));

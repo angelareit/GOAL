@@ -53,13 +53,13 @@ const socketFunctions = function(io, prisma) {
 
     socket.on('MESSAGE_HISTORY', payload => {
       getMessages(socket, id);
-    })
+    });
 
     socket.on('BUDDY_PROGRESS_UPDATE', async payload => {
       console.log('SERVER PROGRESS', payload.id);
 
       getBuddyProgress(socket, payload.id);
-    })
+    });
 
 
     //Remove the user object from the users array upon disconnection to clean up the session and update their buddy
@@ -149,6 +149,11 @@ const socketFunctions = function(io, prisma) {
 
   const getBuddyProgress = async function(socket, id) {
     console.log('IM HERE, ', id);
+    //Id refers to buddy ID. If it's null, i.e. the user doesn't have a buddy, do nothing
+    if (!id) {
+      return;
+    }
+
     const user = await prisma.users.findUnique({
       where: {
         id: id,
@@ -222,7 +227,7 @@ const socketFunctions = function(io, prisma) {
     else {
       socket.to(users[id]).emit('BUDDY_PROGRESS', { success: false });
     }
-  }
+  };
 
 };
 

@@ -140,7 +140,7 @@ router.post('/', async (req, res) => {
       due_date: newGoal.due_date,
     }
   });
-//  console.log(createdGoal);
+  console.log('SUB GOAL', createdGoal);
   if (newGoal.parent_id) {
     await prisma.goal_relationship.create({
       data: {

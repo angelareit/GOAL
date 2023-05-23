@@ -32,7 +32,12 @@ export default function SubGoalForm(props) {
           <tr><td className='label'><label>Note</label></td><td className='input'><textarea defaultValue={subGoal.note} onChange={event => setSubGoal({ ...subGoal, note: event.target.value })} ></textarea></td></tr>
           <tr><td className='label'><label>Priority</label></td><td className='input'><input type='range' min='0' max='100' defaultValue={subGoal.priority} onChange={event => setSubGoal({ ...subGoal, priority: Number(event.target.value) })}></input></td></tr>
           <tr><td className='label'><label>Deadline</label></td><td className='input'><input type='date' defaultValue={formattedDate} onChange={event => setDeadline(event.target.value)} ></input></td></tr>
-          {subGoal.childrenIncomplete <= 0 && <tr><td className='label'><label>Completed</label></td><td className='input'><input type='checkbox' defaultChecked={subGoal.completed_on !== null} onChange={event => setCompleted(event.target.checked)}></input></td></tr>}
+          {subGoal.childrenIncomplete <= 0 && 
+            <tr><td className='label'><label>Completed</label></td>
+            <td className='input'>
+              <input type='checkbox' defaultChecked={subGoal.completed_on !== null} onChange={event => setCompleted(event.target.checked)}/> 
+            </td></tr>
+          }
         </tbody>
       </table>
       <footer>

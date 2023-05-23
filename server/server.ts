@@ -35,11 +35,15 @@ app.use(cookieParser());
 import requestRoutes from './routes/request';
 import searchRoutes from './routes/search';
 import subGoalRoutes from './routes/goalManager';
+import mainGoalRoutes from './routes/mainGoal';
+
 
 //mount search route
 app.use('/search', searchRoutes);
 app.use('/request', requestRoutes);
 app.use('/subgoal', subGoalRoutes);
+app.use('/mainGoals', mainGoalRoutes);
+
 
 import socketFunctions from './helpers/socketFunctions';
 import { type } from 'os';
@@ -243,37 +247,6 @@ app.get('/test', async (req, res) => {
 
 });
 
-//MAIN GOALS
-
-app.get('/mainGoals', async (req, res) => {
-  if (req.query) {
-    const mainGoals = await prisma.main_goals.findMany({
-      where: {
-        user_id: Number(req.query.userID),
-      },
-    });
-    return res.json({ success: true, result: mainGoals });
-  }
-  else {
-    return res.json({ success: false });
-  }
-});
-
-app.put('/mainGoals/new', async (req, res) => {
-  if (req.body) {
-    const mainGoals = await prisma.main_goals.create({
-      data: {
-        user_id: Number(req.body.userID),
-        title: req.body.goal.title,
-      },
-    });
-    return res.json({ success: true, result: mainGoals });
-  }
-  else {
-    return res.json({ success: false });
-  }
-});
-
  app.get('/progress', async (req, res) => {
 
   if (req.query.userID) {
@@ -286,13 +259,13 @@ app.put('/mainGoals/new', async (req, res) => {
         main_goals: {
           user_id: Number(req.query.userID),
         },
-        updated_at: {
+        completed_on: {
           gte: d.toISOString(),
           not: null,
         },
       },
       orderBy: {
-        updated_at: 'asc',
+        completed_on: 'asc',
       },
     });
 

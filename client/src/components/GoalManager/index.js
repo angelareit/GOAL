@@ -56,11 +56,12 @@ export default function GoalBoard(props) {
       dispatch(modifyHeadData({ ...subGoal, children: [...children] }));
 
       //emit socket emit for fetchProgress
-      if (updatedGoal.completed_on !== subGoal.goal.completed_on) {
-        console.log('i get here', buddyState.id);
-        socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
-      }
-      
+      /*       if (updatedGoal.completed_on !== subGoal.goal.completed_on) {
+              console.log('i get here', buddyState.id);
+              socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
+            } */
+
+      socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
       console.log(updatedGoal);
     });
   };
@@ -72,9 +73,10 @@ export default function GoalBoard(props) {
     const subGoal = { ...goalStructure.head.data };
     const children = [...subGoal.children];
     axios.post('/subgoal', { newGoal }).then(res => {
-      //console.log(res.data);
+      console.log('NEW SUB GOAL', res.data);
       newGoal.id = res.data.id;
       newGoal.created_at = res.data.created_at;
+      socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
       dispatch(modifyHeadData({ ...subGoal, children: [...children, newGoal] }));
     });
   };

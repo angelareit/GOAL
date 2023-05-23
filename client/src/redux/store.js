@@ -15,4 +15,5 @@ export default configureStore({
     messages: messagesReducer,
     session: sessionReducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false })
 });

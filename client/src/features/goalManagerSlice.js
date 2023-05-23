@@ -2,6 +2,8 @@ import { LinkedList } from '../helpers/classes';
 
 import { createSlice } from '@reduxjs/toolkit';
 
+
+
 export const goalManagerSlice = createSlice({
   name: 'goalManager',
   initialState: {

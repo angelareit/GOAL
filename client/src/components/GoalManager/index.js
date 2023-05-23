@@ -15,7 +15,6 @@ import SubGoalForm from './SubGoalForm';
 // import { LinkedList } from '../../helpers/classes';
 import { useSelector, useDispatch } from 'react-redux';
 import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } from '../../features/goalManagerSlice';
-import { fetchBuddyProgress } from '../../features/sessionSlice';
 
 export default function GoalBoard(props) {
   const dispatch = useDispatch();

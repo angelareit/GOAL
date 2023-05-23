@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { useSelector, useDispatch } from 'react-redux';
 import { addNewGoal } from '../../../features/mainGoalSlice';
-import { fetchBuddyProgress } from '../../../features/sessionSlice';
 
 import useVisualMode from "../../../hooks/useVisualMode.js";
 import './CreateMainGoal.scss'

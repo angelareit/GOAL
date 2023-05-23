@@ -5,6 +5,8 @@ import messagesReducer from '../features/messagesSlice';
 import mainGoalReducer from '../features/mainGoalSlice';
 import goalManagerReducer from '../features/goalManagerSlice';
 import viewManagerReducer from '../features/viewManagerSlice';
+import notificationReducer from '../features/notificationSlice';
+
 
 export default configureStore({
   reducer: {
@@ -14,5 +16,6 @@ export default configureStore({
     goalManager: goalManagerReducer,
     messages: messagesReducer,
     session: sessionReducer,
+    notification: notificationReducer
   },
 });

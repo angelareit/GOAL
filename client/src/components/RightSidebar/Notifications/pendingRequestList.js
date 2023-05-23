@@ -6,32 +6,25 @@ import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.m
 import { useSelector, useDispatch } from 'react-redux';
 import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
 import { fetchBudddyRequests } from '../../../features/notificationSlice';
-import PendingRequestList from "./pendingRequestList";
 
 
-
-export default function Notifications(props) {
-  const notificationState = useSelector((state) => state.notification.buddyRequests);
+export default function PendingRequestList(props) {
   const dispatch = useDispatch();
 
-  //const notificationState = [{ request_message: 'CONTENT' }, { request_message: 'CONTENT 2' },]
-  const buddyRequestList = notificationState.map((request) => {
+
+   const buddyRequestList = props.list.map((request) => {
     console.log('buddy requests: ', request);
     return <>
+    <h3> HJERE </h3>
     <h3>{request.request_message}</h3>
     </> 
   });
 
   return (
-    <div className="notifications">
-      <div className='header'>
-        <FontAwesomeIcon icon={regular("bell")} /> <h4> Notifications </h4>
-      </div>
-      <span>Buddy Requests</span>
+    <div className="">
+      <span>HERE</span>
       {buddyRequestList}
-
-{/*       <PendingRequestList requestList={notificationState} />
- */}    </div>
+    </div>
   );
 }
 

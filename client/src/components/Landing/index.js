@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './Landing.scss';
 import { setUser, setInterests, fetchBuddyProgress } from '../../features/sessionSlice';
+import { fetchBuddyRequests } from '../../features/notificationSlice';
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
 import socket from '../../helpers/socketsHelper';
@@ -26,7 +27,7 @@ export default function Landing(props) {
       return;
     }
     dispatch(setUser(user));
-    
+
     //Fetch interests
     axios.get(`/api/interests/${user.id}`).then(res => {
       const { categories, interests } = res.data;
@@ -51,13 +52,18 @@ export default function Landing(props) {
       console.log(err);
     });
 
-   // socket.emit('BUDDY_PROGRESS_UPDATE',{ ... buddyState,});
-
+    // Fetch buddy requests
+    axios.get("/request/incoming").then(res => {
+      console.log('BUDDY REQUEST', res.data);
+      dispatch(fetchBuddyRequests(res.data));
+    }).catch((err) => {
+      console.log(err);
+    });
 
     //Fetch buddy progress
     axios.get('/progress', { params: { userID: user.buddy_id } }
     ).then(res => {
-      console.log('progress',res.data);
+      console.log('progress', res.data);
       if (res.data.success) {
         dispatch(fetchBuddyProgress(res.data));
       }

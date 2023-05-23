@@ -3,18 +3,10 @@ import './Notifications.scss';
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { useSelector, useDispatch } from 'react-redux';
-import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
-import { fetchBudddyRequests } from '../../../features/notificationSlice';
-import PendingRequestList from "./pendingRequestList";
 
 
 
-export default function Notifications(props) {
-  const notificationState = useSelector((state) => state.notification.buddyRequests);
-  const dispatch = useDispatch();
-
-  //const notificationState = [{ request_message: 'CONTENT' }, { request_message: 'CONTENT 2' },]
+export default function RequestCard(props) {
   const buddyRequestList = notificationState.map((request) => {
     console.log('buddy requests: ', request);
     return <>
@@ -29,9 +21,8 @@ export default function Notifications(props) {
       </div>
       <span>Buddy Requests</span>
       {buddyRequestList}
-
-{/*       <PendingRequestList requestList={notificationState} />
- */}    </div>
+   </div>
   );
+
 }
 

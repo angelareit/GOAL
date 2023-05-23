@@ -1,7 +1,7 @@
 import './Chat.scss';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { appendMessage, deleteMessage } from '../../../features/messagesSlice';
+import { appendMessage, deleteMessage, messageRead } from '../../../features/messagesSlice';
 
 import MessageBubble from './MessageBubble';
 
@@ -11,7 +11,7 @@ function Chat() {
 
   const user = useSelector(state => state.session.user.id);
   const buddy = useSelector(state => state.session.buddy);
-  const messages = useSelector(state => state.messages);
+  const messages = useSelector(state => state.messages.list);
   const dispatch = useDispatch();
 
   //This state is for the message currently being typed by the user
@@ -36,18 +36,20 @@ function Chat() {
       receiver_id: buddy.id,
     };
     const now = Date.now();
-    dispatch(appendMessage({ ...outgoingMessage, created_at: Date(now) }));
+    dispatch(appendMessage({message: { ...outgoingMessage, created_at: Date(now) }, newMessage: false}));
     socket.emit('MESSAGE_SEND', { ...outgoingMessage, created_at: new Date(now) });
     setMessage('');
   };
   
   useEffect(() => {
     scrollToBottom();
+    dispatch(messageRead());
   }, [messages]);
 
   useEffect(() => {
     scrollToBottom(true);
-  }, [messages]);
+    dispatch(messageRead());
+  }, []);
 
   const renderedMessages = messages.map((m, i) => {
     const messageType = m.sender_id === user ? 'outgoing' : 'incoming';

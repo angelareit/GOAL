@@ -14,15 +14,18 @@
     gap: 1em;
     padding: 0.5em;
     font-size: 1.5em;
+
     svg {
       padding: 0.2em;
       border-radius: 5px;
     }
+
     :hover {
       background-color: $main2;
       color: $main7;
       cursor: pointer;
     }
+
     .active {
       background-color: $main2;
       color: $main7;
@@ -41,7 +44,7 @@
     font-style: italic;
     color: $main1;
     font-size: 0.875em;
-  } 
+  }
 
   .progress-card {
     display: flex;
@@ -89,5 +92,20 @@
 
   }
 
-
 }
+
+
+@keyframes color_change {
+  from {
+    color: chartreuse;
+  }
+  
+  to {
+    color: $green2;
+  }
+}
+
+  .message-alert {
+    color: $green2;
+    animation: color_change 0.5s infinite alternate;
+  }

@@ -19,14 +19,15 @@ const socketFunctions = function(io, prisma) {
     // getMessages(socket, id);
 
     // Event listener for when the user sends a message
-    socket.on('MESSAGE_SEND', async payload => {
+    socket.on('MESSAGE_SEND', async (payload, callback) => {
       console.log(payload);
       return prisma.messages.create({
         data: { ...payload }
       })
         .then(data => {
-          //console.log(data);
+          console.log(data);
           //console.log(users[payload.receiver_id]);
+          callback(data);
           socket.to(users[payload.receiver_id]).emit('MESSAGE_RECEIVE', data);
         });
     });

@@ -14,24 +14,25 @@ import CreateGoalPrompt from "./CreateGoalPrompt";
 export default function Home() {
 
   const dispatch = useDispatch();
-  const user = useSelector(state => state.session.user); 
+  const user = useSelector(state => state.session.user);
   const activeGoal = useSelector(state => state.mainGoal.active);
 
   useEffect(() => {
     socket.auth = { user: user.id };
-    
+
     socket.connect();
 
     socketBuddyFunctions(dispatch);
 
     return () => socketsDisconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <main className="Home">
       <LeftSidebar />
-     {/*  {activeGoal ? <h3>HERE  </h3>: <CreateGoalPrompt />} */}
-      {activeGoal ? <GoalManager /> : <CreateGoalPrompt onClick={() => dispatch(showGoalListPanel()) } />}
+      {/*  {activeGoal ? <h3>HERE  </h3>: <CreateGoalPrompt />} */}
+      {activeGoal ? <GoalManager /> : <CreateGoalPrompt onClick={() => dispatch(showGoalListPanel())} />}
 
       <RightSidebar />
     </main>

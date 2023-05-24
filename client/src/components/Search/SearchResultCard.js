@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import './Search.scss'
+import React, { useState } from 'react';
+import './Search.scss';
 import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../features/notificationSlice';
 import useVisualMode from "../../hooks/useVisualMode.js";
 
@@ -9,14 +9,12 @@ import useVisualMode from "../../hooks/useVisualMode.js";
 const EDIT = "EDIT";
 const SHOW = "SHOW";
 const SENT = "SENT";
-const ERROR = "ERROR";
+// const ERROR = "ERROR";
 
 export default function SearchResultCard(props) {
   const { mode, transition, back } = useVisualMode(props.state);
   const [messageValue, setMessageValue] = useState('Add me please');
   const dispatch = useDispatch();
-
-
 
   const fetchData = async () => {
     try {
@@ -48,13 +46,12 @@ export default function SearchResultCard(props) {
 
         fetchData();
         transition(SENT);
-      })
+      });
   }
 
-  const handleChange = (e) => {
-    setMessageValue(e.target.value);
-  };
-
+  // const handleChange = (e) => {
+  //   setMessageValue(e.target.value);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,5 +97,5 @@ export default function SearchResultCard(props) {
       </>}
 
     </div>
-  )
+  );
 }

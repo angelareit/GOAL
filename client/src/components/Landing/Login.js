@@ -1,5 +1,4 @@
-import React, { useState, useNavigate } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 
 const Login = (props) => {
   const [users, setUsers] = useState({
@@ -37,17 +36,17 @@ const Login = (props) => {
       </div>
       <div className='form-group'>
 
-      <label className="form__label" htmlFor="password">
-        Password
-      </label>
-      <input
-        name="password"
-        type="password"
-        value={users.password}
-        onChange={(e) =>
-          setUsers({ ...users, password: e.target.value })
-        }
-      />
+        <label className="form__label" htmlFor="password">
+          Password
+        </label>
+        <input
+          name="password"
+          type="password"
+          value={users.password}
+          onChange={(e) =>
+            setUsers({ ...users, password: e.target.value })
+          }
+        />
       </div>
 
       <footer>

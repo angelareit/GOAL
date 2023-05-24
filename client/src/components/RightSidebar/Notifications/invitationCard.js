@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import './Notifications.scss';
-import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
-
-
 
 export default function InvitationCard(props) {
 

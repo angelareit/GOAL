@@ -2,22 +2,19 @@ import React, { useState } from "react";
 import axios from "axios";
 import './Search.scss';
 import SearchResultCard from "./SearchResultCard";
-import { useSelector, useDispatch } from 'react-redux';
-import { showSearchPanelSearchByRecommendations, showSearchPanelSearchByUsername } from '../../features/viewManagerSlice';
+import { useSelector } from 'react-redux';
 
-
-const EDIT = "EDIT";
+// const EDIT = "EDIT";
 const SHOW = "SHOW";
 const SENT = "SENT";
-const ERROR = "ERROR";
-
+// const ERROR = "ERROR";
 
 const SearchBar = () => {
   const userState = useSelector((state) => state.session.user);
 
-  const [searchValue, setSearchValue] = useState("")
-  const [searchResults, setSearchResults] = useState(null)
-  const [successMessage, setSuccessMessage] = useState("")
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState(null);
+  // const [successMessage, setSuccessMessage] = useState("")
   const notifications = useSelector((state) => state.notification.sentBuddyRequests);
 
 
@@ -29,17 +26,17 @@ const SearchBar = () => {
     evt.preventDefault();
     axios.post('/search', { searchValue: searchValue, userID: userState.id })
       .then((res) => {
-        console.log('SEARCH RESULT', res)
+        console.log('SEARCH RESULT', res);
         setSearchValue("");
         if (res.data) {
-          setSearchResults(res.data)
+          setSearchResults(res.data);
         }
-      })
+      });
   };
 
   const searchResultList = searchResults === null ? null : searchResults.map((user) => {
     let request = notifications.find(obj => obj.to_user === user.id);
-    return <SearchResultCard key={user.id} buddy={user} state={request ? SENT : SHOW} />
+    return <SearchResultCard key={user.id} buddy={user} state={request ? SENT : SHOW} />;
   });
 
 
@@ -60,5 +57,5 @@ const SearchBar = () => {
         </div> : searchResultList}
     </span>
   );
-}
+};
 export default SearchBar;

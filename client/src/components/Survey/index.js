@@ -6,7 +6,7 @@ import SurveyForm from './SurveyForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { switchPage } from '../../features/viewManagerSlice';
 
-export default function Survey(props) {
+export default function Survey() {
 
   const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ export default function Survey(props) {
 
   useEffect(() => {
     let newLabel = "Later";
-    if(Object.values(interests).some(interest => interest.isInterest === true )){
+    if (Object.values(interests).some(interest => interest.isInterest === true)) {
       newLabel = "Return";
     }
     setExitLabel(newLabel);

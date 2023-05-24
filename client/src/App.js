@@ -1,5 +1,5 @@
 import axios from 'axios';
-import "./App.scss"
+import "./App.scss";
 import { useSelector, useDispatch } from 'react-redux';
 
 import Navbar from './components/Navbar';
@@ -7,7 +7,7 @@ import Landing from './components/Landing';
 import Home from './components/Home';
 import Survey from "./components/Survey";
 
-import { resetViews, switchPage } from './features/viewManagerSlice';
+import { resetViews } from './features/viewManagerSlice';
 import { resetGoals } from './features/mainGoalSlice';
 import { resetSession } from './features/sessionSlice';
 import { resetGoalManager } from './features/goalManagerSlice';
@@ -19,7 +19,6 @@ axios.defaults.withCredentials = true;
 export default function App() {
 
   const dispatch = useDispatch();
-  const userState = useSelector((state) => state.session.user);
   const viewState = useSelector((state) => state.viewManager.page);
 
   const onLogout = () => {

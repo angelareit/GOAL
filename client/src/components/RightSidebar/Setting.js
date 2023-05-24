@@ -1,8 +1,7 @@
 import './RightSidebar.scss';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBuddy, updateInterest } from '../../features/sessionSlice';
-import { toggleInterest } from "../../helpers/helperFunctions";
 import axios from 'axios';
 
 /**id:null
@@ -64,13 +63,13 @@ const Setting = () => {
   // };
 
   const toggleInterest = function(id, user, checked) {
-    dispatch(updateInterest({ id, checked}));
+    dispatch(updateInterest({ id, checked }));
     if (checked) {
       return axios.post(`/interest/`, { category: id, user }).then(res => {
         console.log(res.data);
       });
     }
-  
+
     axios.delete(`/interest/`, { data: { category: id, user } }).then(res => {
       console.log(res.data);
     });
@@ -78,13 +77,13 @@ const Setting = () => {
 
   // useEffect(() => {
 
-    // axios.get('/setting/interest')
-    //   .then(response => {
-    //     setData(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching data:', error);
-    //   });
+  // axios.get('/setting/interest')
+  //   .then(response => {
+  //     setData(response.data);
+  //   })
+  //   .catch(error => {
+  //     console.error('Error fetching data:', error);
+  //   });
   // }, []);
 
 

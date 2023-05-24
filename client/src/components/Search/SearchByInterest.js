@@ -33,10 +33,10 @@ const SearchByInterest = () => {
               <h4>{interestMatch.username}</h4>
               <div>
                 {interestMatch.interest.map((item) => (
-                  <div>
+                  <p className='interest-name'>
                     {console.log(item.name)}
                     {item.name}
-                  </div>
+                  </p>
                 ))}
               </div>
               <button className='btn'>Send Request</button>

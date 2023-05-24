@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './Search.scss'
+import './Search.scss';
 
 const IncomingRequests = () => {
   const [incomingRequests, setIncomingRequests] = useState([]);
@@ -9,7 +9,6 @@ const IncomingRequests = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("/request/incoming");
-      //console.log(response.data);
       setIncomingRequests(response.data);
     } catch (error) {
       console.error(error);
@@ -22,8 +21,8 @@ const IncomingRequests = () => {
 
   const handleAccept = (evt) => {
     evt.preventDefault();
-    const r_id = parseInt(evt.target[0].value[0])
-    const b_id = parseInt(evt.target[0].value[2])
+    const r_id = parseInt(evt.target[0].value[0]);
+    const b_id = parseInt(evt.target[0].value[2]);
     // console.log("raget", r_id, b_id)
     axios.post('/request/incoming/accept', { r_id: r_id, b_id: b_id })
       //value={[incomingRequest.id, incomingRequest.from_user]}
@@ -41,8 +40,8 @@ const IncomingRequests = () => {
     evt.preventDefault();
     axios.post('/request/incoming/reject', { r_id: evt.target[0].value })
       .then((response) => {
-        fetchData()
-        alert("You have rejected the buddy request.")
+        fetchData();
+        alert("You have rejected the buddy request.");
       })
       .catch((error) => {
         console.error(error);

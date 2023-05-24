@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import buddyIcon from 'client/src/components/buddy_icon.jpg';
+import React from 'react';
 
 function Buddy (props) {  
   const [buddy] = props.buddy

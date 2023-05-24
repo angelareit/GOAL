@@ -5,7 +5,7 @@ import socket from '../../helpers/socketsHelper';
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import GoalStructure from './GoalStructure';
 import FocusedGoal from './FocusedGoal';
@@ -14,7 +14,7 @@ import SubGoalForm from './SubGoalForm';
 
 // import { LinkedList } from '../../helpers/classes';
 import { useSelector, useDispatch } from 'react-redux';
-import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } from '../../features/goalManagerSlice';
+import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend } from '../../features/goalManagerSlice';
 
 export default function GoalBoard(props) {
   const dispatch = useDispatch();
@@ -26,12 +26,13 @@ export default function GoalBoard(props) {
   const editingID = useSelector(state => state.goalManager.editing);
   const buddyState = useSelector((state) => state.session.buddy);
 
+  // eslint-disable-next-line
   const [childRef, setChildRef] = useState(null);
 
   const resetManagerSettings = function() {
     setChildRef(null);
     dispatch(setEditing(null));
-  }
+  };
 
   const setFocus = function(goal) {
     // Fetch children from the database
@@ -108,19 +109,19 @@ export default function GoalBoard(props) {
     dispatch(setNewGoal(goalTemplate));
   };
 
-  const reparent = function(subGoal) {
-    if (!childRef) {
-      return setChildRef(subGoal);
-    }
-    if (childRef.id === subGoal?.id) {
-      return setChildRef(null);
-    }
-    axios.post('/subgoal/reparent', { parent: subGoal, child: childRef })
-      .then(res => {
-        dispatch(reparentChild({ parent: subGoal, child: childRef }));
-      });
-    setChildRef(null);
-  };
+  // const reparent = function(subGoal) {
+  //   if (!childRef) {
+  //     return setChildRef(subGoal);
+  //   }
+  //   if (childRef.id === subGoal?.id) {
+  //     return setChildRef(null);
+  //   }
+  //   axios.post('/subgoal/reparent', { parent: subGoal, child: childRef })
+  //     .then(res => {
+  //       dispatch(reparentChild({ parent: subGoal, child: childRef }));
+  //     });
+  //   setChildRef(null);
+  // };
 
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
@@ -134,6 +135,7 @@ export default function GoalBoard(props) {
     axios.get('/subgoal', { params: { goal: mainGoal } }).then(res => {
       dispatch(modifyHeadData({ goal: mainGoal, ...res.data }));
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainGoal]);
 
   if (!mainGoal || !goalStructure.head) {

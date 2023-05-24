@@ -1,6 +1,6 @@
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { generateTimeStamp } from '../../../helpers/helperFunctions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 export default function MessageBubble(props) {

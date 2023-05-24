@@ -1,5 +1,5 @@
 import React from "react";
-import './CreateMainGoal.scss'
+import './CreateMainGoal.scss';
 
 export default function Header(props) {
 
@@ -7,5 +7,5 @@ export default function Header(props) {
     <header className="">
       <h4 className="">{props.mode}</h4>
     </header>
-    );
+  );
 }

@@ -20,7 +20,7 @@ function Chat() {
   const messageBox = useRef(null);
 
   const scrollToBottom = function(instant) {
-    if(instant) {
+    if (instant) {
       return messageBox.current?.scrollIntoView({ behavior: 'instant' });
     }
     messageBox.current?.scrollIntoView({ behavior: 'smooth' });
@@ -37,19 +37,21 @@ function Chat() {
     };
     const now = Date.now();
     socket.emit('MESSAGE_SEND', { ...outgoingMessage, created_at: new Date(now) }, res => {
-      dispatch(appendMessage({message: { ...res }, newMessage: false}));
+      dispatch(appendMessage({ message: { ...res }, newMessage: false }));
     });
     setMessage('');
   };
-  
+
   useEffect(() => {
     scrollToBottom();
     dispatch(messageRead());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   useEffect(() => {
     scrollToBottom(true);
     dispatch(messageRead());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderedMessages = messages.map((m, i) => {

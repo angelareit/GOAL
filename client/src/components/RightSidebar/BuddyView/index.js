@@ -1,7 +1,7 @@
 import React from 'react';
 import './BuddyView.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useSelector, useDispatch } from 'react-redux';
 import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
 
@@ -9,7 +9,7 @@ import Chat from './Chat';
 import BuddyStatus from './BuddyStatus';
 import Progress from './Progress';
 
-function BuddyView(props) {
+function BuddyView() {
   const viewState = useSelector((state) => state.viewManager.rightSideBar);
   const newMessage = useSelector(state => state.messages.newMessage);
   const dispatch = useDispatch();

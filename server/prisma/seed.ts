@@ -123,30 +123,30 @@ async function main() {
     let id = 0;
 
     //Steve
-    await prisma.interests.upsert({
-      where: { id: ++id },
-      update: {},
-      create: {
-        user_id: 1,
-        category_id: 1
-      },
-    });
-    await prisma.interests.upsert({
-      where: { id: ++id  },
-      update: {},
-      create: {
-        user_id: 1,
-        category_id: 2
-      },
-    });
-    await prisma.interests.upsert({
-      where: { id: ++id },
-      update: {},
-      create: {
-        user_id: 1,
-        category_id: 3
-      },
-    });
+    // await prisma.interests.upsert({
+    //   where: { id: ++id },
+    //   update: {},
+    //   create: {
+    //     user_id: 1,
+    //     category_id: 1
+    //   },
+    // });
+    // await prisma.interests.upsert({
+    //   where: { id: ++id  },
+    //   update: {},
+    //   create: {
+    //     user_id: 1,
+    //     category_id: 2
+    //   },
+    // });
+    // await prisma.interests.upsert({
+    //   where: { id: ++id },
+    //   update: {},
+    //   create: {
+    //     user_id: 1,
+    //     category_id: 3
+    //   },
+    // });
     //Jimmy
     await prisma.interests.upsert({
       where: { id: ++id },

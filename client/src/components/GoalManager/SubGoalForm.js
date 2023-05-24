@@ -21,7 +21,11 @@ export default function SubGoalForm(props) {
   };
 
   return (
-    <form key={subGoal.id} onSubmit={event => {
+    <form key={subGoal.id}
+      onClick={event => {
+        event.stopPropagation();
+      }}
+      onSubmit={event => {
       event.preventDefault();
       props.saveChild(subGoal);
       props.onCancel(null);

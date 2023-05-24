@@ -73,6 +73,9 @@ export const viewManagerSlice = createSlice({
     showLeftSideBarContent: (state, action) => {
       state.leftSideBar = { visibility: !state.leftSideBar.visibility, currentView: action.payload };
     },
+    showLeftSideBar: (state) => {
+      state.leftSideBar = { ...state, visibility: true };
+    },
     hideLeftSideBar: (state) => {
       state.leftSideBar = { ...state, visibility: false };
     },
@@ -88,7 +91,7 @@ export const {
   showSearchPanel, showSearchPanelSearchByRecommendations, showSearchPanelSearchByUsername,
   showRightSideBarContent,
   showBuddyChatPanel, showBuddyProgressPanel, showAccountSettingsPanel, hideRightSideBar,
-  showGoalListPanel, hideLeftSideBar, showLeftSideBarContent
+  showGoalListPanel, showLeftSideBar, hideLeftSideBar, showLeftSideBarContent
 } = viewManagerSlice.actions;
 
 export default viewManagerSlice.reducer;

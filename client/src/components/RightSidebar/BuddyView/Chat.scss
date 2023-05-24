@@ -4,7 +4,6 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin: 0px 3px 0px 3px;
 }
 
 .message-box {
@@ -18,8 +17,8 @@
 }
 
 .input-message {
-  padding: 5px;
-  height: 3em;
+  padding: 0.5em;
+  height: 4em;
   background-color: $main4;
   flex-shrink: 1;
   display: flex;

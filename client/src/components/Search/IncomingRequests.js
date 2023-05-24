@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 
 import { updateUser, setBuddy } from "../../features/sessionSlice";
 import socket from "../../helpers/socketsHelper";
-// import {}
 
 const IncomingRequests = () => {
 
@@ -14,7 +13,6 @@ const IncomingRequests = () => {
 
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [incomingResponse, setIncomingResponse] = useState("People are asking to be your buddy!");
-
 
   // Fetch the incoming buddy requests from the server
   const fetchData = async () => {
@@ -28,6 +26,10 @@ const IncomingRequests = () => {
 
   useEffect(() => {
     fetchData();
+    socket.on('UPDATE_REQUESTS', () => {
+      fetchData();
+    });
+    return () => {socket.off('UPDATE_REQUESTS')};
   }, []);
 
   const handleAccept = (evt) => {

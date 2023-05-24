@@ -25,8 +25,8 @@ router.get('/incoming', async (req, res) => {
       include: {
         users_buddy_requests_from_userTousers: true
       }
-
     });
+    console.log(result);
     res.send(result);
   }
   catch (error) {

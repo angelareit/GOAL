@@ -4,6 +4,7 @@ import './Search.scss';
 import useVisualMode from "../../hooks/useVisualMode.js";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSentBuddyRequests } from "../../features/notificationSlice";
+import socket from "../../helpers/socketsHelper";
 
 
 
@@ -18,7 +19,7 @@ function SearchByInterest(props) {
 
         console.log("Search By Interest", res.data);
         setInterestMatches(res.data);
-    });
+      });
     } catch (error) {
       console.error(error);
     }
@@ -33,6 +34,11 @@ function SearchByInterest(props) {
     axios.post('/search/request', { user: user, requestMessage: message })
       .then((res) => {
         console.log("Response:", res.data);
+        const listOfMatches = [...interestMatches];
+        const index = interestMatches.findIndex(u => user.id === u.id);
+        listOfMatches.splice(index, 1);
+        setInterestMatches(listOfMatches);
+        socket.emit('OUTGOING_REQUEST', user.id);
       });
   }
 
@@ -50,16 +56,19 @@ function SearchByInterest(props) {
     </li>);
   });
 
-  if (!interestMatches.length) {
+  if (!interests) {
     return <h4>You have not selected any interests. Update your interest to receivecompatible buddy recommendations.</h4>;
   }
-
-  return (
-    <div className='search-list'>
-      <h4>These users share your interest. Connect with them and motivate each other</h4>
-      {interestMatchesRender}
-    </div>
-  );
+  if (interestMatches.length) {
+    return (
+      <div className='search-list'>
+        <h4>These users share your interest and are looking for an accountability buddy: </h4>
+        {interestMatchesRender}
+      </div>
+    );
+  }
+  
+  return (<h4>No users with similar interests as yours are looking for an accountability buddy at this moment. Consider adding more interests in settings to get a wider selection.</h4>)
 };
 
 export default SearchByInterest;

@@ -102,7 +102,7 @@ router.get('/interest', async (req, res) => {
     return decoded;
   });
 
-  const result = await prisma.$queryRaw`
+  let result = await prisma.$queryRaw`
   SELECT COUNT(*) as num, u2c_others.user_id as id, users.username, users.buddy_availability, users.buddy_id
   FROM interests u2c_main
   JOIN interests u2c_others
@@ -113,16 +113,35 @@ router.get('/interest', async (req, res) => {
   ORDER BY num DESC
   LIMIT 4;
 `;
-
   console.log('THe UPdated QUery!', result);
 
-  const r2 = await Promise.all(result.map(async (u) => {
+  result = await Promise.all(result.map(async (user) => {
+    const existingRequest = await prisma.buddy_requests.findUnique({
+      where: {
+        activeRequest: {
+          to_user: user.id,
+          from_user: userToken.id,
+          is_deleted: false
+        }
+      }
+    });
+    if(!existingRequest){
+      return user;
+    }
+    return false;
+  }));
+
+  const filterResult = result.filter(i => i !== false);
+
+  const r2 = await Promise.all(filterResult.map(async (u) => {
     // const interest = await prisma.$queryRaw`
     //     SELECT categories.name AS name
     //     FROM categories JOIN interests
     //     ON categories.id = interests.category_id
     //     WHERE interests.user_id = ${u.user_id}
     //   `;
+    
+
     const interests = await prisma.interests.findMany({
       where: {
         user_id: u.id
@@ -130,9 +149,8 @@ router.get('/interest', async (req, res) => {
       select: {
         category_id: true
       }
-    })
+    });
     u['test'] = 'this is a test';
-    console.log(interests);
     return { ...u, interests: [...interests.map(i => Object.values(i)[0])], num: null };
   }));
 

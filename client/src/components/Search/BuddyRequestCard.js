@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../features/notificationSlice';
 import useVisualMode from "../../hooks/useVisualMode.js";
-
+import socket from '../../helpers/socketsHelper';
 
 const EDIT = "EDIT";
 const SHOW = "SHOW";
@@ -46,6 +46,7 @@ export default function BuddyRequestCard(props) {
 
         fetchData();
         transition(SENT);
+        socket.emit('OUTGOING_REQUEST', user.id);
       });
   }
 
@@ -74,8 +75,8 @@ export default function BuddyRequestCard(props) {
         <button onClick={handleSubmit}>Send a Quick Request</button>
       </>}
       {mode === SENT && <>
-        <h3>Buddy Request Sent</h3>
         <h3>{props.buddy.username}</h3>
+        <h4>Buddy Request Pending</h4>
       </>}
       {mode === EDIT && <>
         <h3>{props.buddy.username}</h3>

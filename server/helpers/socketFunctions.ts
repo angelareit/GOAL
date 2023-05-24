@@ -62,6 +62,21 @@ const socketFunctions = function(io, prisma) {
       getBuddyProgress(socket, payload.id);
     });
 
+    socket.on('OUTGOING_REQUEST', async payload => {
+      const result = await prisma.buddy_requests.findMany({
+        where: {
+          to_user: payload,
+          is_deleted: false
+        },
+        orderBy: {
+          created_at: 'desc'
+        },
+        include: {
+          users_buddy_requests_from_userTousers: true
+        }
+      });
+      socket.to(users[payload]).emit('UPDATE_REQUESTS', result);
+    });
 
     //Remove the user object from the users array upon disconnection to clean up the session and update their buddy
     socket.on('disconnect', async reason => {

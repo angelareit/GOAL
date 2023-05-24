@@ -28,7 +28,6 @@ router.get('/incoming', async (req, res) => {
 
     });
     res.send(result);
-
   }
   catch (error) {
     console.error(error);
@@ -99,11 +98,11 @@ router.post('/incoming/accept', async (req, res) => {
     });
 
     const result3 = await prisma.users.update({
-      where:{
+      where: {
         id: req.body.b_id
       },
-      data:{
-        buddy_id:userToken.id
+      data: {
+        buddy_id: userToken.id
       }
     })
     res.send({ result, result2, result3 });

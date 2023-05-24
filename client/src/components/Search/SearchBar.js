@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import './Search.scss';
-import SearchResultCard from "./SearchResultCard";
+import BuddyRequestCard from "./BuddyRequestCard";
 import { useSelector } from 'react-redux';
 
 // const EDIT = "EDIT";
@@ -36,7 +36,7 @@ const SearchBar = () => {
 
   const searchResultList = searchResults === null ? null : searchResults.map((user) => {
     let request = notifications.find(obj => obj.to_user === user.id);
-    return <SearchResultCard key={user.id} buddy={user} state={request ? SENT : SHOW} />;
+    return <BuddyRequestCard key={user.id} buddy={user} state={request ? SENT : SHOW} />;
   });
 
 

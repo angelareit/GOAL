@@ -11,7 +11,7 @@ const SHOW = "SHOW";
 const SENT = "SENT";
 // const ERROR = "ERROR";
 
-export default function SearchResultCard(props) {
+export default function BuddyRequestCard(props) {
   const { mode, transition, back } = useVisualMode(props.state);
   const [messageValue, setMessageValue] = useState('Add me please');
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ export default function SearchResultCard(props) {
 
 
   return (
-    <div className="search-result-tile">
+    <div className="request-card">
       {mode === SHOW && <>
         <h3>{props.buddy.username}</h3>
         <button onClick={() => transition(EDIT)}>Send a Personalized message</button>

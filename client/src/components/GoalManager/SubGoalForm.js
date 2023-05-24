@@ -8,6 +8,7 @@ export default function SubGoalForm(props) {
 
   const formattedDate = subGoal.due_date ? new Date(subGoal.due_date).toLocaleDateString('en-CA') : new Date().toLocaleDateString('en-CA');
 
+  console.log(subGoal.childrenIncomplete);
   const setDeadline = function(date) {
     const deadline = date ? new Date(date) : null;
     console.log(deadline);

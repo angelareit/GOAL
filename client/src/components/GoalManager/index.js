@@ -75,6 +75,7 @@ export default function GoalBoard(props) {
       console.log('NEW SUB GOAL', res.data);
       newGoal.id = res.data.id;
       newGoal.created_at = res.data.created_at;
+      newGoal.newGoal = false;
       socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
       dispatch(modifyHeadData({ ...subGoal, children: [...children, newGoal] }));
     });

@@ -35,10 +35,11 @@ export default function App() {
 
   return (
     <div className="App">
-      <Navbar onLogout={onLogout} />
       {viewState === 'landing' && <Landing />}
+      {viewState !== 'landing' && <Navbar onLogout={onLogout} />}
       {viewState === 'survey' && <Survey />}
       {viewState === 'home' && <Home />}
+
     </div>
   );
 };

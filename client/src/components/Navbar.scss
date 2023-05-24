@@ -6,13 +6,21 @@
   display: flex;
   position: absolute;
   width: 98vw;
-  background-color: $main7;
+  background-color: $bg1;
   justify-content: space-between;
   padding-left: 1vw;
   padding-right: 1vw;
   height: $navbar-height;
   border-bottom: $border-lines;
   color: $main3;
+  
+  .app-name{
+    color: $primary2
+  }
+
+  .logo{
+     @include logo
+  }
 
   div {
     display: flex;

@@ -6,7 +6,7 @@ main {
   flex-direction: row;
   justify-content: space-between;
   flex: 3;
-  color: $main1;
+  color: $text-col1;
 }
 
 input {
@@ -19,7 +19,7 @@ input {
 
 button[type=submit]
 {
-  @include button-3;
+  @include button-3 ($bg-color: $primary1, $highlight-col:$secondary1);
 }
 
 .App {
@@ -29,8 +29,7 @@ button[type=submit]
   align-items: center;
   text-align: center;
   height: 100vh;
-  background-color: $main8;
-  background-image: url("https://www.transparenttextures.com/patterns/blizzard.png");
+  @include background;
 }
 
 .main-container {

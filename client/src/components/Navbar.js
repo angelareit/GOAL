@@ -32,7 +32,7 @@ export default function Navbar(props) {
           />
         }
         <img className='logo' alt='GOAL' src={logo} />
-        <h1>GOAL</h1>
+        <h1 className='app-name'>GOAL</h1>
       </div>
       <div>
         {username &&

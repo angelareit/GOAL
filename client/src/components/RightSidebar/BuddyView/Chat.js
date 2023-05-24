@@ -36,8 +36,9 @@ function Chat() {
       receiver_id: buddy.id,
     };
     const now = Date.now();
-    dispatch(appendMessage({message: { ...outgoingMessage, created_at: Date(now) }, newMessage: false}));
-    socket.emit('MESSAGE_SEND', { ...outgoingMessage, created_at: new Date(now) });
+    socket.emit('MESSAGE_SEND', { ...outgoingMessage, created_at: new Date(now) }, res => {
+      dispatch(appendMessage({message: { ...res }, newMessage: false}));
+    });
     setMessage('');
   };
   
@@ -53,7 +54,8 @@ function Chat() {
 
   const renderedMessages = messages.map((m, i) => {
     const messageType = m.sender_id === user ? 'outgoing' : 'incoming';
-    return <MessageBubble message={m} buddy={buddy} type={messageType} deleteMessage={() => {
+    return <MessageBubble key={i} message={m} buddy={buddy} type={messageType} deleteMessage={() => {
+      console.log(m);
       socket.emit('MESSAGE_DELETE', { ...m });
       dispatch(deleteMessage(m));
     }} />;

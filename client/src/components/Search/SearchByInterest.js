@@ -19,25 +19,34 @@ const SearchByInterest = () => {
     fetchInterestMatches();
   }, []);
 
-  return(
-    <div class='search-list'>
-    <h4>These users share your interest. Connect with them and motivate eachother</h4>
-    {interestMatches.map((interestMatch)=>(
-   
-      <li key={interestMatch.id} className='list-item'>
-      <h4>{interestMatch.username}</h4>
-      <div>{interestMatch.interest.map(item => {
-        return (<div>
-          {console.log(item.name)}
-          {item.name}</div>)
-      })}</div>
-    <button class='btn'>Send Request</button>
-      </li>
-    )
-
-    )}
-  </div>
-  )
+  return (
+    <>
+      {interestMatches.length === 0 ? (
+        <h4>
+        You are not interesting enough for a buddy. Update your interest to receive buddy recommendations.
+        </h4>
+      ) : (
+        <div className='search-list'>
+          <h4>These users share your interest. Connect with them and motivate each other</h4>
+          {interestMatches.map((interestMatch) => (
+            <li key={interestMatch.id} className='list-item'>
+              <h4>{interestMatch.username}</h4>
+              <div>
+                {interestMatch.interest.map((item) => (
+                  <div>
+                    {console.log(item.name)}
+                    {item.name}
+                  </div>
+                ))}
+              </div>
+              <button className='btn'>Send Request</button>
+            </li>
+          ))}
+        </div>
+      )}
+    </>
+  );
+  
 }
 
 export default SearchByInterest;

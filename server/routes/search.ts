@@ -75,13 +75,13 @@ router.get('/interest', async (req, res) => {
   });
 
   const result = await prisma.$queryRaw`
-  SELECT COUNT(*) as num, u2c_others.user_id, users.username as username
+  SELECT COUNT(*) as num, u2c_others.user_id, users.username, users.buddy_availability, users.buddy_id
   FROM interests u2c_main
   JOIN interests u2c_others
   ON u2c_others.category_id = u2c_main.category_id AND u2c_others.user_id != u2c_main.user_id
-  JOIN users ON u2c_others.user_id = users.id
-  WHERE u2c_main.user_id = ${userToken.id}
-  GROUP BY u2c_others.user_id, users.username
+	JOIN users ON u2c_others.user_id = users.id
+  WHERE u2c_main.user_id = ${userToken.id} AND buddy_id IS NULL AND buddy_availability = TRUE
+  GROUP BY u2c_others.user_id, users.username, users.buddy_availability, users.buddy_id
   ORDER BY num DESC
   LIMIT 4;
 `;

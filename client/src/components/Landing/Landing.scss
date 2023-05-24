@@ -6,9 +6,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   color: $main1;
-  max-width: 1920px;
+  width: 60%;
+  flex-grow: 1;
 
   .create-bttn {
     @include button-2;
@@ -20,6 +21,7 @@
     flex-direction: column;
     border-radius: 5px;
     padding: 1em;
+    height: 50%;
 
     div.tabs {
       display: flex;
@@ -46,7 +48,7 @@
     }
 
     div.content {
-      background-color: tomato;
+      // background-color: tomato;
       height: inherit;
 
     }

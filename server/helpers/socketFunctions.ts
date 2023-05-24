@@ -62,6 +62,10 @@ const socketFunctions = function(io, prisma) {
       getBuddyProgress(socket, payload.id);
     });
 
+    socket.on('REMOVE_BUDDY', payload => {
+      socket.to(users[payload]).emit('REMOVE_BUDDY');
+    });
+
     socket.on('OUTGOING_REQUEST', async payload => {
       const result = await prisma.buddy_requests.findMany({
         where: {
@@ -76,6 +80,10 @@ const socketFunctions = function(io, prisma) {
         }
       });
       socket.to(users[payload]).emit('UPDATE_REQUESTS', result);
+    });
+
+    socket.on('ACCEPTED_BUDDY', async payload => {
+      updateBuddy(socket, id);
     });
 
     //Remove the user object from the users array upon disconnection to clean up the session and update their buddy
@@ -132,7 +140,7 @@ const socketFunctions = function(io, prisma) {
     //   console.log(users[id]);
     socket.emit('BUDDY_UPDATE', payload);
     if (buddyOnline) {
-      socket.to(users[buddy.id]).emit('BUDDY_UPDATE', { online: true });
+      socket.to(users[buddy.id]).emit('BUDDY_UPDATE', { id, name: user.username, online: true });
     }
   };
 

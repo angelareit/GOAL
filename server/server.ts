@@ -20,8 +20,6 @@ import { Server } from "socket.io";
 const io = new Server(server);
 
 import { PrismaClient, Prisma } from '@prisma/client';
-import { triggerAsyncId } from 'async_hooks';
-
 
 const prisma = new PrismaClient();
 
@@ -48,7 +46,6 @@ app.use('/mainGoals', mainGoalRoutes);
 
 
 import socketFunctions from './helpers/socketFunctions';
-import { type } from 'os';
 socketFunctions(io, prisma);
 
 //CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access

@@ -21,7 +21,6 @@ router.post('/remove_buddy', async (req, res) => {
       }
     }
     );
-
     const result2 = await prisma.users.update({
       where: {
         id: req.body.b_id
@@ -29,9 +28,8 @@ router.post('/remove_buddy', async (req, res) => {
       data: {
         buddy_id: null
       }
-    }
-    );
-    return res.json({ result, result2 })
+    });
+    return res.json({ result, result2 });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

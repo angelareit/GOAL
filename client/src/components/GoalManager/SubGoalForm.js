@@ -25,7 +25,7 @@ export default function SubGoalForm(props) {
       event.preventDefault();
       props.saveChild(subGoal);
       props.onCancel(null);
-    }} className='SubGoalForm'>
+    }} className='SubGoalForm card'>
       <table>
         <tbody>
           <tr><td className='label'><label>Title</label></td><td className='input'><input type='text' defaultValue={subGoal.title} onChange={event => setSubGoal({ ...subGoal, title: event.target.value })}></input></td></tr>

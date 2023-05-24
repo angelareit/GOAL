@@ -1,14 +1,26 @@
 import './GoalManager.scss';
 
 export default function SubGoalCard(props) {
-  const { subGoal } = props;
+  const { subGoal, selected } = props;
+  const isSelected = subGoal.id === selected?.id;
+
   return (
-    <div key={subGoal.id} className={`SubGoalCard${subGoal.completed_on ? ' child-complete' : ''}`}>
+    <div
+      key={subGoal.id}
+      onClick={event => {
+        event.stopPropagation();
+        if (isSelected) {
+          return;
+        }
+        props.onMove();
+      }}
+      className={`SubGoalCard card ${subGoal.completed_on ? 'child-complete' : ''} ${selected ? (isSelected ? 'selected' : 'not-selected') : ''}`}>
       {/* <div key={subGoal.id} className='SubGoalCard' onClick={event => {event.stopPropagation(); props.onClick(); }}> */}
       <header className='sub-header'><h3 onClick={event => {
         event.stopPropagation();
         props.onFocus();
-      }}>{subGoal.title}</h3><p>Created: {new Date(subGoal.created_at).toLocaleDateString('en-CA')}</p></header>
+      }}>{subGoal.title}</h3>
+        <p>Created: {new Date(subGoal.created_at).toLocaleDateString('en-CA')}</p></header>
       <div className='subgoal-body'>
         <p>{subGoal.note}</p>
         <p><b>Priority:</b> <progress value={subGoal.priority} max={100}>
@@ -18,7 +30,16 @@ export default function SubGoalCard(props) {
         </progress></p>
         <p>{!subGoal.completed_on ? (subGoal.due_date ? `Deadline: ${new Date(subGoal.due_date).toLocaleDateString('en-CA')}` : 'No Deadline') : (`Completed on: ${new Date(subGoal.completed_on).toLocaleDateString('en-CA')}`)}</p>
       </div>
-      {props.parentIncomplete && <footer><button className='card-btn edit-btn' onClick={props.onEdit}>Edit</button><button className='card-btn delete-btn' onClick={props.onDelete}>Delete</button></footer>}
+      {props.parentIncomplete && <footer>
+        {!selected && <button className='card-btn edit-btn' onClick={props.onEdit}>Edit</button>}
+        {(!selected || isSelected) && <button
+          className='card-btn move-btn'
+          onClick={event => {
+            event.stopPropagation();
+            props.onMove();
+          }}>{isSelected ? 'Cancel' : 'Move'}</button>}
+        {!selected && <button className='card-btn delete-btn' onClick={props.onDelete}>Delete</button>}
+      </footer>}
     </div>
   );
 }

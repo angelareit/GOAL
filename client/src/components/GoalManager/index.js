@@ -14,7 +14,7 @@ import SubGoalForm from './SubGoalForm';
 
 // import { LinkedList } from '../../helpers/classes';
 import { useSelector, useDispatch } from 'react-redux';
-import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend } from '../../features/goalManagerSlice';
+import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } from '../../features/goalManagerSlice';
 
 export default function GoalBoard(props) {
   const dispatch = useDispatch();
@@ -26,7 +26,6 @@ export default function GoalBoard(props) {
   const editingID = useSelector(state => state.goalManager.editing);
   const buddyState = useSelector((state) => state.session.buddy);
 
-  // eslint-disable-next-line
   const [childRef, setChildRef] = useState(null);
 
   const resetManagerSettings = function() {
@@ -109,24 +108,25 @@ export default function GoalBoard(props) {
     dispatch(setNewGoal(goalTemplate));
   };
 
-  // const reparent = function(subGoal) {
-  //   if (!childRef) {
-  //     return setChildRef(subGoal);
-  //   }
-  //   if (childRef.id === subGoal?.id) {
-  //     return setChildRef(null);
-  //   }
-  //   axios.post('/subgoal/reparent', { parent: subGoal, child: childRef })
-  //     .then(res => {
-  //       dispatch(reparentChild({ parent: subGoal, child: childRef }));
-  //     });
-  //   setChildRef(null);
-  // };
+  const reparent = function(subGoal) {
+    dispatch(setNewGoal(null));
+    if (!childRef) {
+      return setChildRef(subGoal);
+    }
+    if (childRef.id === subGoal?.id) {
+      return setChildRef(null);
+    }
+    axios.post('/subgoal/reparent', { parent: subGoal, child: childRef })
+      .then(res => {
+        dispatch(reparentChild({ parent: subGoal, child: childRef }));
+      });
+    setChildRef(null);
+  };
 
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
     // return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onClick={() => reparent(c)} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
-    return (editingID === c.id && !subGoal.goal.completed_on) ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} parentIncomplete={!subGoal.goal.completed_on} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
+    return (editingID === c.id && !subGoal.goal.completed_on) ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} parentIncomplete={!subGoal.goal.completed_on} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} onMove={() => { reparent(c); }} subGoal={c} selected={childRef} />;
   });
 
 
@@ -145,23 +145,23 @@ export default function GoalBoard(props) {
   }
 
   return (
-    // <div className='GoalManager' onClick={() => { reparent(null); }}>
-    <div className='GoalManager'>
+    <div className={`GoalManager ${childRef ? (goalStructure.head.next ? 'move-to-parent' : 'cancel-move') : ''}`} onClick={() => { reparent(null); }}>
+      {/* // <div className='GoalManager'> */}
       <GoalStructure chain={goalStructure} />
-      <section className={`focused-goal${goalStructure.head.data.goal?.completed_on ? ' focused-complete' : ''}`}>
+      <section className={`focused-goal ${goalStructure.head.data.goal?.completed_on ? 'focused-complete' : ''}`}>
         <section className='goal-details'>
           {goalStructure.head.data.goal && <FocusedGoal goal={goalStructure.head.data.goal} />}
         </section>
         <section className='child-container'>
           {renderedChildren}
-          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <button className='add' onClick={addNewGoal}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></button>}
+          {!childRef && (newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <div className='card add' onClick={event => { event.stopPropagation(); addNewGoal(); }}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></div>)}
         </section>
       </section>
       {/* {goalStructure.head.next !== null && <button className="up" onClick={() => {
         setChildRef(null);
         dispatch(removeHead(goalStructure));
       }}>Back</button>} */}
-      {goalStructure.head.next !== null && <button className="up" onClick={() => {
+      {goalStructure.head.next !== null && !childRef && <button className="up" onClick={() => {
         resetManagerSettings();
         dispatch(removeHead(goalStructure));
       }}>Back</button>}

@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   padding-bottom: 1em;
   box-shadow: inset 0px 10px 64px #0005;
 
@@ -36,10 +36,6 @@
   }
 
   .add {
-    
-    width: 20em;
-    height: 15em;
-    // margin: 0.5em;
     display: flex;
     background-color: adjust-color($color: $main7, $alpha: -0.6);
     color: $main8;
@@ -49,9 +45,9 @@
     border: none;
     border-radius: 3px;
     border: $border-lines;
-    
+
     .plus {
-      font-size: 6em; 
+      font-size: 6em;
     }
   }
 
@@ -67,19 +63,22 @@
     min-width: 4em;
     min-height: 4em;
     font-weight: bold;
-    background-color:$red3;
+    background-color: $red3;
     color: $main8;
     box-shadow: 0px 5px 10px #0003;
   }
+
   .up:hover {
     background-color: adjust-color($color: $red3, $lightness: +10%, $saturation: +20%);
     color: adjust-color($color: $main8, $lightness: +10%);
     cursor: pointer;
   }
+
   .up:active {
     background-color: adjust-color($color: $red3, $lightness: -10%, $saturation: +20%);
     color: adjust-color($color: $main8, $lightness: -10%);
   }
+
 }
 
 .GoalStructure {
@@ -93,6 +92,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 1em;
+
   h1 {
     font-size: 30px;
     margin: 0px;
@@ -109,19 +109,24 @@
   p {
     margin: 0%;
   }
+
+
+}
+
+.move-to-parent:hover {
+  cursor: alias;
+}
+
+.cancel-move:hover {
+  cursor: no-drop;
 }
 
 .SubGoalCard {
-  border: $border-lines;
-  width: 19em;
-  height: 14em;
-  padding: 0.5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: $main2;
   background-color: $main7;
-  border-radius: 3px;
 
   p {
     margin: 0%;
@@ -171,7 +176,9 @@
     }
   }
 
+
 }
+
 
 .child-complete {
   background-color: rgb(79, 224, 103);
@@ -183,9 +190,23 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   p {
     height: 2em;
   }
+}
+
+.selected {
+  background-color: $main8;
+
+  :hover {
+    cursor: no-drop;
+  }
+}
+
+.not-selected:hover {
+  background-color: $main6;
+  cursor: alias;
 }
 
 .card-btn {
@@ -228,18 +249,24 @@
   background-color: $red1;
 }
 
-.SubGoalForm {
-  border: $border-lines;
+.move-btn {
+  background-color: $main3;
+}
 
-  width: 19em;
-  height: 14em;
-  padding: 0.5em;
+.move-btn:hover {
+  background-color: $main5;
+}
+
+.move-btn:active {
+  background-color: $main1;
+}
+
+.SubGoalForm {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: $main2;
   background-color: $main8;
-  border-radius: 3px;
 
   .form-container {
     display: flex;
@@ -286,4 +313,12 @@
     gap: 10px;
   }
 
+}
+
+.card {
+  border: $border-lines;
+  border-radius: 3px;
+  width: 19em;
+  height: 14em;
+  padding: 0.5em;
 }

@@ -7,7 +7,7 @@ import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 import BuddyView from './BuddyView';
 import Search from '../Search';
-import Setting from '../Setting';
+import Setting from './Setting';
 
 
 export default function RightSidebar(props) {
@@ -17,7 +17,7 @@ export default function RightSidebar(props) {
     drawerState.visibility &&
     <section className='RightSidebar'>
       {drawerState.currentView === 'notifications' && <h2> NOTIFICATIONS </h2>}
-      {drawerState.currentView === 'settings' && <h2> <Setting /> </h2>}
+      {drawerState.currentView === 'settings' && <Setting /> }
       {drawerState.currentView === 'search' && <Search />}
       {drawerState.currentView === 'buddy' && <BuddyView />}
     </section>

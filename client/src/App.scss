@@ -8,6 +8,7 @@ main {
   flex: 3;
   color: $main1;
 }
+
 input {
   margin: 3px;
   padding: 5px;
@@ -15,6 +16,7 @@ input {
   background-color: white;
   border-bottom: 2px solid $main1;
 }
+
 button[type=submit]
 {
   @include button-3;

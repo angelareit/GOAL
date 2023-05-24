@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import './Notifications.scss';
-import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { useSelector, useDispatch } from 'react-redux';
-import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
+import { regular } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { useSelector } from 'react-redux';
 import RequestCard from "./requestCard";
 import InvitationCard from "./invitationCard";
 
 const SHOW = "SHOW";
-const REJECTED = "REJECTED";
+// const REJECTED = "REJECTED";
 const ACCEPTED = "ACCEPTED";
-const ERROR = "ERROR";
+// const ERROR = "ERROR";
 
 
 export default function Notifications(props) {
   const notificationState = useSelector((state) => state.notification);
-  const dispatch = useDispatch();
   const userState = useSelector((state) => state.session.user);
   const buddyState = useSelector((state) => state.session.buddy);
-
-
 
   let allBuddyRequests = notificationState.pendingBuddyRequests.concat(notificationState.sentBuddyRequests);
   allBuddyRequests.sort((a, b) => a.created_at - b.created_at);

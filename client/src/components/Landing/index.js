@@ -1,12 +1,11 @@
-import react, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import './Landing.scss';
 import { setUser, setInterests, fetchBuddyProgress, fetchMyProgress } from '../../features/sessionSlice';
 import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../features/notificationSlice';
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
-import socket from '../../helpers/socketsHelper';
 
 import Login from './Login';
 import Register from './Register';
@@ -15,8 +14,7 @@ import Splash from './Splash';
 //enables axios to save cookie on the client
 axios.defaults.withCredentials = true;
 
-export default function Landing(props) {
-  const userState = useSelector((state) => state.session.user);
+export default function Landing() {
   const dispatch = useDispatch();
 
   const [content, setContent] = useState('Login');
@@ -101,6 +99,7 @@ export default function Landing(props) {
     }).catch((err) => {
       console.log(err);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onLogin = (email, password) => {

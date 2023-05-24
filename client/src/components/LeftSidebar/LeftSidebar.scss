@@ -5,9 +5,13 @@
 {
   display: flex;
   flex-direction: column;
+  // height: 100%;
   background-color: $main8;
+  flex: 1;
+  padding: 0.5em;
+
   // box-shadow: 10px 0px 8px #0003;
-  width: $sidebar-width;
-  margin-right:auto;
+  // width: $sidebar-width;
+  // margin-right:auto;
   border-right: $border-lines;
 }

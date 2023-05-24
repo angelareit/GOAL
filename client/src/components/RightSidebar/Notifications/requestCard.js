@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import './Notifications.scss';
 import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { useDispatch } from 'react-redux';
 import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../../features/notificationSlice';
 import useVisualMode from "../../../hooks/useVisualMode.js";
-
 
 const SHOW = "SHOW";
 const REJECTED = "REJECTED";
 const ACCEPTED = "ACCEPTED";
-const ERROR = "ERROR";
+// const ERROR = "ERROR";
 
 export default function RequestCard(props) {
-  const { mode, transition, back } = useVisualMode(props.state);
+  const { mode, transition } = useVisualMode(props.state);
   const dispatch = useDispatch();
-
 
   const fetchData = async () => {
     try {
@@ -61,7 +57,7 @@ export default function RequestCard(props) {
     axios.post('/request/incoming/reject', { r_id: id })
       .then((response) => {
         fetchData();
-        alert("You have rejected the buddy request.")
+        alert("You have rejected the buddy request.");
       })
       .catch((error) => {
         console.error(error);
@@ -83,7 +79,7 @@ export default function RequestCard(props) {
           <h3>{props.fromUsername} IS NOW YOUR BUDDY</h3>
         </>
       }
-       {mode === REJECTED &&
+      {mode === REJECTED &&
         <>
           <h3>Rejected a request from {props.fromUsername}</h3>
         </>

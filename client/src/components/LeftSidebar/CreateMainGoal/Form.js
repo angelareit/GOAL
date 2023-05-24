@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import './CreateMainGoal.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import './CreateMainGoal.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 export default function Form(props) {
 
@@ -11,23 +10,24 @@ export default function Form(props) {
       title: "",
     }
   );
-  const [error, setError] = useState("");
 
+  // eslint-disable-next-line
+  const [error, setError] = useState("");
 
   const reset = function() {
     setMainGoal({ ...mainGoal, title: '' });
-  }
+  };
 
   const handleSave = function() {
     validate();
 
-    props.onSave(mainGoal)
-  }
+    props.onSave(mainGoal);
+  };
 
   const handleCancel = function() {
     reset();
     props.onCancel();
-  }
+  };
 
   function validate() {
     if (mainGoal.title === "") {

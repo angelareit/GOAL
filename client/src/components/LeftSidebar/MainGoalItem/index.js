@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import useVisualMode from "../../../hooks/useVisualMode.js";
-import './MainGoalItem.scss'
+import React from "react";
+import '../MainGoalList.scss';
 
-const SHOW = "SHOW";
-const EDITING = "EDITING";
-const SAVING = "SAVING";
-const ERROR = "ERROR";
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
+// const SHOW = "SHOW";
+// const EDITING = "EDITING";
+// const SAVING = "SAVING";
+// const ERROR = "ERROR";
 
 export default function MainGoalItem(props) {
-  const { mode, transition, back } = useVisualMode(SHOW);
+  // const { mode, transition, back } = useVisualMode(SHOW);
 
   return (
-    <article className={`main-goal-item ${props.selected && 'active'}`} onClick={props.onSelect}>
-      <span>{props.title}</span>
+    <li className={`main-goal-item ${props.selected && 'active'}`}>
+      <header><h4 onClick={props.onSelect}>{props.title}</h4><FontAwesomeIcon className='trash' onClick={props.deleteGoal} icon={solid("trash")} /></header>
       {props.selected &&
         <progress className='progress1' value={props.barValue} max={props.barMax}> {props.barValue} </progress>}
-    </article>
+    </li>
   );
 }

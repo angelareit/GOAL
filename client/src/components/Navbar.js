@@ -31,7 +31,7 @@ export default function Navbar(props) {
             icon={icon({ name: "bars-staggered" })}
           />
         }
-        <img className='logo' src={logo} />
+        <img className='logo' alt='GOAL' src={logo} />
         <h1>GOAL</h1>
       </div>
       <div>

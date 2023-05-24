@@ -1,10 +1,5 @@
-import React, { useEffect } from 'react';
-import '../BuddyView.scss'
-import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux'
-import { current } from 'immer';
-
-
+import React from 'react';
+import '../BuddyView.scss';
 
 export default function ProgressCard(props) {
 
@@ -33,7 +28,7 @@ export default function ProgressCard(props) {
       return <div className='subgoal-history-entry'>
         <span>{subGoal.title}</span>
         <span>{getRelativeTime(new Date(subGoal.completed_on).getTime())}</span>
-      </div>
+      </div>;
     });
     return history.slice(- 5);
   }
@@ -47,5 +42,5 @@ export default function ProgressCard(props) {
         {displayHistory()}
       </div>
     </div>
-  )
+  );
 }

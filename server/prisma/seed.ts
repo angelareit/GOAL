@@ -42,7 +42,6 @@ async function main() {
     const rebecca = await prisma.users.upsert({
       where: { email: 'rebecca@literature.ca' },
       update: {
-        password: password,
         buddy_id: 5
       },
       create: {
@@ -54,7 +53,6 @@ async function main() {
     const stacy = await prisma.users.upsert({
       where: { email: 'anastasia@journaling.com' },
       update: {
-        password: password,
         buddy_id: 4
       },
       create: {
@@ -62,6 +60,22 @@ async function main() {
         username: 'stationeryStacy',
         password: password
       },
+    });
+    await prisma.users.update({
+      where: {
+        id: 4
+      },
+      data: {
+        buddy_id: 5
+      }
+    });
+    await prisma.users.update({
+      where: {
+        id: 5
+      },
+      data: {
+        buddy_id: 4
+      }
     });
     const dan = await prisma.users.upsert({
       where: { email: 'danny@wheels.com' },
@@ -214,7 +228,7 @@ async function main() {
       create: {
         title: 'Play Bold As Love',
         note: 'I want to learn to play guitar like Jimmi Hendricks and play Bold As Love in front of a live audience.',
-        user_id: 3,
+        user_id: 2,
         category_id: 4
       },
     });
@@ -224,7 +238,7 @@ async function main() {
       create: {
         title: 'Compete In Triathlon',
         note: 'I want to get back into shape and compete in a triathlon.',
-        user_id: 4,
+        user_id: 3,
         category_id: 1
       },
     });
@@ -306,6 +320,7 @@ async function main() {
           note: 'If I delete the app from my phone, I\'ll be less inclined to order in.',
           main_goal_id: 1,
           priority: 1,
+          completed_on: new Date('2023-02-13')
         }
       })
     );
@@ -330,6 +345,7 @@ async function main() {
           note: 'I rarely watch it, but keep getting billed for it.',
           main_goal_id: 1,
           priority: 1,
+          completed_on: new Date('2023-05-24')
         }
       })
     );

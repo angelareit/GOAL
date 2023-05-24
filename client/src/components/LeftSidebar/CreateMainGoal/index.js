@@ -1,31 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { useSelector, useDispatch } from 'react-redux';
 import { addNewGoal } from '../../../features/mainGoalSlice';
 import { fetchMyProgress } from '../../../features/sessionSlice';
 
 import useVisualMode from "../../../hooks/useVisualMode.js";
-import './CreateMainGoal.scss'
+import './CreateMainGoal.scss';
 import Form from "./Form";
-import Header from "./Header";
 import socket from '../../../helpers/socketsHelper';
-
 
 const CREATE = "CREATE";
 const SHOW = "SHOW";
 const SAVING = "SAVING";
 const ERROR = "ERROR";
 
-
-
 export default function CreateMainGoal(props) {
   const { mode, transition, back } = useVisualMode(SHOW);
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.session.user);
   const buddyState = useSelector((state) => state.session.buddy);
-
 
   function saveGoal(mainGoal) {
     transition(SAVING);
@@ -37,7 +30,6 @@ export default function CreateMainGoal(props) {
           console.log('NEW HERE', res.data.result);
           dispatch(addNewGoal(res.data.result));
           socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState, });
-
           transition(SHOW);
         }
       }).catch((err) => {

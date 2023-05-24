@@ -15,6 +15,9 @@ export const sessionSlice = createSlice({
       console.log('session user', action);
       return { ...state, user: {...action.payload} };
     },
+    updateUser: (state, action) => {
+      return { ...state, user: {...state.user, ...action.payload} };
+    },
     setBuddy: (state, action) => {
       return { ...state, buddy: { ...state.buddy, ...action.payload } };
     },
@@ -54,5 +57,5 @@ export const sessionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBuddy, setInterests, updateInterest, resetSession, fetchBuddyProgress,fetchMyProgress } = sessionSlice.actions;
+export const { setUser, updateUser, setBuddy, setInterests, updateInterest, resetSession, fetchBuddyProgress,fetchMyProgress } = sessionSlice.actions;
 export default sessionSlice.reducer;

@@ -78,7 +78,7 @@ router.post('/incoming/accept', async (req, res) => {
   console.log('REquest', req.body.r_id);
   try {
     //set buddy request to deleted
-    const result = await prisma.buddy_requests.update({
+    const request = await prisma.buddy_requests.update({
       where: {
         id: req.body.r_id
       },
@@ -88,7 +88,7 @@ router.post('/incoming/accept', async (req, res) => {
     });
 
     //add buddy to the database
-    const result2 = await prisma.users.update({
+    const acceptingUser = await prisma.users.update({
       where: {
         id: userToken.id
       },
@@ -97,7 +97,7 @@ router.post('/incoming/accept', async (req, res) => {
       }
     });
 
-    const result3 = await prisma.users.update({
+    const requestingUser = await prisma.users.update({
       where: {
         id: req.body.b_id
       },
@@ -105,7 +105,8 @@ router.post('/incoming/accept', async (req, res) => {
         buddy_id: userToken.id
       }
     })
-    res.send({ result, result2, result3 });
+    res.send({ request, acceptingUser, requestingUser });
+    // TODO: Insert WebSockets emit to send the requesting user updated buddy info
   }
   catch (error) {
     console.error(error);

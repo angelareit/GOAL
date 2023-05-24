@@ -7,14 +7,13 @@ import NoBuddy from "./NoBuddy";
 import IncomingRequests from "./IncomingRequests";
 import SearchByInterest from "./SearchByInterest";
 
-export default function Search(props) {
+export default function Search() {
   //see if the user has a buddy
   //if buddyState.id is trusy, do not render incoming requests
   //if buddyState.id is falsy, render incoming requests
   const buddyState = useSelector(state => state.session.buddy);
   const userState = useSelector((state) => state.session.user);
-  const viewState = useSelector((state) => state.viewManager.rightSideBar);
-
+  // const viewState = useSelector((state) => state.viewManager.rightSideBar);
 
   return (
 
@@ -22,11 +21,11 @@ export default function Search(props) {
       <div className="Search">
         <NoBuddy />
         {userState.buddy_availability ? (
-        <>
-          <SearchBar />
-          <IncomingRequests />
-          <SearchByInterest /> 
-        </>) :
+          <>
+            <SearchBar />
+            <IncomingRequests />
+            <SearchByInterest />
+          </>) :
           (<Availability />)
         }
       </div>

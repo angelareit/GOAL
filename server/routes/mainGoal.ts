@@ -33,5 +33,38 @@ router.put('/new', async (req, res) => {
     return res.json({ success: false });
   }
 });
+
+const deleteSubGoals = async function(id) {
+
+  await prisma.sub_goals.deleteMany({
+    where: {
+      main_goal_id: id
+    },
+  });
+};
+
+router.delete('/', async (req, res) => {
+  const id = Number(req.query.id);
+  if (!id) {
+    return res.json({ success: false });
+  }
+
+  await prisma.main_goals.delete({
+    where: {
+      id: id
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+
+  deleteSubGoals(id)
+    .catch(err => {
+      console.log(err);
+      return res.json({ success: false });
+    });
+  res.json({ success: true });
+
+});
+
 export default router;
 

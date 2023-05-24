@@ -12,7 +12,7 @@ const socketBuddyFunctions = function(dispatch) {
   });
 
   socket.on('MESSAGE_RECEIVE', payload => {
-    dispatch(appendMessage(payload));
+    dispatch(appendMessage({message: payload, newMessage: true}));
   });
 
   socket.on('MESSAGE_HISTORY', payload => {

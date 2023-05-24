@@ -11,6 +11,7 @@ import Progress from './Progress';
 
 function BuddyView(props) {
   const viewState = useSelector((state) => state.viewManager.rightSideBar);
+  const newMessage = useSelector(state => state.messages.newMessage);
   const dispatch = useDispatch();
 
 
@@ -23,7 +24,7 @@ function BuddyView(props) {
           onClick={() => dispatch(showBuddyProgressPanel())}
           icon={solid("bars-progress")} />
         <FontAwesomeIcon
-          className={`${viewState.currentTab === 'buddy-chat' ? 'active' : ''}`}
+          className={`${viewState.currentTab === 'buddy-chat' ? 'active' : ''} ${newMessage ? 'message-alert' : ''}`}
           onClick={() => dispatch(showBuddyChatPanel())}
           icon={solid("comments")} />
       </div>

@@ -13,6 +13,7 @@
 .CreateGoalPrompt {
   flex: 3;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: $main7;
@@ -21,10 +22,10 @@
 .call-to-action {
   color: $green3;
 }
+
 .call-to-action:hover {
   cursor: pointer;
 }
-
 
 .goal-manager {
   flex-grow: 2;

@@ -4,14 +4,14 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../features/notificationSlice';
 import useVisualMode from "../../hooks/useVisualMode.js";
-
+import socket from '../../helpers/socketsHelper';
 
 const EDIT = "EDIT";
 const SHOW = "SHOW";
 const SENT = "SENT";
 // const ERROR = "ERROR";
 
-export default function SearchResultCard(props) {
+export default function BuddyRequestCard(props) {
   const { mode, transition, back } = useVisualMode(props.state);
   const [messageValue, setMessageValue] = useState('Add me please');
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ export default function SearchResultCard(props) {
 
         fetchData();
         transition(SENT);
+        socket.emit('OUTGOING_REQUEST', user.id);
       });
   }
 
@@ -67,15 +68,15 @@ export default function SearchResultCard(props) {
 
 
   return (
-    <div className="search-result-tile">
+    <div className="request-card">
       {mode === SHOW && <>
         <h3>{props.buddy.username}</h3>
         <button onClick={() => transition(EDIT)}>Send a Personalized message</button>
         <button onClick={handleSubmit}>Send a Quick Request</button>
       </>}
       {mode === SENT && <>
-        <h3>Buddy Request Sent</h3>
         <h3>{props.buddy.username}</h3>
+        <h4>Buddy Request Pending</h4>
       </>}
       {mode === EDIT && <>
         <h3>{props.buddy.username}</h3>

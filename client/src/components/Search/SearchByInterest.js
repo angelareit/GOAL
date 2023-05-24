@@ -4,17 +4,22 @@ import './Search.scss';
 import useVisualMode from "../../hooks/useVisualMode.js";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSentBuddyRequests } from "../../features/notificationSlice";
+import socket from "../../helpers/socketsHelper";
 
 
 
 function SearchByInterest(props) {
 
   const [interestMatches, setInterestMatches] = useState([]);
-  const fetchInterestMatches = async () => {
+  const interests = useSelector(state => state.session.interests);
+
+  const fetchInterestMatches = function() {
     try {
-      const response = await axios.get("/search/interest");
-      console.log("Search By Interest", response.data);
-      setInterestMatches(response.data);
+      axios.get("/search/interest").then(res => {
+
+        console.log("Search By Interest", res.data);
+        setInterestMatches(res.data);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -29,32 +34,41 @@ function SearchByInterest(props) {
     axios.post('/search/request', { user: user, requestMessage: message })
       .then((res) => {
         console.log("Response:", res.data);
+        const listOfMatches = [...interestMatches];
+        const index = interestMatches.findIndex(u => user.id === u.id);
+        listOfMatches.splice(index, 1);
+        setInterestMatches(listOfMatches);
+        socket.emit('OUTGOING_REQUEST', user.id);
       });
   }
 
   const interestMatchesRender = interestMatches.map((interestMatch, i) => {
-    return (<li key={i} className='list-item'>
+    console.log("Item", interestMatch);
+    return (<li key={i} className='request-card'>
       <h4>{interestMatch.username}</h4>
-      {interestMatch.interest.map((item, i) => {
+      {interestMatch.interests.map((item, i) => {
         return (<p key={i} className='interest-name'>
-          {console.log(item.name)}
-          {item.name}
-        </p>)
+          {/* {console.log(user.name)} */}
+          {interests[item].name}
+        </p>);
       })}
       <button className='btn' onClick={() => onSendRequest(interestMatch, "I'd like to be compatibility buddies!")}>Send Request</button>
     </li>);
   });
 
-  if (!interestMatches.length) {
+  if (!interests) {
     return <h4>You have not selected any interests. Update your interest to receivecompatible buddy recommendations.</h4>;
   }
-
-  return (
-    <div className='search-list'>
-      <h4>These users share your interest. Connect with them and motivate each other</h4>
-      {interestMatchesRender}
-    </div>
-  );
+  if (interestMatches.length) {
+    return (
+      <div className='search-list'>
+        <h4>These users share your interest and are looking for an accountability buddy: </h4>
+        {interestMatchesRender}
+      </div>
+    );
+  }
+  
+  return (<h4>No users with similar interests as yours are looking for an accountability buddy at this moment. Consider adding more interests in settings to get a wider selection.</h4>)
 };
 
 export default SearchByInterest;

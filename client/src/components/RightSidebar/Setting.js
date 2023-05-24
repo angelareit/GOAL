@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBuddy, updateInterest } from '../../features/sessionSlice';
 import axios from 'axios';
+import socket from '../../helpers/socketsHelper';
 
 /**id:null
 name: null
@@ -20,6 +21,7 @@ const Setting = () => {
     axios.post('setting/remove_buddy', { b_id: buddyState.id })
       .then(
         res => {
+          socket.emit('REMOVE_BUDDY', buddyState.id);
           return dispatch(setBuddy({
             id: null,
             name: null,
@@ -119,16 +121,12 @@ const Setting = () => {
       <div className="interests">
         {renderedInterests}
       </div>
-      <div>
-        {buddyState?.name ?
-          (<div>
-            <h5>Your accountability buddy is {buddyState.name}.</h5>
-            <button className="btn" onClick={removeBuddy}>
-              Remove Buddy
-            </button>
-          </div>)
-          : (<></>)}
-      </div>
+      {buddyState?.name ?
+        (<><h5>Your accountability buddy is {buddyState.name}.</h5>
+          <button className="btn" onClick={removeBuddy}>
+            Remove Buddy
+          </button></>)
+        : (<></>)}
 
     </div>
   );

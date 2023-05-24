@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 import { setBuddy, fetchBuddyProgress } from '../features/sessionSlice';
 import { appendMessage, deleteMessage, fetchMessageHistory } from '../features/messagesSlice';
+import { showBuddyProgressPanel, showSearchPanel } from '../features/viewManagerSlice';
 
 const socket = io({ autoConnect: false });
 
@@ -9,10 +10,11 @@ const socketBuddyFunctions = function(dispatch) {
   socket.on('BUDDY_UPDATE', payload => {
     console.log(payload);
     dispatch(setBuddy(payload));
+    dispatch(showBuddyProgressPanel());
   });
 
   socket.on('MESSAGE_RECEIVE', payload => {
-    dispatch(appendMessage({message: payload, newMessage: true}));
+    dispatch(appendMessage({ message: payload, newMessage: true }));
   });
 
   socket.on('MESSAGE_HISTORY', payload => {
@@ -21,7 +23,7 @@ const socketBuddyFunctions = function(dispatch) {
 
   socket.on('MESSAGE_DELETE', payload => {
     console.log(payload);
-    dispatch(deleteMessage(payload.message))
+    dispatch(deleteMessage(payload.message));
   });
 
   socket.emit('GET_BUDDY_INFO', payload => {
@@ -37,11 +39,16 @@ const socketBuddyFunctions = function(dispatch) {
 
     dispatch(fetchBuddyProgress(payload));
   });
-/* 
-  socket.emit('BUDDY_PROGRESS', payload => {
-    console.log('PROGRESS EMIT YO', payload);
-    dispatch(fetchBuddyProgress(payload));
-  }); */
+
+  socket.on('REMOVE_BUDDY', () => {
+    dispatch(setBuddy({ name: null, id: null, online: null }));
+    dispatch(showSearchPanel());
+  });
+  /* 
+    socket.emit('BUDDY_PROGRESS', payload => {
+      console.log('PROGRESS EMIT YO', payload);
+      dispatch(fetchBuddyProgress(payload));
+    }); */
 
   /*   socket.emit('BUDDY_PROGRESS_UPDATE', payload => {
       dispatch(fetchBuddyProgress(payload));

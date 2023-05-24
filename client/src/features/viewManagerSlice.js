@@ -5,7 +5,7 @@ export const viewManagerSlice = createSlice({
   initialState: {
     page: 'landing',
     leftSideBar: { visibility: false, currentView: '' },
-    rightSideBar: { visibility: false, currentView: '', currentTab: 'buddy-progress'},
+    rightSideBar: { visibility: false, currentView: '', currentTab: 'buddy-progress' },
     mainArea: { visibility: true, currentView: '' }
   },
 
@@ -25,43 +25,43 @@ export const viewManagerSlice = createSlice({
         state.rightSideBar = { ...state.rightSideBar, currentView: 'notifications', visibility: true };
       }
       else {
-        state.rightSideBar = {...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'notifications' };
+        state.rightSideBar = { ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'notifications' };
       }
     },
     showBuddyPanel: (state) => {
       if (state.rightSideBar.currentView !== 'buddy') {
-        state.rightSideBar = { ...state.rightSideBar,  visibility: true, currentView: 'buddy'};
+        state.rightSideBar = { ...state.rightSideBar, visibility: true, currentView: 'buddy' };
       }
       else {
-        state.rightSideBar = {  ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'buddy' };
+        state.rightSideBar = { ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'buddy' };
       }
     },
     showSearchPanel: (state) => {
 
       if (state.rightSideBar.currentView !== 'search') {
-        state.rightSideBar = { ...state.rightSideBar,  visibility: true, currentView: 'search'};
+        state.rightSideBar = { ...state.rightSideBar, visibility: true, currentView: 'search' };
       }
       else {
-        state.rightSideBar = {  ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'search' };
+        state.rightSideBar = { ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'search' };
       }
     },
     showSearchPanelSearchByUsername: (state) => {
-      state.rightSideBar = { ...state.rightSideBar,visibility: !state.rightSideBar.visibility, currentTab: 'search-byUsername' };
+      state.rightSideBar = { ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentTab: 'search-byUsername' };
     },
     showSearchPanelSearchByRecommendations: (state) => {
-      state.rightSideBar = { ...state.rightSideBar,visibility: !state.rightSideBar.visibility, currentTab: 'search-byRecommendations' };
+      state.rightSideBar = { ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentTab: 'search-byRecommendations' };
     },
     showAccountSettingsPanel: (state) => {
       state.rightSideBar = { ...state.rightSideBar, visibility: true, currentView: 'settings' };
     },
     showBuddyChatPanel: (state) => {
-      state.rightSideBar = { ...state.rightSideBar, visibility: true, currentTab: 'buddy-chat' };
+      state.rightSideBar = {visibility: true, currentView: 'buddy', currentTab: 'buddy-chat' };
     },
     showBuddyProgressPanel: (state) => {
-      state.rightSideBar = { ...state.rightSideBar, visibility: true, currentTab: 'buddy-progress' };
+      state.rightSideBar = {visibility: true, currentView: 'buddy', currentTab: 'buddy-progress' };
     },
     showRightSideBarContent: (state, action) => {
-      state.rightSideBar = {  ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: action.payload };
+      state.rightSideBar = { ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: action.payload };
     },
     hideRightSideBar: (state) => {
       state.rightSideBar = { ...state.rightSideBar, visibility: false };

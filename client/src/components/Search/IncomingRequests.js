@@ -3,18 +3,16 @@ import axios from "axios";
 import './Search.scss';
 
 import { useDispatch } from "react-redux";
-
+import { showBuddyChatPanel } from "../../features/viewManagerSlice";
 import { updateUser, setBuddy } from "../../features/sessionSlice";
 import socket from "../../helpers/socketsHelper";
-// import {}
 
-const IncomingRequests = () => {
+const IncomingRequests = (props) => {
 
   const dispatch = useDispatch();
 
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [incomingResponse, setIncomingResponse] = useState("People are asking to be your buddy!");
-
 
   // Fetch the incoming buddy requests from the server
   const fetchData = async () => {
@@ -28,21 +26,26 @@ const IncomingRequests = () => {
 
   useEffect(() => {
     fetchData();
+    socket.on('UPDATE_REQUESTS', () => {
+      fetchData();
+    });
+    return () => { socket.off('UPDATE_REQUESTS'); };
   }, []);
 
-  const handleAccept = (evt) => {
-    evt.preventDefault();
-    const r_id = parseInt(evt.target[0].value[0]);
-    const b_id = parseInt(evt.target[0].value[2]);
-    // console.log("raget", r_id, b_id)
-    axios.post('/request/incoming/accept', { r_id: r_id, b_id: b_id })
+  const handleAccept = (request) => {
+    const requestID = request.id;
+    const buddyID = request.from_user;
+    axios.post('/request/incoming/accept', { r_id: requestID, b_id: buddyID })
       //value={[incomingRequest.id, incomingRequest.from_user]}
       .then((res) => {
-        dispatch(updateUser({buddy_id: res.data.requestingUser.id}));
+        // dispatch(updateUser({ buddy_id: res.data.requestingUser.id }));
         // const buddy = res.data.requestingUser;
-        socket.emit('GET_BUDDY_INFO', payload => {
-          dispatch(setBuddy(payload));
-        });
+        dispatch(showBuddyChatPanel());
+        // socket.emit('GET_BUDDY_INFO', payload => {
+        //   dispatch(setBuddy(payload));
+
+        // });
+        socket.emit('ACCEPTED_BUDDY');
         // setIncomingResponse("Congratulations on your new buddy!");
 
       })
@@ -57,7 +60,6 @@ const IncomingRequests = () => {
     axios.post('/request/incoming/reject', { r_id: evt.target[0].value })
       .then((response) => {
         fetchData();
-        alert("You have rejected the buddy request.");
       })
       .catch((error) => {
         console.error(error);
@@ -76,13 +78,9 @@ const IncomingRequests = () => {
                 <div key={incomingRequest.id} className='list-item'>
                   <p>From User: {incomingRequest.users_buddy_requests_from_userTousers.username}</p>
                   <p>{incomingRequest.message}</p>
-                  <form onSubmit={handleAccept}>
-                    <input
-                      value={[incomingRequest.id, incomingRequest.from_user]}
-                      type="hidden"
-                    />
-                    <button className='btn'>Accept</button>
-                  </form>
+                  <button className='btn' onClick={event => {
+                      handleAccept(incomingRequest);
+                    }}>Accept</button>
                   <form onSubmit={handleReject}>
                     <input
                       value={incomingRequest.id}

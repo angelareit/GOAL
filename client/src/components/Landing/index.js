@@ -79,7 +79,7 @@ export default function Landing(props) {
       console.log(err);
     });
 
-     //Fetch my buddy progress
+     //Fetch my progress
      axios.get('/progress', { params: { userID: user.id } }
      ).then(res => {
        console.log('progress', res.data);

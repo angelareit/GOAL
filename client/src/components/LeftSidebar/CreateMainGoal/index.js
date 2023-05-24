@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { useSelector, useDispatch } from 'react-redux';
 import { addNewGoal } from '../../../features/mainGoalSlice';
+import { fetchMyProgress } from '../../../features/sessionSlice';
 
 import useVisualMode from "../../../hooks/useVisualMode.js";
 import './CreateMainGoal.scss'
@@ -35,12 +36,26 @@ export default function CreateMainGoal(props) {
         if (res.data.success) {
           console.log('NEW HERE', res.data.result);
           dispatch(addNewGoal(res.data.result));
-          socket.emit('BUDDY_PROGRESS_UPDATE',{ ... buddyState,});
+          socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState, });
+
           transition(SHOW);
         }
       }).catch((err) => {
         transition(ERROR);
       });
+
+    //Fetch my progress
+    axios.get('/progress', { params: { userID: userState.id } }
+    ).then(res => {
+      console.log('progress', res.data);
+      if (res.data.success) {
+        dispatch(fetchMyProgress(res.data));
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+
+
   }
 
   return (

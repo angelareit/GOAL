@@ -57,9 +57,15 @@ const socketFunctions = function(io, prisma) {
     });
 
     socket.on('BUDDY_PROGRESS_UPDATE', async payload => {
-      console.log('SERVER PROGRESS', payload.id);
+      console.log('SERVER BUDDY PROGRESS', payload.id);
 
       getBuddyProgress(socket, payload.id);
+    });
+
+    socket.on('MY_PROGRESS_UPDATE', async payload => {
+      console.log('SERVER MY PROGRESS', payload.id);
+
+      getMyProgress(socket, payload.id);
     });
 
 
@@ -149,7 +155,7 @@ const socketFunctions = function(io, prisma) {
   };
 
   const getBuddyProgress = async function(socket, id) {
-    console.log('IM HERE, ', id);
+    console.log('BUDDY IM HERE, ', id);
     //Id refers to buddy ID. If it's null, i.e. the user doesn't have a buddy, do nothing
     if (!id) {
       return;
@@ -227,6 +233,71 @@ const socketFunctions = function(io, prisma) {
     }
     else {
       socket.to(users[id]).emit('BUDDY_PROGRESS', { success: false });
+    }
+  };
+
+  const getMyProgress = async function(socket, id) {
+    console.log('MY IM HERE, ', id);
+
+    if (id) {
+      const currentDate = new Date();
+      const d = new Date();
+      d.setDate(currentDate.getDate() - 14);
+
+      const subGoals = await prisma.sub_goals.findMany({
+        where: {
+          main_goals: {
+            user_id: Number(id),
+          },
+          completed_on: {
+            gte: d.toISOString(),
+            not: null,
+          },
+        },
+        orderBy: {
+          completed_on: 'asc',
+        },
+      });
+
+      const groupedSubGoals = subGoals.reduce((result, subGoal) => {
+        const { main_goal_id, ...rest } = subGoal;
+        if (!result[main_goal_id]) {
+          result[main_goal_id] = [];
+        }
+        result[main_goal_id].push(rest);
+        return result;
+      }, {});
+
+      const goal_counts = await prisma.main_goals.findMany({
+        where: {
+          user_id: Number(id),
+        },
+        select: {
+          id: true,
+          title: true,
+          sub_goals: {
+            select: {
+              main_goal_id: true,
+              completed_on: true,
+            },
+            take: 5
+          },
+        },
+      });
+
+      const groupedGoalCounts = goal_counts.map((mainGoal) => ({
+        main_goal_id: mainGoal.id,
+        main_goal_title: mainGoal.title,
+        total_count: mainGoal.sub_goals.length,
+        completed_count: mainGoal.sub_goals.filter((subGoal) => subGoal.completed_on !== null).length,
+      }));
+
+      socket.to(users[id]).emit('MY_PROGRESS', { success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+
+      //  socket.emit('BUDDY_PROGRESS', { success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+    }
+    else {
+      socket.to(users[id]).emit('MY_PROGRESS', { success: false });
     }
   };
 

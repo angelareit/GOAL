@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { setBuddy, fetchBuddyProgress } from '../features/sessionSlice';
+import { setBuddy, fetchBuddyProgress,fetchMyProgress } from '../features/sessionSlice';
 import { appendMessage, deleteMessage, fetchMessageHistory } from '../features/messagesSlice';
 
 const socket = io({ autoConnect: false });
@@ -37,6 +37,12 @@ const socketBuddyFunctions = function(dispatch) {
 
     dispatch(fetchBuddyProgress(payload));
   });
+
+  socket.on('MY_PROGRESS', payload => {
+    console.log('PROGRESS ON ME', payload);
+
+    dispatch(fetchMyProgress(payload));
+  });
 /* 
   socket.emit('BUDDY_PROGRESS', payload => {
     console.log('PROGRESS EMIT YO', payload);
@@ -55,6 +61,8 @@ const socketsDisconnect = function() {
   socket.off('MESSAGE_HISTORY');
   socket.off('BUDDY_UPDATE');
   socket.off('BUDDY_PROGRESS');
+  socket.off('MY_PROGRESS');
+
   socket.disconnect();
 };
 

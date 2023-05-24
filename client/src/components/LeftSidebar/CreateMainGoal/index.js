@@ -30,6 +30,8 @@ export default function CreateMainGoal(props) {
           console.log('NEW HERE', res.data.result);
           dispatch(addNewGoal(res.data.result));
           socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState, });
+          socket.emit('MY_PROGRESS_UPDATE', { ...userState, });
+
           transition(SHOW);
         }
       }).catch((err) => {

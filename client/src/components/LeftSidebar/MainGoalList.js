@@ -1,6 +1,6 @@
 import React from "react";
 import MainGoalItem from "./MainGoalItem";
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setActiveGoal, deleteGoal } from '../../features/mainGoalSlice';
 
 import axios from 'axios';
@@ -18,18 +18,19 @@ export default function MainGoalList(props) {
   const deleteMainGoal = function(index, id) {
     axios.delete('/mainGoals', { params: { id } }).then(res => {
       console.log(res);
-      if(res.data.success) {
+      if (res.data.success) {
         dispatch(deleteGoal(index));
       }
     });
   };
 
   const mainGoals = props.goals.map((goal, i) => {
+    //let goalProgressData = myProgressState.find(obj => obj.main_goal_id === goal.id)
     return <MainGoalItem
       key={goal.id}
       title={goal.title}
-      selected={ goal.id === props.active.id}
-      barValue = {   ( goalProgressData.completed_count / goalProgressData.total_count) * 100}
+      selected={goal.id === props.active.id}
+     // barValue={(goalProgressData.completed_count / goalProgressData.total_count) * 100}
       barMax={100}
       onSelect={() => onSelectMainGoal(goal)}
       deleteGoal={() => deleteMainGoal(i, goal.id)}

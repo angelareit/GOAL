@@ -69,7 +69,7 @@ export default function Landing() {
     //Fetch buddy progress
     axios.get('/progress', { params: { userID: user.buddy_id } }
     ).then(res => {
-      console.log('progress', res.data);
+      console.log('BUDDY progress', res.data);
       if (res.data.success) {
         dispatch(fetchBuddyProgress(res.data));
       }
@@ -80,7 +80,7 @@ export default function Landing() {
      //Fetch my progress
      axios.get('/progress', { params: { userID: user.id } }
      ).then(res => {
-       console.log('progress', res.data);
+       console.log('MY progress', res.data);
        if (res.data.success) {
          dispatch(fetchMyProgress(res.data));
        }

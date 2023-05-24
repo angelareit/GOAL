@@ -25,6 +25,8 @@ export default function GoalBoard(props) {
   const newGoal = useSelector(state => state.goalManager.newGoal);
   const editingID = useSelector(state => state.goalManager.editing);
   const buddyState = useSelector((state) => state.session.buddy);
+  const userState = useSelector((state) => state.session.user);
+
 
   const [childRef, setChildRef] = useState(null);
 
@@ -61,6 +63,7 @@ export default function GoalBoard(props) {
             } */
 
       socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
+      socket.emit('MY_PROGRESS_UPDATE', { ...userState });
 
       console.log(updatedGoal);
     });
@@ -77,6 +80,8 @@ export default function GoalBoard(props) {
       newGoal.id = res.data.id;
       newGoal.created_at = res.data.created_at;
       socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
+      socket.emit('MY_PROGRESS_UPDATE', { ...userState });
+
       dispatch(modifyHeadData({ ...subGoal, children: [...children, newGoal] }));
     });
   };

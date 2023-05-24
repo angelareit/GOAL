@@ -37,7 +37,19 @@ export const viewManagerSlice = createSlice({
       }
     },
     showSearchPanel: (state) => {
-      state.rightSideBar = { ...state.rightSideBar,visibility: !state.rightSideBar.visibility, currentView: 'search' };
+
+      if (state.rightSideBar.currentView !== 'search') {
+        state.rightSideBar = { ...state.rightSideBar,  visibility: true, currentView: 'search'};
+      }
+      else {
+        state.rightSideBar = {  ...state.rightSideBar, visibility: !state.rightSideBar.visibility, currentView: 'search' };
+      }
+    },
+    showSearchPanelSearchByUsername: (state) => {
+      state.rightSideBar = { ...state.rightSideBar,visibility: !state.rightSideBar.visibility, currentTab: 'search-byUsername' };
+    },
+    showSearchPanelSearchByRecommendations: (state) => {
+      state.rightSideBar = { ...state.rightSideBar,visibility: !state.rightSideBar.visibility, currentTab: 'search-byRecommendations' };
     },
     showAccountSettingsPanel: (state) => {
       state.rightSideBar = { ...state.rightSideBar, visibility: true, currentView: 'settings' };
@@ -72,7 +84,9 @@ export const viewManagerSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   switchPage, resetViews,
-  showNotificationPanel, showBuddyPanel, showSearchPanel, showRightSideBarContent,
+  showNotificationPanel, showBuddyPanel,
+  showSearchPanel, showSearchPanelSearchByRecommendations, showSearchPanelSearchByUsername,
+  showRightSideBarContent,
   showBuddyChatPanel, showBuddyProgressPanel, showAccountSettingsPanel, hideRightSideBar,
   showGoalListPanel, hideLeftSideBar, showLeftSideBarContent
 } = viewManagerSlice.actions;

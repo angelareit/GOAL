@@ -54,7 +54,7 @@ router.get('/outgoing', async (req, res) => {
         created_at: 'desc'
       },
       include: {
-        users_buddy_requests_from_userTousers: true
+        users_buddy_requests_to_userTousers: true
       }
 
     });

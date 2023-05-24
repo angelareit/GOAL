@@ -13,13 +13,16 @@ export default function Search(props) {
   //if buddyState.id is falsy, render incoming requests
   const buddyState = useSelector(state => state.session.buddy);
   const userState = useSelector((state) => state.session.user);
+  const viewState = useSelector((state) => state.viewManager.rightSideBar);
+
 
   return (
 
     buddyState.id ? (<></>) : (
       <div className="Search">
         <NoBuddy />
-        {userState.buddy_availability ? (<>
+        {userState.buddy_availability ? (
+        <>
           <SearchBar />
           <IncomingRequests />
           <SearchByInterest /> 

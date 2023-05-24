@@ -7,18 +7,27 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
 import { fetchBudddyRequests } from '../../../features/notificationSlice';
 import RequestCard from "./requestCard";
+import InvitationCard from "./invitationCard";
 
 
 
 
 export default function Notifications(props) {
-  const notificationState = useSelector((state) => state.notification.pendingBuddyRequests);
+  const notificationState = useSelector((state) => state.notification);
   const dispatch = useDispatch();
+  const userState = useSelector((state) => state.session.user);
 
-  //const notificationState = [{ request_message: 'CONTENT' }, { request_message: 'CONTENT 2' },]
-  const buddyRequestList = notificationState.map((request) => {
-    console.log('buddy requests: ', request);
-    return <RequestCard fromUsername={request.users_buddy_requests_from_userTousers.username} request_message={request.request_message} />;
+
+  let allBuddyRequests = notificationState.pendingBuddyRequests.concat(notificationState.sentBuddyRequests);
+  allBuddyRequests.sort((a, b) => a.created_at - b.created_at);
+
+  console.log('ALL BREQUESTS,',  allBuddyRequests);
+
+  const buddyRequestList = allBuddyRequests.map((request) => {
+    console.log('myID', userState.id , 'buddy requests: ', request);
+   return ( request.to_user === userState.id ? <RequestCard  key={request.id} fromUsername={request.users_buddy_requests_from_userTousers.username} request_message={request.request_message} /> :
+   <InvitationCard key={request.id} toUsername={request.users_buddy_requests_to_userTousers.username} request_message={request.request_message} />
+  )
   });
 
   return (

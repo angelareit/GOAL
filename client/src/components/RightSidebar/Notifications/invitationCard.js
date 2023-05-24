@@ -6,22 +6,13 @@ import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.m
 
 
 
-export default function RequestCard(props) {
-
-  function onAccept(id){
-    console.log('Accept', id);
-  }
-  
-  function onDecline (id){
-    console.log('Decline', id);
-  }
+export default function InvitationCard(props) {
 
   return (
     <div className="notification-card">
-      <h3>{props.fromUsername}</h3>
+      <span>Sent a buddy invitation to</span>
+      <h3>{props.toUsername}</h3>
       <span>{props.request_message}</span>
-      <button onClick={onAccept()}>Accept</button>
-      <button onClick={onDecline()}>Decline</button>
     </div>
   );
 }

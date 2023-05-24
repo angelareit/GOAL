@@ -3,6 +3,8 @@ import axios from "axios";
 import './Search.scss';
 import SearchResultCard from "./SearchResultCard";
 import { useSelector, useDispatch } from 'react-redux';
+import { showSearchPanelSearchByRecommendations, showSearchPanelSearchByUsername } from '../../features/viewManagerSlice';
+
 
 const EDIT = "EDIT";
 const SHOW = "SHOW";
@@ -37,7 +39,7 @@ const SearchBar = () => {
 
   const searchResultList = searchResults === null ? null : searchResults.map((user) => {
     let request = notifications.find(obj => obj.to_user === user.id);
-    return <SearchResultCard key={user.id} buddy={user} state={request? SENT: SHOW} />
+    return <SearchResultCard key={user.id} buddy={user} state={request ? SENT : SHOW} />
   });
 
 
@@ -56,9 +58,6 @@ const SearchBar = () => {
         <div className="no-matches">
           <h4>No Results Found</h4>User does not exist or is not available as buddy
         </div> : searchResultList}
-      <span>
-        {successMessage}
-      </span>
     </span>
   );
 }

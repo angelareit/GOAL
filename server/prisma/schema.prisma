@@ -35,6 +35,7 @@ model buddy_requests {
   created_at                            DateTime? @default(now()) @db.Timestamp(6)
   users_buddy_requests_from_userTousers users?    @relation("buddy_requests_from_userTousers", fields: [from_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users_buddy_requests_to_userTousers   users?    @relation("buddy_requests_to_userTousers", fields: [to_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@unique(fields: [from_user, to_user, is_deleted], name: "activeRequest")
 }
 
 model messages {

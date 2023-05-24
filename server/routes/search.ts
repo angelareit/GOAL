@@ -63,14 +63,25 @@ router.post('/request', async (req, res) => {
   console.log(userToken);
   console.log(req.body);
   //console.log(req.body.id); // user_id for to_user
-  const result = await prisma.buddy_requests.create({
-    data: {
+
+  //Ensures that only one active request exists at a time
+  const result = await prisma.buddy_requests.upsert({
+    where: {
+      activeRequest: {
+        from_user: userToken.id,
+        to_user: req.body.user.id,
+        is_deleted: false
+      }
+    },
+    update: {},
+    create: {
       from_user: userToken.id,
       to_user: req.body.user.id,
-      request_message: req.body.requestMessage
+      request_message: req.body.requestMessage,
     }
   });
-  res.sendStatus(200); // Sending a 200 status code for a successful request
+
+  res.send(result); // Sending a 200 status code for a successful request
 });
 
 /*
@@ -92,7 +103,7 @@ router.get('/interest', async (req, res) => {
   });
 
   const result = await prisma.$queryRaw`
-  SELECT COUNT(*) as num, u2c_others.user_id, users.username, users.buddy_availability, users.buddy_id
+  SELECT COUNT(*) as num, u2c_others.user_id as id, users.username, users.buddy_availability, users.buddy_id
   FROM interests u2c_main
   JOIN interests u2c_others
   ON u2c_others.category_id = u2c_main.category_id AND u2c_others.user_id != u2c_main.user_id

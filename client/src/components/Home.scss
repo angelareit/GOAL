@@ -11,7 +11,7 @@
 }
 
 .CreateGoalPrompt {
-  width: 100%;
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,5 @@
 
 
 .goal-manager {
-  flex-grow: 3;
+  flex-grow: 2;
 }
-
-  

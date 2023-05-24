@@ -16,7 +16,7 @@ export default function SearchResultCard(props) {
   const [messageValue, setMessageValue] = useState('Add me please');
   const dispatch = useDispatch();
 
-  const fetchData = async () => {
+  async function fetchData() {
     try {
       // Fetch pending buddy requests
       await axios.get("/request/incoming").then(res => {

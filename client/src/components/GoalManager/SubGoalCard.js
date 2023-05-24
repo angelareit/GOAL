@@ -9,15 +9,13 @@ export default function SubGoalCard(props) {
       key={subGoal.id}
       onClick={event => {
         event.stopPropagation();
-        if (isSelected) {
-          return;
+        if (selected && !isSelected) {
+          return props.onMove();
         }
-        props.onMove();
       }}
       className={`SubGoalCard card ${subGoal.completed_on ? 'child-complete' : ''} ${selected ? (isSelected ? 'selected' : 'not-selected') : ''}`}>
       {/* <div key={subGoal.id} className='SubGoalCard' onClick={event => {event.stopPropagation(); props.onClick(); }}> */}
       <header className='sub-header'><h3 onClick={event => {
-        event.stopPropagation();
         props.onFocus();
       }}>{subGoal.title}</h3>
         <p>Created: {new Date(subGoal.created_at).toLocaleDateString('en-CA')}</p></header>
@@ -34,10 +32,7 @@ export default function SubGoalCard(props) {
         {!selected && <button className='card-btn edit-btn' onClick={props.onEdit}>Edit</button>}
         {(!selected || isSelected) && <button
           className='card-btn move-btn'
-          onClick={event => {
-            event.stopPropagation();
-            props.onMove();
-          }}>{isSelected ? 'Cancel' : 'Move'}</button>}
+          onClick={props.onMove}>{isSelected ? 'Cancel' : 'Move'}</button>}
         {!selected && <button className='card-btn delete-btn' onClick={props.onDelete}>Delete</button>}
       </footer>}
     </div>

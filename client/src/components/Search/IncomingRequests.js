@@ -2,9 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Search.scss';
 
+import { useDispatch } from "react-redux";
+
+import { updateUser, setBuddy } from "../../features/sessionSlice";
+import socket from "../../helpers/socketsHelper";
+// import {}
+
 const IncomingRequests = () => {
+
+  const dispatch = useDispatch();
+
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [incomingResponse, setIncomingResponse] = useState("People are asking to be your buddy!");
+
+
   // Fetch the incoming buddy requests from the server
   const fetchData = async () => {
     try {
@@ -26,9 +37,14 @@ const IncomingRequests = () => {
     // console.log("raget", r_id, b_id)
     axios.post('/request/incoming/accept', { r_id: r_id, b_id: b_id })
       //value={[incomingRequest.id, incomingRequest.from_user]}
+      .then((res) => {
+        dispatch(updateUser({buddy_id: res.data.requestingUser.id}));
+        // const buddy = res.data.requestingUser;
+        socket.emit('GET_BUDDY_INFO', payload => {
+          dispatch(setBuddy(payload));
+        });
+        // setIncomingResponse("Congratulations on your new buddy!");
 
-      .then((response) => {
-        setIncomingResponse("Congratulations on you new buddy!");
       })
       .catch((error) => {
         console.error(error);
@@ -65,14 +81,14 @@ const IncomingRequests = () => {
                       value={[incomingRequest.id, incomingRequest.from_user]}
                       type="hidden"
                     />
-                    <button class='btn'>Accept</button>
+                    <button className='btn'>Accept</button>
                   </form>
                   <form onSubmit={handleReject}>
                     <input
                       value={incomingRequest.id}
                       type="hidden"
                     />
-                    <button class='btn'>Reject</button>
+                    <button className='btn'>Reject</button>
 
                   </form>
                 </div>

@@ -89,7 +89,9 @@ const Setting = () => {
 
   const renderedInterests = Object.values(interests).map((c, i) => {
     return (
-      <button className={`btn ${c.isInterest ? 'active' : 'inactive'}`}
+      <button
+        key={i}
+        className={`btn ${c.isInterest ? 'active' : 'inactive'}`}
         type='submit'
         onClick={() => toggleInterest(c.category, userState.id, !c.isInterest)}>
         {c.name}

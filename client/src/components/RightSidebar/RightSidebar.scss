@@ -13,3 +13,51 @@
   border-left: $border-lines;
 
 }
+
+.Settings {
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1em;
+
+  .interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em;
+
+    .btn {
+      flex-grow: 1;
+    }
+  }
+
+  .active {
+    background-color: $green2;
+    color: $main8;
+  }
+
+  .inactive {
+    color: $main7;
+    background-color: $main5;
+  }
+
+  .on {
+    background-color: $green2;
+    color: $main8;
+  }
+
+  .on:hover {
+    background-color: $green3;
+    color: $main8;
+  }
+
+  .off {
+    background-color: $red2;
+    color: $main8;
+  }
+
+  .off:hover {
+    background-color: $red3;
+    color: $main8;
+  }
+}

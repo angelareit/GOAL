@@ -8,7 +8,7 @@ import { icon, solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import BuddyView from './BuddyView';
 import Search from '../Search/';
 import Notifications from './Notifications';
-import Setting from '../Setting'; 
+import Setting from './Setting'; 
 
 
 export default function RightSidebar(props) {

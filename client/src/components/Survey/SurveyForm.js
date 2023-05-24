@@ -14,14 +14,13 @@ export default function Survey() {
   const user = useSelector(state => state.session.user);
 
   const toggleInterest = function(id, user, checked) {
-    console.log(interests);
     dispatch(updateInterest({ id, checked}));
     if (checked) {
       return axios.post(`/interest/`, { category: id, user }).then(res => {
         console.log(res.data);
       });
     }
-
+  
     axios.delete(`/interest/`, { data: { category: id, user } }).then(res => {
       console.log(res.data);
     });

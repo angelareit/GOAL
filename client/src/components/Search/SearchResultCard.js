@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Search.scss'
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
+import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../features/notificationSlice';
 import useVisualMode from "../../hooks/useVisualMode.js";
 
 
@@ -13,11 +14,39 @@ const ERROR = "ERROR";
 export default function SearchResultCard(props) {
   const { mode, transition, back } = useVisualMode(props.state);
   const [messageValue, setMessageValue] = useState('Add me please');
+  const dispatch = useDispatch();
+
+
+
+  const fetchData = async () => {
+    try {
+      // Fetch pending buddy requests
+      await axios.get("/request/incoming").then(res => {
+        console.log('PENDING BUDDY REQUEST', res.data);
+        dispatch(fetchPendingBuddyRequests(res.data));
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      // Fetch outgoing buddy requests
+      await axios.get("/request/outgoing").then(res => {
+        console.log('SENT BUDDY REQUEST', res.data);
+        dispatch(fetchSentBuddyRequests(res.data));
+      }).catch((err) => {
+        console.log(err);
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   function onSendRequest(user, message) {
     axios.post('/search/request', { user: user, requestMessage: message })
       .then((res) => {
+
+        fetchData();
         transition(SENT);
       })
   }

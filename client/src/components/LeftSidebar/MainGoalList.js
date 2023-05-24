@@ -27,7 +27,7 @@ export default function MainGoalList(props) {
     return <MainGoalItem
       key={goal.id}
       title={goal.title}
-      selected={goal.id === props.active.id}
+      selected={goal.id === props.active?.id}
       onSelect={() => onSelectMainGoal(goal)}
       deleteGoal={() => deleteMainGoal(i, goal.id)}
     />;

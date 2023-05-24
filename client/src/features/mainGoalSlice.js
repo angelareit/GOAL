@@ -13,6 +13,7 @@ export const mainGoalSlice = createSlice({
       console.log('before adding', current(state.value));
 
       state.value.push(action.payload);
+      state.active = action.payload;
       console.log('Added new goal', current(state.value));
     },
     setGoals: (state,action) => {
@@ -32,6 +33,7 @@ export const mainGoalSlice = createSlice({
     },
     deleteGoal: (state, action) => {
       state.value.splice(action.payload, 1);
+      state.active = state.value.length ? state.value[state.value.length - 1] : null;
     }
   },
 })

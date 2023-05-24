@@ -20,5 +20,16 @@
     }
   }
 
+  .notification-card{
+    display: flex;
+    flex-direction: column;
+    background-color: $primary1;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+    h3{
+      margin: 0px;
+    }
+  }
 
 }

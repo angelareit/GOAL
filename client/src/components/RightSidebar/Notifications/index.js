@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
 import { fetchBudddyRequests } from '../../../features/notificationSlice';
 import PendingRequestList from "./pendingRequestList";
+import RequestCard from "./requestCard";
+
 
 
 
@@ -17,9 +19,7 @@ export default function Notifications(props) {
   //const notificationState = [{ request_message: 'CONTENT' }, { request_message: 'CONTENT 2' },]
   const buddyRequestList = notificationState.map((request) => {
     console.log('buddy requests: ', request);
-    return <>
-    <h3>{request.request_message}</h3>
-    </> 
+    return <RequestCard fromUsername={request.users_buddy_requests_from_userTousers.username} request_message={request.request_message} />;
   });
 
   return (
@@ -30,7 +30,7 @@ export default function Notifications(props) {
       <span>Buddy Requests</span>
       {buddyRequestList}
 
-{/*       <PendingRequestList requestList={notificationState} />
+      {/*       <PendingRequestList requestList={notificationState} />
  */}    </div>
   );
 }

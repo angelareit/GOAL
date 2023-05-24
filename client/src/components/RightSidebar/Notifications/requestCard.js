@@ -7,22 +7,22 @@ import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.m
 
 
 export default function RequestCard(props) {
-  const buddyRequestList = notificationState.map((request) => {
-    console.log('buddy requests: ', request);
-    return <>
-    <h3>{request.request_message}</h3>
-    </> 
-  });
+
+  function onAccept(id){
+    console.log('Accept', id);
+  }
+  function onDecline (id){
+    console.log('Decline', id);
+  }
 
   return (
-    <div className="notifications">
-      <div className='header'>
-        <FontAwesomeIcon icon={regular("bell")} /> <h4> Notifications </h4>
-      </div>
-      <span>Buddy Requests</span>
-      {buddyRequestList}
-   </div>
-  );
+    <div className="notification-card">
+      <h3>{props.fromUsername}</h3>
+      <span>{props.request_message}</span>
+      <button onClick={onAccept()}>Accept</button>
+      <button onClick={onDecline()}>Decline</button>
 
+    </div>
+  );
 }
 

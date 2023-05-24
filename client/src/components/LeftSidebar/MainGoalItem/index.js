@@ -1,5 +1,8 @@
 import React from "react";
-import './MainGoalItem.scss';
+import '../MainGoalList.scss';
+
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // const SHOW = "SHOW";
 // const EDITING = "EDITING";
@@ -10,8 +13,8 @@ export default function MainGoalItem(props) {
   // const { mode, transition, back } = useVisualMode(SHOW);
 
   return (
-    <article className={`main-goal-item ${props.selected && 'active'}`} onClick={props.onSelect}>
-      <span>{props.title}</span>
-    </article>
+    <li className={`main-goal-item ${props.selected && 'active'}`}>
+      <header><h4 onClick={props.onSelect}>{props.title}</h4><FontAwesomeIcon className='trash' onClick={props.deleteGoal} icon={solid("trash")} /></header>
+    </li>
   );
 }

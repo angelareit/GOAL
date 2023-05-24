@@ -1,7 +1,9 @@
 import React from "react";
 import MainGoalItem from "./MainGoalItem";
 import { useDispatch } from 'react-redux';
-import { setActiveGoal } from '../../features/mainGoalSlice';
+import { setActiveGoal, deleteGoal } from '../../features/mainGoalSlice';
+
+import axios from 'axios';
 
 import './MainGoalList.scss';
 
@@ -11,12 +13,23 @@ export default function MainGoalList(props) {
   function onSelectMainGoal(goal) {
     dispatch(setActiveGoal(goal));
   }
-  const mainGoals = props.goals.map((goal) => {
+
+  const deleteMainGoal = function(index, id) {
+    axios.delete('/mainGoals', { params: { id } }).then(res => {
+      console.log(res);
+      if(res.data.success) {
+        dispatch(deleteGoal(index));
+      }
+    });
+  };
+
+  const mainGoals = props.goals.map((goal, i) => {
     return <MainGoalItem
       key={goal.id}
       title={goal.title}
       selected={goal.id === props.active.id}
       onSelect={() => onSelectMainGoal(goal)}
+      deleteGoal={() => deleteMainGoal(i, goal.id)}
     />;
   });
 

@@ -2,32 +2,66 @@
 @import "../../styles/variables";
 
 
-.main-goal-list
-{
+.main-goal-list {
   display: flex;
   flex-direction: column;
   margin: 10px;
   text-align: left;
 
-  h4{
+  h4 {
     margin: 5px;
   }
 
-  ul{
+  ul {
     display: flex;
     flex-direction: column;
     margin: 5px;
     padding: 0px;
-    max-height:400px;
-    overflow-y: scroll; /* Show vertical scrollbar */
+    max-height: 400px;
     overflow-y: scroll;
-    direction: rtl;
+    /* Show vertical scrollbar */
+    overflow-y: scroll;
+    // direction: rtl;
 
 
-   /*  background: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%);
-    background: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%); */
+    /*  background: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%);
+   background: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 78%, #C59237 100%); */
+
   }
+
+
 }
-.active{
-  background-color:$main6;
+
+.main-goal-item {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 30px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h4 {
+    margin: 0%;
+  }
+
+  h4:hover {
+    cursor: pointer;
+  }
+
+  .trash {
+    color: $red1;
+  }
+  
+  .trash:hover {
+    color: $red2;
+    cursor: pointer;
+  }
+
+}
+
+.active {
+  background-color: $main6;
 }

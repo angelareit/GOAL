@@ -4,7 +4,8 @@ export const notificationSlice = createSlice({
   name: 'notification',
   initialState: {
     notificationList: [],
-    buddyRequests: [],
+    pendingBuddyRequests: [],
+    sentBuddyRequests: [],
     read: false
   },
   reducers: {
@@ -25,12 +26,15 @@ export const notificationSlice = createSlice({
     resetNotifications: (state, action) => {
       return { ...state, notifications: [] };
     },
-    fetchBuddyRequests: (state, action) => {
-      console.log('FETCH', action.payload);
-      return {  ...state, buddyRequests: action.payload };
+    fetchPendingBuddyRequests: (state, action) => {
+      return {  ...state, pendingBuddyRequests: action.payload };
     },
+    fetchSentBuddyRequests: (state, action) => {
+      return {  ...state, sentBuddyRequests: action.payload };
+    },
+    
   }
 });
 
-export const { fetchNotifications, addNotification, removeNotification, resetNotifications, fetchBuddyRequests } = notificationSlice.actions;
+export const { fetchNotifications, addNotification, removeNotification, resetNotifications, fetchPendingBuddyRequests, fetchSentBuddyRequests } = notificationSlice.actions;
 export default notificationSlice.reducer;

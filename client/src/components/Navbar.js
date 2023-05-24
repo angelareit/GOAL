@@ -16,7 +16,6 @@ export default function Navbar(props) {
 
   function checkBuddy() {
     if (buddy.id === null) {
-      console.log('here', viewState.rightSideBar.currentView);
       dispatch(showSearchPanel());
     } else {
       dispatch(showBuddyPanel());

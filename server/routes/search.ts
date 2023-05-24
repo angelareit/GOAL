@@ -10,26 +10,42 @@ router.get('/', (req, res) => {
 
 //search for buddy
 router.post('/', async (req, res) => {
-  console.log(req.body);
+  console.log('req body', req.body);
 
   try {
-    const result = await prisma.users.findFirst({
-      where: { username: req.body.searchValue },
+    //get the user
+    const result = await prisma.users.findMany({
+      where: {
+        username: {
+          contains: req.body.searchValue,
+          mode: 'insensitive',
+        },
+        id: { not: req.body.userID,},
+        buddy_availability: true,
+        buddy_id: null,
+        is_deleted: false,
+      },
+      orderBy: {
+        username: 'asc',
+      },
     });
-    console.log(result);
-    if (result === null) {
-      res.send(null);
-    } else {
-      if (result.buddy_availability && !result.buddy_id && !result.is_deleted) {
-        res.send(result);
-      } else {
-        res.send(null);
-      }
-    }
+/*     
+    let ids = result.map(obj => obj.id);
+    const invites = await prisma.buddy_requests.findMany({
+      where: {
+        from_user: req.body.userID,
+        to_user: { in: ids }, 
+        is_deleted: false,
+      },
+    });
+    console.log(result,ids, invites);
+ */
+    
+    res.send(result);
   }
   catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.send(null);
   }
 });
 
@@ -50,7 +66,7 @@ router.post('/request', async (req, res) => {
     data: {
       from_user: userToken.id,
       to_user: req.body.user.id,
-      request_message: "You have a buddy request."
+      request_message: req.body.requestMessage
     }
   });
   res.sendStatus(200); // Sending a 200 status code for a successful request
@@ -63,7 +79,7 @@ JOIN interests u2c_others
 ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
 WHERE u2c_main.user_id = 1
 GROUP BY u2c_others.user_id;
-*/ 
+*/
 
 router.get('/interest', async (req, res) => {
   console.log("Gotit")
@@ -86,23 +102,23 @@ router.get('/interest', async (req, res) => {
   LIMIT 4;
 `;
 
-    console.log('THe UPdated QUery!',result)
+  console.log('THe UPdated QUery!', result)
 
-    const r2 = await Promise.all(result.map(async (u) => {
-      const interest = await prisma.$queryRaw`
+  const r2 = await Promise.all(result.map(async (u) => {
+    const interest = await prisma.$queryRaw`
         SELECT categories.name AS name
         FROM categories JOIN interests
         ON categories.id = interests.category_id
         WHERE interests.user_id = ${u.user_id}
       `;
-      u['test'] = 'this is a test';
-      return { ...u, interest, num: null };
-    }));
-    
-    console.log('ReSuLt', r2);
-    return res.send(r2);
-    
-  
+    u['test'] = 'this is a test';
+    return { ...u, interest, num: null };
+  }));
+
+  console.log('ReSuLt', r2);
+  return res.send(r2);
+
+
 })
 export default router;
 

@@ -186,8 +186,23 @@ app.delete('/interest/', async (req, res) => {
 });
 
 app.get('/test', async (req, res) => {
-  let userID = 1;
-  if (true) {
+  const result = await prisma.users.findMany({
+    where: {
+      username: {
+        contains: 'becky',
+        mode: 'insensitive',
+      },
+      buddy_availability: true,
+      buddy_id: null,
+      is_deleted: false,
+    },
+    orderBy: {
+      username: 'asc',
+    },
+  });
+  res.send(result);
+
+  /* if (true) {
     const currentDate = new Date();
     const d = new Date();
     d.setDate(currentDate.getDate() - 14);
@@ -245,7 +260,7 @@ app.get('/test', async (req, res) => {
   }
   else {
     return res.json({ success: false });
-  }
+  } */
 
 });
 

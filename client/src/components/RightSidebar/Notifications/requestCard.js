@@ -11,6 +11,7 @@ export default function RequestCard(props) {
   function onAccept(id){
     console.log('Accept', id);
   }
+  
   function onDecline (id){
     console.log('Decline', id);
   }

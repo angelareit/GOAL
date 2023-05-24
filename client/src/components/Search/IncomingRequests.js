@@ -9,7 +9,7 @@ const IncomingRequests = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("/request/incoming");
-      console.log(response.data);
+      //console.log(response.data);
       setIncomingRequests(response.data);
     } catch (error) {
       console.error(error);

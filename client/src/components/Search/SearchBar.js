@@ -1,40 +1,46 @@
 import React, { useState } from "react";
 import axios from "axios";
 import './Search.scss';
+import SearchResultCard from "./SearchResultCard";
+import { useSelector, useDispatch } from 'react-redux';
+
+const EDIT = "EDIT";
+const SHOW = "SHOW";
+const SENT = "SENT";
+const ERROR = "ERROR";
+
 
 const SearchBar = () => {
-  const[searchValue, setSearchValue] = useState("")
-  const[buddyName, setBuddyName] = useState({username:""})
-  const[successMessage, setSuccessMessage] = useState("")
-  
+  const userState = useSelector((state) => state.session.user);
+
+  const [searchValue, setSearchValue] = useState("")
+  const [searchResults, setSearchResults] = useState(null)
+  const [successMessage, setSuccessMessage] = useState("")
+  const notifications = useSelector((state) => state.notification.sentBuddyRequests);
+
+
   const onChange = (evt) => {
     setSearchValue(evt.target.value);
   };
-  
+
   const onSubmit = (evt) => {
     evt.preventDefault();
-    axios.post('/search', { searchValue: searchValue })
-    .then((res) => {
-      setSearchValue("");
-      if (res.data){
-        setBuddyName(res.data)
-      } else {
-        setBuddyName({username:null})
-      }
-      
-      console.log(res.data)
-    })
+    axios.post('/search', { searchValue: searchValue, userID: userState.id })
+      .then((res) => {
+        console.log('SEARCH RESULT', res)
+        setSearchValue("");
+        if (res.data) {
+          setSearchResults(res.data)
+        }
+      })
   };
 
-  const handleBuddyRequest = (evt) => {
-    evt.preventDefault();
-    axios.post('/search/request', {user:buddyName})
-    .then((res) => {
-      setBuddyName({username:""})
-      setSuccessMessage("Friend request has been submitted.")
-    })
-  }
-  
+  const searchResultList = searchResults === null ? null : searchResults.map((user) => {
+    let request = notifications.find(obj => obj.to_user === user.id);
+    return <SearchResultCard key={user.id} buddy={user} state={request? SENT: SHOW} />
+  });
+
+
   return (
     <span className='search-list'>
       <form onSubmit={(evt) => onSubmit(evt)}>
@@ -44,28 +50,14 @@ const SearchBar = () => {
           placeholder={"Find buddy by username"}
           onChange={(evt) => onChange(evt)}
         />
-        <button class='btn'>Search</button>
+        <button className='btn'>Search</button>
       </form>
-
-      {buddyName.username === "" ? (
-        <></>
-      ):  
-      buddyName.username === null ? (
-        <div>The user you are looking for does not exist or could not be added as buddy.</div>
-      ) : (
-        <form onSubmit={(evt) => handleBuddyRequest(evt)}>
-          <p>{buddyName.username} is available as a buddy!</p>
-        <input
-          value={buddyName.username}
-          type="hidden"
-        />
-        <button class='btn'>Send Request</button>
-        </form>
-      )}
-
+      {searchResults !== null && searchResults.length <= 0 ?
+        <div className="no-matches"><h4>No Results Found</h4>User does not exist or is not available as buddy</div> : searchResultList}
       <span>
         {successMessage}
       </span>
     </span>
-  );}
+  );
+}
 export default SearchBar;

@@ -22,7 +22,7 @@ export default function Search(props) {
         {userState.buddy_availability ? (<>
           <SearchBar />
           <IncomingRequests />
-          <SearchByInterest />
+         {/*  <SearchByInterest /> */}
         </>) :
           (<Availability />)
         }

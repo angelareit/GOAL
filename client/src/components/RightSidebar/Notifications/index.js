@@ -6,14 +6,13 @@ import { icon, solid, regular } from '@fortawesome/fontawesome-svg-core/import.m
 import { useSelector, useDispatch } from 'react-redux';
 import { showBuddyChatPanel, showBuddyProgressPanel } from '../../../features/viewManagerSlice';
 import { fetchBudddyRequests } from '../../../features/notificationSlice';
-import PendingRequestList from "./pendingRequestList";
 import RequestCard from "./requestCard";
 
 
 
 
 export default function Notifications(props) {
-  const notificationState = useSelector((state) => state.notification.buddyRequests);
+  const notificationState = useSelector((state) => state.notification.pendingBuddyRequests);
   const dispatch = useDispatch();
 
   //const notificationState = [{ request_message: 'CONTENT' }, { request_message: 'CONTENT 2' },]
@@ -29,9 +28,7 @@ export default function Notifications(props) {
       </div>
       <span>Buddy Requests</span>
       {buddyRequestList}
-
-      {/*       <PendingRequestList requestList={notificationState} />
- */}    </div>
+    </div>
   );
 }
 

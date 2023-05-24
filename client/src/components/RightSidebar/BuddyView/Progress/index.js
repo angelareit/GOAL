@@ -14,7 +14,6 @@ export default function Progress(props) {
 
   let progressBars = <h3>Buddy currently has no goals.</h3>;
   if (buddyProgressState.goalCounts) {
-    console.log('BUDDY HAS STATE', buddyProgressState);
     progressBars = buddyProgressState.goalCounts.map(mainGoal => {
       let value = (mainGoal.completed_count / mainGoal.total_count) * 100;
       return <ProgressCard key={mainGoal.main_goal_id} title={mainGoal.main_goal_title} barValue={value} barMax={100} recentHistory={buddyProgressState.subGoalHistory[mainGoal.main_goal_id]} />

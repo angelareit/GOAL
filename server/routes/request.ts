@@ -36,6 +36,37 @@ router.get('/incoming', async (req, res) => {
   }
 });
 
+router.get('/outgoing', async (req, res) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return null;
+    }
+    return decoded;
+  });
+
+  try {
+    const result = await prisma.buddy_requests.findMany({
+      where: {
+        from_user: userToken.id,
+        is_deleted: false
+      },
+      orderBy: {
+        created_at: 'desc'
+      },
+      include: {
+        users_buddy_requests_from_userTousers: true
+      }
+
+    });
+    res.send(result);
+
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 router.post('/incoming/accept', async (req, res) => {
 
   const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './Landing.scss';
 import { setUser, setInterests, fetchBuddyProgress } from '../../features/sessionSlice';
-import { fetchBuddyRequests } from '../../features/notificationSlice';
+import { fetchPendingBuddyRequests, fetchSentBuddyRequests } from '../../features/notificationSlice';
 import { setGoals } from '../../features/mainGoalSlice';
 import { switchPage } from '../../features/viewManagerSlice';
 import socket from '../../helpers/socketsHelper';
@@ -52,10 +52,18 @@ export default function Landing(props) {
       console.log(err);
     });
 
-    // Fetch buddy requests
+    // Fetch pending buddy requests
     axios.get("/request/incoming").then(res => {
-      console.log('BUDDY REQUEST', res.data);
-      dispatch(fetchBuddyRequests(res.data));
+      console.log('PENDING BUDDY REQUEST', res.data);
+      dispatch(fetchPendingBuddyRequests(res.data));
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    // Fetch outgoing buddy requests
+    axios.get("/request/outgoing").then(res => {
+      console.log('SENT BUDDY REQUEST', res.data);
+      dispatch(fetchSentBuddyRequests(res.data));
     }).catch((err) => {
       console.log(err);
     });

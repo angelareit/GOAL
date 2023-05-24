@@ -15,6 +15,8 @@ export default function MainGoalItem(props) {
   return (
     <article className={`main-goal-item ${props.selected && 'active'}`} onClick={props.onSelect}>
       <span>{props.title}</span>
+      {props.selected &&
+        <progress className='progress1' value={props.barValue} max={props.barMax}> {props.barValue} </progress>}
     </article>
   );
 }

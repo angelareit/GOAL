@@ -186,22 +186,66 @@ app.delete('/interest/', async (req, res) => {
 });
 
 app.get('/test', async (req, res) => {
-  const result = await prisma.users.findMany({
-    where: {
-      username: {
-        contains: 'becky',
-        mode: 'insensitive',
-      },
-      buddy_availability: true,
-      buddy_id: null,
-      is_deleted: false,
-    },
-    orderBy: {
-      username: 'asc',
-    },
-  });
-  res.send(result);
+  let uid = 4;
+  if (true) {
+    const currentDate = new Date();
+    const d = new Date();
+    d.setDate(currentDate.getDate() - 14);
 
+    const subGoals = await prisma.sub_goals.findMany({
+      where: {
+        main_goals: {
+          user_id: uid,
+        },
+        completed_on: {
+          gte: d.toISOString(),
+          not: null,
+        },
+      },
+      orderBy: {
+        completed_on: 'asc',
+      },
+    });
+
+    const groupedSubGoals = subGoals.reduce((result, subGoal) => {
+      const { main_goal_id, ...rest } = subGoal;
+      if (!result[main_goal_id]) {
+        result[main_goal_id] = [];
+      }
+      result[main_goal_id].push(rest);
+      return result;
+    }, {});
+
+    const goal_counts = await prisma.main_goals.findMany({
+      where: {
+        user_id: uid,
+      },
+      select: {
+        id: true,
+        title: true,
+        sub_goals: {
+          select: {
+            main_goal_id: true,
+            completed_on: true,
+          },
+          take: 5
+        },
+      },
+    });
+
+    const groupedGoalCounts = goal_counts.map((mainGoal) => ({
+      main_goal_id: mainGoal.id,
+      main_goal_title: mainGoal.title,
+      total_count: mainGoal.sub_goals.length,
+      completed_count: mainGoal.sub_goals.filter((subGoal) => subGoal.completed_on !== null).length,
+    }));
+
+
+    return res.json({ success: true, before: d, goalCounts: groupedGoalCounts, subGoalHistory: groupedSubGoals });
+  }
+  else {
+    return res.json({ success: false });
+  }
   /* if (true) {
     const currentDate = new Date();
     const d = new Date();

@@ -61,6 +61,7 @@ export default function GoalBoard(props) {
             } */
 
       socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
+
       console.log(updatedGoal);
     });
   };

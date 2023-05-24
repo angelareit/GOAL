@@ -53,7 +53,9 @@ const SearchBar = () => {
         <button className='btn'>Search</button>
       </form>
       {searchResults !== null && searchResults.length <= 0 ?
-        <div className="no-matches"><h4>No Results Found</h4>User does not exist or is not available as buddy</div> : searchResultList}
+        <div className="no-matches">
+          <h4>No Results Found</h4>User does not exist or is not available as buddy
+        </div> : searchResultList}
       <span>
         {successMessage}
       </span>

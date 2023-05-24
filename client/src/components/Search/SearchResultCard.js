@@ -45,7 +45,7 @@ export default function SearchResultCard(props) {
       {mode === SHOW && <>
         <h3>{props.buddy.username}</h3>
         <button onClick={() => transition(EDIT)}>Send a Personalized message</button>
-        <button onClick={() => onSendRequest(props.buddy)}>Send a Quick Request</button>
+        <button onClick={handleSubmit}>Send a Quick Request</button>
       </>}
       {mode === SENT && <>
         <h3>Buddy Request Sent</h3>

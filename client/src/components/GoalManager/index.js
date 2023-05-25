@@ -169,7 +169,8 @@ export default function GoalBoard(props) {
         </section>
         <section className='child-container'>
           {renderedChildren}
-          {newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <div className='card add' onClick={event => { event.stopPropagation(); addNewGoal(); }}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></div>}
+          {/* {childRef ? <div className='card'/> : newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <div className='card add' onClick={event => { event.stopPropagation(); addNewGoal(); }}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></div>} */}
+          { newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <div className='card add' onClick={event => { event.stopPropagation(); addNewGoal(); }}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></div>}
         </section>
       </section>
       {/* {goalStructure.head.next !== null && <button className="up" onClick={() => {

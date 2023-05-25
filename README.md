@@ -12,17 +12,19 @@ GOAL is a productivity and organization app designed to help people set goals an
   Login Page
 </p>
 
-![Screenshot 2](img2.png)
-Description of img 2
 
-![Screenshot 3](img3.png)
-Description of img 3
+<p align="center">
+  <img src="./documents/image/image2.jpg" alt="Screenshot 2">
+  <br>
+  Main View
+</p>
 
-![Screenshot 4](img4.png)
-Description of img 4
 
-![Screenshot 5](img5.png)
-Description of img 5
+<p align="center">
+  <img src="./documents/image/image3.jpg" alt="Screenshot 3">
+  <br>
+  Add and edit goals; Chat Box
+</p>
 
 ## Setup
 

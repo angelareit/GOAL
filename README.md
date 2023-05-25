@@ -6,8 +6,11 @@ GOAL is a productivity and organization app designed to help people set goals an
 
 ## Screenshots
 
-![Screenshot 1](./documents/image/image1.jpg)
-<center>Login Page</center>
+<p align="center">
+  <img src="./documents/image/image1.jpg" alt="Screenshot 1">
+  <br>
+  Login Page
+</p>
 
 ![Screenshot 2](img2.png)
 Description of img 2

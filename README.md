@@ -7,7 +7,7 @@ GOAL is a productivity and organization app designed to help people set goals an
 ## Screenshots
 
 ![Screenshot 1](./documents/image/image1.jpg)
-Description of img 1
+<center>Login Page</center>
 
 ![Screenshot 2](img2.png)
 Description of img 2

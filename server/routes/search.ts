@@ -116,16 +116,24 @@ router.get('/interest', async (req, res) => {
   console.log('THe UPdated QUery!', result);
 
   result = await Promise.all(result.map(async (user) => {
-    const existingRequest = await prisma.buddy_requests.findUnique({
+    let existingRequest = await prisma.buddy_requests.findMany({
       where: {
-        activeRequest: {
+        OR: [{
           to_user: user.id,
           from_user: userToken.id,
           is_deleted: false
+        },
+        {
+          to_user: userToken.id,
+          from_user: user.id,
+          is_deleted: false
         }
+        ]
       }
     });
-    if(!existingRequest){
+
+
+    if (!existingRequest.length) {
       return user;
     }
     return false;
@@ -140,7 +148,7 @@ router.get('/interest', async (req, res) => {
     //     ON categories.id = interests.category_id
     //     WHERE interests.user_id = ${u.user_id}
     //   `;
-    
+
 
     const interests = await prisma.interests.findMany({
       where: {

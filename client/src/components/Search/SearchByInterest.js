@@ -12,6 +12,7 @@ function SearchByInterest(props) {
 
   const [interestMatches, setInterestMatches] = useState([]);
   const interests = useSelector(state => state.session.interests);
+  const pendingRequests = useSelector(state => state.notification.pendingBuddyRequests);
 
   const fetchInterestMatches = function() {
     try {
@@ -28,7 +29,7 @@ function SearchByInterest(props) {
 
   useEffect(() => {
     fetchInterestMatches();
-  }, []);
+  }, [pendingRequests]);
 
   function onSendRequest(user, message) {
     axios.post('/search/request', { user: user, requestMessage: message })

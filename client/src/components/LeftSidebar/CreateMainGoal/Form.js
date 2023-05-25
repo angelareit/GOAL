@@ -42,7 +42,7 @@ export default function Form(props) {
 
   return (
     <section className="create-main-goal-form">
-      <div>
+      <div className="form-header">
         <h4>New Goal</h4>
         <FontAwesomeIcon className="iconbtn-circle" onClick={handleCancel} icon={solid("xmark")} />
       </div>
@@ -52,7 +52,6 @@ export default function Form(props) {
           Title
         </label>
         <input name="title" type="text" value={mainGoal.title} onChange={(event) => setMainGoal({ ...mainGoal, title: event.target.value })} />
-
         <button type="submit">
           Create Goal
         </button>

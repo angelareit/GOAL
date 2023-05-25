@@ -33,7 +33,11 @@ function Register() {
   };
 
   return (
-    <form className="Register form">
+    <form className="register form">
+      <div className="form-header">
+        <h2> Let's get started!</h2>
+        <h3> Register </h3>
+      </div>
       <div className="form-group">
         <label className="form__label" htmlFor="userName">
           User Name

@@ -1,8 +1,11 @@
 import './RightSidebar.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
 import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBuddy, updateInterest } from '../../features/sessionSlice';
+import { setBuddy, updateInterest, deleteBuddyProgress } from '../../features/sessionSlice';
 import axios from 'axios';
+import socket from '../../helpers/socketsHelper';
 
 /**id:null
 name: null
@@ -20,6 +23,8 @@ const Setting = () => {
     axios.post('setting/remove_buddy', { b_id: buddyState.id })
       .then(
         res => {
+          socket.emit('REMOVE_BUDDY', buddyState.id);
+          dispatch(deleteBuddyProgress());
           return dispatch(setBuddy({
             id: null,
             name: null,
@@ -92,7 +97,6 @@ const Setting = () => {
       <button
         key={i}
         className={`btn ${c.isInterest ? 'active' : 'inactive'}`}
-        type='submit'
         onClick={() => toggleInterest(c.category, userState.id, !c.isInterest)}>
         {c.name}
       </button>
@@ -101,7 +105,7 @@ const Setting = () => {
 
   return (
     <div className="Settings">
-      <h2>SETTINGS</h2>
+      <div className='row-al-mid'> <FontAwesomeIcon size='2xl' icon={solid("gears")} /><h2>Account Settings</h2></div>
       {
         isAvailable ? (
           <div>
@@ -119,16 +123,12 @@ const Setting = () => {
       <div className="interests">
         {renderedInterests}
       </div>
-      <div>
-        {buddyState?.name ?
-          (<div>
-            <h5>Your accountability buddy is {buddyState.name}.</h5>
-            <button className="btn" onClick={removeBuddy}>
-              Remove Buddy
-            </button>
-          </div>)
-          : (<></>)}
-      </div>
+      {buddyState?.name ?
+        (<div><h5>Your accountability buddy is {buddyState.name}.</h5>
+          <button className="btn" onClick={removeBuddy}>
+            Remove Buddy
+          </button></div>)
+        : (<></>)}
 
     </div>
   );

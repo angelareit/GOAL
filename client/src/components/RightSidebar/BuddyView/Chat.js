@@ -1,4 +1,7 @@
 import './Chat.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
+
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { appendMessage, deleteMessage, messageRead } from '../../../features/messagesSlice';
@@ -85,10 +88,15 @@ function Chat() {
             }
           }}
           placeholder="Enter message here..."></textarea>
-        <button onClick={event => {
+
+        <FontAwesomeIcon className='send-butt' icon={regular("paper-plane")} onClick={event => {
           event.preventDefault();
           submit(message);
-        }}>Send</button>
+        }} />
+        {/*     <button onClick={event => {
+          event.preventDefault();
+          submit(message);
+        }}>Send</button> */}
       </form>
     </div>
   );

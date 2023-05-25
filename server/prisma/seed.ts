@@ -23,7 +23,7 @@ async function main() {
       },
       create: {
         email: 'jimmy@watchtower.com',
-        username: 'HendricksJR',
+        username: 'HendrixJR',
         password: password
       },
     });

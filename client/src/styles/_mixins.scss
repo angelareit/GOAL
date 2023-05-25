@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-@mixin button-1 ($main-col: $main2){
+@mixin button-1 ($main-col: $primary2) {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -23,40 +23,43 @@
     margin: 5px;
   }
 }
-@mixin button-2($main-col: $main2) {
+
+@mixin button-2($main-col: $primary1, $textCol: $primary1, $font-size: .95em) {
   background: transparent;
-	border: none;
-	margin: 5px auto 5px;
-	display: block;
-	outline: none;
-	position: relative;
-	transition: 0.3s;
-	padding: 10px;
+  border: none;
+  margin: 5px auto 5px;
+  display: block;
+  outline: none;
+  position: relative;
+  transition: 0.3s;
+  padding: 10px;
+  color: $textCol;
+  font-size: $font-size;
 
-	&:before {
-		content: '';
-		border-bottom: 2px solid $main-col;
-		padding: 0 10px;
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		margin: 0 auto;
-		width: 0;
-		transition: 0.3s;
-	}
+  &:before {
+    content: '';
+    border-bottom: 2px solid $main-col;
+    padding: 0 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    transition: 0.3s;
+  }
 
-	&:hover {
+  &:hover {
     cursor: pointer;
 
-		&:before {
-			width: 100%;
-			padding: 0;
-		}
-	}
+    &:before {
+      width: 100%;
+      padding: 0;
+    }
+  }
 }
 
-@mixin button-3 ($bg-color: $main2) {
+@mixin button-3 ($bg-color: $primary1, $highlight-col: $accent1) {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +69,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
   border-radius: 6px;
   color: $main8;
-  background-color: $green2;
+  background-color: $bg-color;
   border: none;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
   user-select: none;
@@ -74,16 +77,45 @@
   touch-action: manipulation;
 
   &:hover {
-    background-color:$green3;
+    background-color: $highlight-col;
     cursor: pointer;
     outline: 0;
   }
+
   &:active {
-    background-color: $green2;
+    background-color: $highlight-col;
   }
 }
 
-@mixin iconbtn-circle ($main-col: $main2, $sec-col: $primary1, $fill-col: whitesmoke)  {
+@mixin button-3a ($bg-color: $primary1, $bg-color2: $primary1, $highlight-col: $accent1) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3em 1em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 6px;
+  color: $main8;
+  border: $border-lines1;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:hover {
+    background-color: $highlight-col;
+    color: $bg-color2;
+    cursor: pointer;
+    outline: 0;
+  }
+
+  &:active {
+    background-color: $highlight-col;
+  }
+}
+
+@mixin iconbtn-circle ($main-col: $primary2, $sec-col: $primary1, $fill-col: whitesmoke) {
   display: block;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -95,8 +127,162 @@
   &:hover {
     border: 2px solid transparent;
     background-color: $main-col;
-    color:$fill-col;
+    color: $fill-col;
     cursor: pointer;
 
+  }
+}
+
+@mixin iconbtn-circle-reg ($main-col: $primary2, $sec-col: $primary1, $fill-col: whitesmoke) {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  color: $sec-col;
+  padding: 5px;
+  margin: 3px;
+}
+
+@mixin iconbtn-circle-hov ($main-col: $primary2, $sec-col: $primary1, $fill-col: whitesmoke) {
+  border: 2px solid transparent;
+  background-color: $main-col;
+  color: $fill-col;
+  cursor: pointer;
+}
+
+@mixin iconbtn ($main-col: $primary2, $main-col2: $primary2, $sec-col: $secondary2, $fill-col: whitesmoke) {
+  display: block;
+  aspect-ratio: 1;
+  color: $main-col;
+  padding: 8px;
+  margin: 0.5em;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: $main-col2;
+    color: $main-col;
+  }
+}
+
+@mixin background () {
+  background-color: #FFFFFF;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23f1d07b' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%232b4c87' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23b7d38d' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%2328477c' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%2382cb9d' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23253f70' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%235ac7ba' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23234070' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%234dbfcf' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23203b69' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%2361acce' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%231d3159' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
+  // background-color: #FFFFFF;
+  // background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%2352d1dc' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%232c497f' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%2342bfd9' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23402798' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%2332acd5' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%239421b3' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%232993ca' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23d0188e' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23267aba' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23ef0d1d' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%232364aa' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23ff8811' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+  // background-attachment: fixed;
+  // background-size: cover;
+}
+
+@mixin logo () {
+  filter: invert(35%) sepia(48%) saturate(873%) hue-rotate(174deg) brightness(90%) contrast(101%);
+  width: 15px;
+
+  //https://codepen.io/sosuke/pen/Pjoqqp to recolor
+}
+
+//web generated input track
+@mixin inputTrack () {
+  input[type=range] {
+    height: 32px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  input[type=range]:focus {
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 11px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #52D1DC;
+    border-radius: 26px;
+    border: 0px solid #000000;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 1px #3643FF;
+    border: 0px solid #FFFCFC;
+    height: 26px;
+    width: 27px;
+    border-radius: 13px;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7.5px;
+  }
+
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #52D1DC;
+  }
+
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 11px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #52D1DC;
+    border-radius: 26px;
+    border: 0px solid #000000;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 1px #3643FF;
+    border: 0px solid #FFFCFC;
+    height: 26px;
+    width: 27px;
+    border-radius: 13px;
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 11px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  input[type=range]::-ms-fill-lower {
+    background: #52D1DC;
+    border: 0px solid #000000;
+    border-radius: 52px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+
+  input[type=range]::-ms-fill-upper {
+    background: #52D1DC;
+    border: 0px solid #000000;
+    border-radius: 52px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+
+  input[type=range]::-ms-thumb {
+    margin-top: 1px;
+    box-shadow: 0px 0px 1px #3643FF;
+    border: 0px solid #FFFCFC;
+    height: 26px;
+    width: 27px;
+    border-radius: 13px;
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+
+  input[type=range]:focus::-ms-fill-lower {
+    background: #52D1DC;
+  }
+
+  input[type=range]:focus::-ms-fill-upper {
+    background: #52D1DC;
   }
 }

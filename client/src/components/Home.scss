@@ -7,24 +7,38 @@
   align-items: stretch;
   width: 100vw;
   height: calc(100vh - $navbar-height);
-  background-color: $main4;
+  background-color: $bg1;
 }
 
 .CreateGoalPrompt {
   flex: 3;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: $main7;
+  color: $text-col1;
+  h2{
+    margin: 5px 10px;
+  }
+  h3{
+    margin:0;
+  }
 }
 
 .call-to-action {
-  color: $green3;
-}
-.call-to-action:hover {
-  cursor: pointer;
+  color: $primary1;
+  border-radius: 15px;
+  background-color: $accent1-20;
+
+  padding: 10px;
 }
 
+.call-to-action:hover {
+  background-color: $accent1-50;
+  
+  border-radius: 15px;
+  cursor: pointer;
+}
 
 .goal-manager {
   flex-grow: 2;

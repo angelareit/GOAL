@@ -13,8 +13,6 @@ function BuddyView() {
   const viewState = useSelector((state) => state.viewManager.rightSideBar);
   const newMessage = useSelector(state => state.messages.newMessage);
   const dispatch = useDispatch();
-
-
   return (
     <div className="BuddyView">
       <BuddyStatus />
@@ -36,6 +34,7 @@ function BuddyView() {
         <>
           <Progress />
         </>}
+      {viewState.currentTab !== 'buddy-chat' && viewState.currentTab !== 'buddy-progress' && <h2>You got a buddy!</h2>}
     </div>
   );
 }

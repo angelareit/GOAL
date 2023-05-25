@@ -104,15 +104,26 @@ export default function Landing() {
     <div className="Landing">
       <Splash />
       <div className='action-area'>
-        <div className='tabs'>
-          <h3 className={`tab-header ${content === 'Login' && 'active'}`} onClick={() => setContent('Login')}>Login</h3>
-          <h3 className={`tab-header ${content === 'Register' && 'active'}`} onClick={() => setContent('Register')}>Sign up</h3>
-        </div>
         <div className='content'>
           {content === 'Login' ? <Login onLogin={onLogin} /> : <Register />}
         </div>
+        <div className='tabs'>
+          {content === 'Register' &&
+            <div className='tab-content'>
+              Already a user?
+              <h3 className={`tab-header ${content === 'Login' && 'active'}`} onClick={() => setContent('Login')}>Login</h3>
+            </div>
+          }
+          {content === 'Login' &&
+            <div className='tab-content'>
+              Dont have an account?
+              <h3 className={`tab-header ${content === 'Register' && 'active'}`} onClick={() => setContent('Register')}>Sign up</h3>
+            </div>
+          }
 
+        </div>
       </div>
+
     </div>
   );
 }

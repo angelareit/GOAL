@@ -25,7 +25,7 @@ export default function ProgressCard(props) {
     }
 
     history = props.recentHistory.map(subGoal => {
-      return <div className='subgoal-history-entry'>
+      return <div className='subgoal-history-entry' key={subGoal.id}>
         <span>{subGoal.title}</span>
         <span>{getRelativeTime(new Date(subGoal.completed_on).getTime())}</span>
       </div>;

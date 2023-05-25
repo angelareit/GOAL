@@ -6,13 +6,21 @@
   display: flex;
   position: absolute;
   width: 98vw;
-  background-color: $main7;
+  background-color: $bg1;
   justify-content: space-between;
   padding-left: 1vw;
   padding-right: 1vw;
   height: $navbar-height;
   border-bottom: $border-lines;
   color: $main3;
+  
+  .app-name{
+    color: $primary2
+  }
+
+  .logo{
+     @include logo
+  }
 
   div {
     display: flex;
@@ -46,14 +54,14 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      background-color: $main5;
+      background-color: $accent1;
       min-width: 140px;
       box-shadow: 0px 8px 16px 0px rgba(162, 162, 162, 0.2);
       z-index: 1;
 
 
       button {
-        color: $main8;
+        color: $primary1;
         padding: 12px 15px;
         text-decoration: none;
         display: block;
@@ -61,8 +69,8 @@
         border: none;
 
         &:hover {
-          color: $main7;
-          background-color: $main2;
+          color: $secondary2;
+          background-color: $primary2;
         }
       }
     }
@@ -74,8 +82,8 @@
     }
 
     &:hover .dropbtn {
-      background-color: $main5;
-      color: $main8;
+      background-color: $accent1;
+      color: $primary1;
       border-radius: 3px 3px 0px 0px;
     }
   }
@@ -84,34 +92,24 @@
     display: block;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px solid $main2;
-    color: $main2;
+    border: 2px solid $primary2;
+    color: $primary2;
     padding: 8px;
     margin: 0.5em;
 
     &:hover {
       border: 2px solid transparent;
-      background-color: $main8;
-      color: $main1;
+      background-color: $primary2;
+      color: $text-col5;
     }
   }
 
   .iconbtn {
-    display: block;
-    aspect-ratio: 1;
-    color: $main2;
-    padding: 8px;
-    margin: 0.5em;
-    border-radius: 3px;
-
-    &:hover {
-      background-color: $main8;
-      color: $main1;
-    }
+   @include iconbtn ($main-col2: $accent1-50)
   }
 
   .active {
-    background-color: $main2;
+    background-color: $primary2;
     color: #f1f1f1;
   }
   

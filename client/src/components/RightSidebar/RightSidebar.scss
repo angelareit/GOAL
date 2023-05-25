@@ -23,43 +23,61 @@
   justify-content: flex-start;
   gap: 1em;
 
+  .row-al-mid {
+
+    h2 {
+      margin: 5px 10px;
+    }
+  }
+
   .interests {
     display: flex;
     flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
     gap: 0.2em;
 
     .btn {
-      flex-grow: 1;
+      display: flex;
+      flex-wrap: wrap;
+     // flex-grow: 1;
+      justify-content: center;
+      align-items: center;
     }
   }
 
   .active {
-    background-color: $green2;
-    color: $main8;
+    background-color: $secondary2;
+    color: $primary1;
   }
-
+  .active:hover {
+    background-color: adjust-color($color: $secondary2, $saturation: -50%);
+  }
   .inactive {
-    color: $main7;
-    background-color: $main5;
+    color: $primary1;
+    background-color: $main6;
+  }
+  .inactive:hover {
+    background-color: adjust-color($color: $secondary2, $saturation: -70%);
   }
 
   .on {
-    background-color: $green2;
-    color: $main8;
+    background-color: $green-success1-50;
+    color: $text-col5;
   }
 
   .on:hover {
-    background-color: $green3;
-    color: $main8;
+    background-color: $green-success1;
+    color: $primary1;
   }
 
   .off {
     background-color: $red2;
-    color: $main8;
+    color: $text-col5;
   }
 
   .off:hover {
     background-color: $red3;
-    color: $main8;
+    // color: $primary1;
   }
 }

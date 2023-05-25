@@ -16,7 +16,7 @@ export default function Survey() {
   useEffect(() => {
     let newLabel = "Later";
     if (Object.values(interests).some(interest => interest.isInterest === true)) {
-      newLabel = "Return";
+      newLabel = "Confirm";
     }
     setExitLabel(newLabel);
   }, [interests]);

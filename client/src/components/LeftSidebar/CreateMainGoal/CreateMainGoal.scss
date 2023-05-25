@@ -7,7 +7,6 @@
   text-align: left; 
 
   .create-bttn {
-
     @include button-2;
     
   }
@@ -15,28 +14,41 @@
 
 .create-main-goal-form {
   margin: 10px;
-  padding: 15px;
-  border: 0px solid $main1;
-  border-radius: 5px;
-  background-color: $main6;
+  padding: 5px;
+  border-radius: 8px;
+  background-color: $primary1;
+  color:$text-col5;
   box-shadow: 4px 4px 12px 1px rgba(0, 0, 0, 0.025);
 
-  div{
+  button[type="submit"]{
+   @include button-3a($bg-color: $accent1-50, $bg-color2: $primary1, $highlight-col: $secondary2)
+  }
+
+  div.form-header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    h4 {
-      margin: 0px 0px;
-    }
-    .iconbtn-circle {
+    margin: 5px 0px;
 
-     @include iconbtn-circle($main-col: $main2, $sec-col: $main2, $fill-col: $main7)
+    h4 {
+      margin: 0px 10px;
+    }
+
+    .iconbtn-circle {
+     @include iconbtn-circle($main-col: $secondary2, $sec-col: $text-col5, $fill-col: $primary1)
     }
   }
+
   form {
     display: flex;
     flex-direction: column;
+    padding: 5px 15px;
+    input{
+      padding: 5px;
+      background-color: $bg1-30;
+      color: $text-col5;
+    }
   }
   
 }

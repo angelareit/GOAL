@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
           contains: req.body.searchValue,
           mode: 'insensitive',
         },
-        id: { not: req.body.userID,},
+        id: { not: req.body.userID, },
         buddy_availability: true,
         buddy_id: null,
         is_deleted: false,
@@ -29,18 +29,18 @@ router.post('/', async (req, res) => {
         username: 'asc',
       },
     });
-/*     
-    let ids = result.map(obj => obj.id);
-    const invites = await prisma.buddy_requests.findMany({
-      where: {
-        from_user: req.body.userID,
-        to_user: { in: ids }, 
-        is_deleted: false,
-      },
-    });
-    console.log(result,ids, invites);
- */
-    
+    /*     
+        let ids = result.map(obj => obj.id);
+        const invites = await prisma.buddy_requests.findMany({
+          where: {
+            from_user: req.body.userID,
+            to_user: { in: ids }, 
+            is_deleted: false,
+          },
+        });
+        console.log(result,ids, invites);
+     */
+
     res.send(result);
   }
   catch (error) {
@@ -59,7 +59,7 @@ router.post('/request', async (req, res) => {
     }
     return decoded;
   });
-  
+
   console.log(userToken);
   console.log(req.body);
   //console.log(req.body.id); // user_id for to_user
@@ -94,7 +94,7 @@ GROUP BY u2c_others.user_id;
 */
 
 router.get('/interest', async (req, res) => {
-  console.log("Gotit")
+  console.log("Gotit");
   const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
     if (err) {
       return null;
@@ -102,7 +102,7 @@ router.get('/interest', async (req, res) => {
     return decoded;
   });
 
-  const result = await prisma.$queryRaw`
+  let result = await prisma.$queryRaw`
   SELECT COUNT(*) as num, u2c_others.user_id as id, users.username, users.buddy_availability, users.buddy_id
   FROM interests u2c_main
   JOIN interests u2c_others
@@ -113,24 +113,59 @@ router.get('/interest', async (req, res) => {
   ORDER BY num DESC
   LIMIT 4;
 `;
+  console.log('THe UPdated QUery!', result);
 
-  console.log('THe UPdated QUery!', result)
+  result = await Promise.all(result.map(async (user) => {
+    let existingRequest = await prisma.buddy_requests.findMany({
+      where: {
+        OR: [{
+          to_user: user.id,
+          from_user: userToken.id,
+          is_deleted: false
+        },
+        {
+          to_user: userToken.id,
+          from_user: user.id,
+          is_deleted: false
+        }
+        ]
+      }
+    });
 
-  const r2 = await Promise.all(result.map(async (u) => {
-    const interest = await prisma.$queryRaw`
-        SELECT categories.name AS name
-        FROM categories JOIN interests
-        ON categories.id = interests.category_id
-        WHERE interests.user_id = ${u.user_id}
-      `;
+
+    if (!existingRequest.length) {
+      return user;
+    }
+    return false;
+  }));
+
+  const filterResult = result.filter(i => i !== false);
+
+  const r2 = await Promise.all(filterResult.map(async (u) => {
+    // const interest = await prisma.$queryRaw`
+    //     SELECT categories.name AS name
+    //     FROM categories JOIN interests
+    //     ON categories.id = interests.category_id
+    //     WHERE interests.user_id = ${u.user_id}
+    //   `;
+
+
+    const interests = await prisma.interests.findMany({
+      where: {
+        user_id: u.id
+      },
+      select: {
+        category_id: true
+      }
+    });
     u['test'] = 'this is a test';
-    return { ...u, interest, num: null };
+    return { ...u, interests: [...interests.map(i => Object.values(i)[0])], num: null };
   }));
 
   console.log('ReSuLt', r2);
   return res.send(r2);
 
 
-})
+});
 export default router;
 

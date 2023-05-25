@@ -25,8 +25,8 @@ router.get('/incoming', async (req, res) => {
       include: {
         users_buddy_requests_from_userTousers: true
       }
-
     });
+    console.log(result);
     res.send(result);
   }
   catch (error) {
@@ -106,6 +106,7 @@ router.post('/incoming/accept', async (req, res) => {
       }
     })
     res.send({ request, acceptingUser, requestingUser });
+    
     // TODO: Insert WebSockets emit to send the requesting user updated buddy info
   }
   catch (error) {

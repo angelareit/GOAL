@@ -20,7 +20,7 @@ export default function SubGoalCard(props) {
 
       <header className='sub-header'>
 
-        <div className='col left'>
+        <div className='col left header-label'>
           <h3 onClick={event => { props.onFocus(); }}>{subGoal.title}</h3>
           <p>Created: {new Date(subGoal.created_at).toLocaleDateString('en-CA')}</p>
         </div>

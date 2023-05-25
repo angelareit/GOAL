@@ -71,7 +71,7 @@ function SearchByInterest(props) {
     );
   }
 
-  return (<h4>No users with similar interests as yours are looking for an accountability buddy at this moment. Consider adding more interests in settings to get a wider selection.</h4>)
+  return (<h4 className="result-message">Can't find available users with similar interests as you, Consider adding more interests in settings to get a wider selection.</h4>)
 };
 
 export default SearchByInterest;

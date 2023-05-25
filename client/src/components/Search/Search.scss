@@ -3,6 +3,10 @@
 
 .Search {
   overflow-y: scroll;
+  h4.result-message {
+    margin: 15px;
+    font-weight: 300;
+  } 
 }
 
 .search-list {

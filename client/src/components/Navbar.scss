@@ -54,14 +54,14 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      background-color: $main5;
+      background-color: $accent1;
       min-width: 140px;
       box-shadow: 0px 8px 16px 0px rgba(162, 162, 162, 0.2);
       z-index: 1;
 
 
       button {
-        color: $main8;
+        color: $primary1;
         padding: 12px 15px;
         text-decoration: none;
         display: block;
@@ -69,7 +69,7 @@
         border: none;
 
         &:hover {
-          color: $main7;
+          color: $secondary2;
           background-color: $primary2;
         }
       }
@@ -82,8 +82,8 @@
     }
 
     &:hover .dropbtn {
-      background-color: $main5;
-      color: $main8;
+      background-color: $accent1;
+      color: $primary1;
       border-radius: 3px 3px 0px 0px;
     }
   }

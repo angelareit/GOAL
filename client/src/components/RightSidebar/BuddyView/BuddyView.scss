@@ -21,13 +21,13 @@
     }
 
     :hover {
-      background-color: $main2;
+      background-color: $primary2;
       color: $main7;
       cursor: pointer;
     }
 
     .active {
-      background-color: $main2;
+      background-color: $primary2;
       color: $main7;
     }
   }
@@ -67,13 +67,13 @@
 
     .progress1::-webkit-progress-bar {
       border-radius: 5px;
-      background-color: $main8;
+      background-color: $secondary2-50;
       height: 10px;
     }
 
     .progress1::-webkit-progress-value {
       border-radius: 5px;
-      background-color: $main6;
+      background-color: $accent1;
     }
 
     .subgoal-history {

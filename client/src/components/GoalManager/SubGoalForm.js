@@ -22,15 +22,15 @@ export default function SubGoalForm(props) {
   };
 
   return (
-    <form key={subGoal.id}
+    <form key={subGoal.id} 
       onClick={event => {
         event.stopPropagation();
       }}
       onSubmit={event => {
-      event.preventDefault();
-      props.saveChild(subGoal);
-      props.onCancel(null);
-    }} className='SubGoalForm card'>
+        event.preventDefault();
+        props.saveChild(subGoal);
+        props.onCancel(null);
+      }} className='SubGoalForm card'>
       <table>
         <tbody>
           <tr><td className='label'><label>Title</label></td><td className='input'><input type='text' defaultValue={subGoal.title} onChange={event => setSubGoal({ ...subGoal, title: event.target.value })}></input></td></tr>
@@ -45,17 +45,17 @@ export default function SubGoalForm(props) {
           }
         </tbody>
       </table>
-      <footer>
-        <button className='card-btn edit-btn'>Save</button>
+      <div className='actions'>
+        <button className=' edit-btn'>Save</button>
         <button
-          className='card-btn delete-btn'
+          className='delete-btn'
           onClick={event => {
             event.preventDefault();
             props.onCancel(null);
           }}>
-          Discard Changes
+          Cancel
         </button>
-      </footer>
+      </div>
     </form>
   );
 }

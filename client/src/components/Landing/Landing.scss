@@ -56,7 +56,7 @@
         }
   
         .active {
-          background-color: $main2;
+          background-color: $primary2;
           color: $main8;
         }
       }
@@ -201,7 +201,7 @@
       margin: 0%;
       padding: 5px;
       font-size: $h1-size ;
-      color: $text-col3;
+      color: $text-col5;
       background-color: $primary2;
 
     }
@@ -217,6 +217,6 @@
   h1 {
     margin: 6px;
     font-size: 64px;
-    color: $main2;
+    color: $primary2;
   }
 }

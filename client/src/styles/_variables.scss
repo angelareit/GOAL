@@ -1,11 +1,11 @@
 $main1: #060914;
-$main2: #121830;
+$primary2: #121830;
 $main3: #212d45;
 $main4: #394c60;
 $main5: #627884;
 $main6: #8f9ca3;
 $main7: #c7cfd1;
-$main8: #f2f3f3;
+$main8: #ffffff;
 
 $green1: #0d2626;
 $green2: #2e6b65;
@@ -28,12 +28,18 @@ $btn-height: 40px;
 $block-padding: 60px;
 
 $border-lines:  1.5px solid #2364AA;
+$border-lines2:  1.5px solid #F4D06F;
+$border-lines3:  1.5px solid  #FF8811;
+$border-lines3:  1.5px solid  #355529;
+$border-lines4:  2px solid  #f8563a;
+
+
+
 $border-lines1:  1.5px solid  rgba(255, 255, 255, 0.412);
 
 $h1-size: 0.775em;
 
 $bg1: white;
-$bg1: rgb(235, 235, 235);
 
 $bg1-30: rgba(255, 255, 255, 0.305);
 
@@ -51,12 +57,23 @@ $accent1-50: #52d1dc9c;
 
 $accent2: #151E3F;
 $secondary1: #FF8811;
-$secondary2: #F4D06F;
-$secondary2-50: #ffe294c5;
+$secondary1-50: #ff8811b5;
+
+$secondary2: #f7d476;
+
+$secondary2-50: #fcd978 ;
+$secondary2-20: #ffab0eba;
 
 
-$red-alert: #A5402D;
+
+$red-alert: #f8563a;
+$red-alert-50: #e73415;
+$red-alert-50: #e73415;
+
+
 $red-alert2:#9B1D20;
 $green-success1: #436436;
+$green-success1-50: #4364368c;
 $green-success2: #678D58;
+$green-success3: #b1ed7f;
 

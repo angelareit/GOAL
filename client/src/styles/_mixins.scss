@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-@mixin button-1 ($main-col: $main2) {
+@mixin button-1 ($main-col: $primary2) {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -114,7 +114,7 @@
   }
 }
 
-@mixin iconbtn-circle ($main-col: $main2, $sec-col: $primary1, $fill-col: whitesmoke) {
+@mixin iconbtn-circle ($main-col: $primary2, $sec-col: $primary1, $fill-col: whitesmoke) {
   display: block;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -130,6 +130,22 @@
     cursor: pointer;
 
   }
+}
+
+@mixin iconbtn-circle-reg ($main-col: $primary2, $sec-col: $primary1, $fill-col: whitesmoke) {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  color: $sec-col;
+  padding: 5px;
+  margin: 3px;
+}
+@mixin iconbtn-circle-hov ($main-col: $primary2, $sec-col: $primary1, $fill-col: whitesmoke) {
+  border: 2px solid transparent;
+  background-color: $main-col;
+  color: $fill-col;
+  cursor: pointer;
 }
 
 @mixin iconbtn ($main-col: $primary2, $main-col2: $primary2, $sec-col: $secondary2, $fill-col: whitesmoke) {
@@ -160,4 +176,98 @@
   width: 15px;
 
   //https://codepen.io/sosuke/pen/Pjoqqp to recolor
+}
+
+//web generated input track
+@mixin inputTrack ()
+{
+  input[type=range] {
+    height: 32px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 11px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #52D1DC;
+    border-radius: 26px;
+    border: 0px solid #000000;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 1px #3643FF;
+    border: 0px solid #FFFCFC;
+    height: 26px;
+    width: 27px;
+    border-radius: 13px;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7.5px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #52D1DC;
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 11px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #52D1DC;
+    border-radius: 26px;
+    border: 0px solid #000000;
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 1px #3643FF;
+    border: 0px solid #FFFCFC;
+    height: 26px;
+    width: 27px;
+    border-radius: 13px;
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 11px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #52D1DC;
+    border: 0px solid #000000;
+    border-radius: 52px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #52D1DC;
+    border: 0px solid #000000;
+    border-radius: 52px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+  input[type=range]::-ms-thumb {
+    margin-top: 1px;
+    box-shadow: 0px 0px 1px #3643FF;
+    border: 0px solid #FFFCFC;
+    height: 26px;
+    width: 27px;
+    border-radius: 13px;
+    background: #FFFFFF;
+    cursor: pointer;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #52D1DC;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #52D1DC;
+  }
 }

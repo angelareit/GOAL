@@ -1,4 +1,6 @@
 import './RightSidebar.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
 import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBuddy, updateInterest } from '../../features/sessionSlice';
@@ -103,7 +105,7 @@ const Setting = () => {
 
   return (
     <div className="Settings">
-      <h2>SETTINGS</h2>
+      <div className='row-al-mid'> <FontAwesomeIcon size='2xl' icon={solid("gears")} /><h2>Account Settings</h2></div>
       {
         isAvailable ? (
           <div>

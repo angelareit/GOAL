@@ -23,6 +23,13 @@
   justify-content: flex-start;
   gap: 1em;
 
+  .row-al-mid{
+    
+    h2{
+      margin: 5px 10px;
+    }
+  }
+
   .interests {
     display: flex;
     flex-wrap: wrap;

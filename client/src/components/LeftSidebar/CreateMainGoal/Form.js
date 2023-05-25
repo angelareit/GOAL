@@ -42,7 +42,7 @@ export default function Form(props) {
 
   return (
     <section className="create-main-goal-form">
-      <div>
+      <div className="form-header">
         <h4>New Goal</h4>
         <FontAwesomeIcon className="iconbtn-circle" onClick={handleCancel} icon={solid("xmark")} />
       </div>

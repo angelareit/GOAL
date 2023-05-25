@@ -14,7 +14,7 @@ import SubGoalForm from './SubGoalForm';
 
 // import { LinkedList } from '../../helpers/classes';
 import { useSelector, useDispatch } from 'react-redux';
-import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild } from '../../features/goalManagerSlice';
+import { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, reparentChild, resetMainGoal } from '../../features/goalManagerSlice';
 
 export default function GoalBoard(props) {
   const dispatch = useDispatch();
@@ -148,7 +148,8 @@ export default function GoalBoard(props) {
   useEffect(() => {
     setChildRef(null);
     axios.get('/subgoal', { params: { goal: mainGoal } }).then(res => {
-      dispatch(modifyHeadData({ goal: mainGoal, ...res.data }));
+      console.log(res.data);
+      dispatch(resetMainGoal({ goal: mainGoal, ...res.data }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainGoal]);

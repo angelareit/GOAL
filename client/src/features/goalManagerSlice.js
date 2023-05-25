@@ -22,6 +22,9 @@ export const goalManagerSlice = createSlice({
     modifyHeadData: (state, action) => {
       return { ...state, goalStructure: LinkedList.modifyHeadData(state.goalStructure, action.payload) };
     },
+    resetMainGoal: (state, action) => {
+      return { ...state, goalStructure: new LinkedList(action.payload) };
+    },
     removeHead: (state, action) => {
       return { ...state, goalStructure: LinkedList.removeHead(state.goalStructure) };
     },
@@ -62,6 +65,6 @@ export const goalManagerSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, setNewGoalManager, resetGoalManager, reparentChild } = goalManagerSlice.actions;
+export const { setEditing, setNewGoal, modifyHeadData, removeHead, prepend, setNewGoalManager, resetGoalManager, reparentChild, resetMainGoal } = goalManagerSlice.actions;
 
 export default goalManagerSlice.reducer;

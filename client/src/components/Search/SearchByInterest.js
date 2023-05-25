@@ -45,29 +45,32 @@ function SearchByInterest(props) {
   const interestMatchesRender = interestMatches.map((interestMatch, i) => {
     console.log("Item", interestMatch);
     return (<li key={i} className='request-card'>
-      <h4>{interestMatch.username}</h4>
-      {interestMatch.interests.map((item, i) => {
-        return (<p key={i} className='interest-name'>
-          {/* {console.log(user.name)} */}
-          {interests[item].name}
-        </p>);
-      })}
-      <button className='btn' onClick={() => onSendRequest(interestMatch, "I'd like to be compatibility buddies!")}>Send Request</button>
+      <h3>{interestMatch.username}</h3>
+      <div className="interest-container">
+        {interestMatch.interests.map((item, i) => {
+          return (<p key={i} className='interest-name'>
+            {/* {console.log(user.name)} */}
+            {interests[item].name}
+          </p>);
+        })}
+      </div>
+
+      <button className='btn' onClick={() => onSendRequest(interestMatch, "Let's be goal buddies!")}>Send Request</button>
     </li>);
   });
 
   if (!interests) {
-    return <h4>You have not selected any interests. Update your interest to receivecompatible buddy recommendations.</h4>;
+    return <h4>You don't have interests, Update your interest to receivecompatible buddy recommendations.</h4>;
   }
   if (interestMatches.length) {
     return (
       <div className='search-list'>
-        <h4>These users share your interest and are looking for an accountability buddy: </h4>
+        <h4>Reccomended users based on Interests </h4>
         {interestMatchesRender}
       </div>
     );
   }
-  
+
   return (<h4>No users with similar interests as yours are looking for an accountability buddy at this moment. Consider adding more interests in settings to get a wider selection.</h4>)
 };
 

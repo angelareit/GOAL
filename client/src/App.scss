@@ -21,6 +21,10 @@ button[type=submit]
 {
   @include button-3 ($bg-color: $primary1, $highlight-col:$secondary1);
 }
+button[type=cancel]
+{
+  @include button-3 ($bg-color: $primary1, $highlight-col:$secondary1);
+}
 
 .App {
   font-size: medium;

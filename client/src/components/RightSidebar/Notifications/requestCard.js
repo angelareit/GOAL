@@ -65,14 +65,17 @@ export default function RequestCard(props) {
   }
 
   return (
-    <div className="notification-card">
+    <div className={`notification-card`}>
       {mode === SHOW &&
-        <>
+        <div className="col">
+          <h4>You recieved a buddy invitation to</h4>
           <h3>{props.fromUsername}</h3>
-          <span>{props.request_message}</span>
-          <button onClick={() => onAccept(props.id)}>Accept</button>
-          <button onClick={() => onDecline(props.id)}>Decline</button>
-        </>
+          <span>"{props.request_message}"</span>
+          <div className="action">
+            <button onClick={() => onAccept(props.id)}>Accept</button>
+            <button onClick={() => onDecline(props.id)}>Decline</button>
+          </div>
+        </div>
       }
       {mode === ACCEPTED &&
         <>

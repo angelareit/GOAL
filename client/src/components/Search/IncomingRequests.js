@@ -73,20 +73,21 @@ const IncomingRequests = (props) => {
           <h3>{incomingResponse}</h3>
           {incomingResponse === 'People are asking to be your buddy!' ? (
             <>
-              <p>Incoming Requests</p>
               {incomingRequests.map((incomingRequest) => (
-                <div key={incomingRequest.id} className='list-item'>
-                  <p>From User: {incomingRequest.users_buddy_requests_from_userTousers.username}</p>
-                  <p>{incomingRequest.message}</p>
+                <div key={incomingRequest.id} className='request-card'>
+                  <h4>Buddy Invitation</h4>
+                  <h3>{incomingRequest.users_buddy_requests_from_userTousers.username}</h3>
+                  {incomingRequest.message && <span>{incomingRequest.message}</span>}
+
                   <button className='btn' onClick={event => {
-                      handleAccept(incomingRequest);
-                    }}>Accept</button>
+                    handleAccept(incomingRequest);
+                  }}>Accept</button>
                   <form onSubmit={handleReject}>
                     <input
                       value={incomingRequest.id}
                       type="hidden"
                     />
-                    <button className='btn'>Reject</button>
+                    <button className='btn red'>Reject</button>
 
                   </form>
                 </div>

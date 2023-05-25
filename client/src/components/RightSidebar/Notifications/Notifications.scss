@@ -23,13 +23,40 @@
   .notification-card{
     display: flex;
     flex-direction: column;
-    background-color: $primary1;
+    background-color: $accent1-50;
+    color: $text-col1;
     border-radius: 10px;
     margin: 10px;
-    padding: 5px;
+    padding: 10px;
     h3{
-      margin: 0px;
+      margin: 10px 0px;
     }
+    h4{
+      margin: 5px 0px;
+      color: $text-col3;
+      font-size: small;
+    }
+    span{
+      font-style: italic;
+      color: $text-col3;
+      margin: 5px 0px;
+
+    }
+    
+
+    .action {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 5px 10px;
+  
+      button {
+        @include button-3 ($bg-color: $primary1, $highlight-col: $primary2);
+        margin: 2px 0;
+      }
+    }
+  
+
   }
 
 }

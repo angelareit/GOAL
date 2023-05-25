@@ -69,11 +69,15 @@ export default function BuddyRequestCard(props) {
 
   return (
     <div className="request-card">
-      {mode === SHOW && <>
-        <h3>{props.buddy.username}</h3>
-        <button onClick={() => transition(EDIT)}>Send a Personalized message</button>
-        <button onClick={handleSubmit}>Send a Quick Request</button>
-      </>}
+      {mode === SHOW &&
+        <>
+          <h3>{props.buddy.username}</h3>
+          <div className='action'>
+            <button onClick={() => transition(EDIT)}>Write a Request Message</button>
+            <button onClick={handleSubmit}>Send a Quick Request</button>
+          </div>
+        </>
+      }
       {mode === SENT && <>
         <h3>{props.buddy.username}</h3>
         <h4>Buddy Request Pending</h4>
@@ -82,7 +86,7 @@ export default function BuddyRequestCard(props) {
         <h3>{props.buddy.username}</h3>
         <form className='message-form' onSubmit={handleSubmit}>
           <input
-            key="search-bar"
+            key="message"
             value={messageValue}
             placeholder={"Find buddy by username"}
             onChange={(e) => {
@@ -90,8 +94,8 @@ export default function BuddyRequestCard(props) {
             }}
           />
           <div className='message-form-actions'>
-            <button type="button" onClick={handleCancel}>Cancel</button>
-            <button type="submit">Send</button>
+            <button  className='btn' type="submit">Send</button>
+            <button  className='btn' type="cancel" onClick={handleCancel}>Cancel</button>
           </div>
 
         </form>

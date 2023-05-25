@@ -24,7 +24,7 @@
   }
 }
 
-@mixin button-2($main-col: $primary1, $textCol: $primary1) {
+@mixin button-2($main-col: $primary1, $textCol: $primary1, $font-size:.95em) {
   background: transparent;
   border: none;
   margin: 5px auto 5px;
@@ -34,6 +34,7 @@
   transition: 0.3s;
   padding: 10px;
   color: $textCol;
+  font-size: $font-size;
 
   &:before {
     content: '';

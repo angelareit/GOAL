@@ -106,6 +106,7 @@ router.post('/incoming/accept', async (req, res) => {
       }
     })
     res.send({ request, acceptingUser, requestingUser });
+    
     // TODO: Insert WebSockets emit to send the requesting user updated buddy info
   }
   catch (error) {

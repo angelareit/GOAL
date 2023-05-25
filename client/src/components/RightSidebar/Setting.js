@@ -96,7 +96,6 @@ const Setting = () => {
       <button
         key={i}
         className={`btn ${c.isInterest ? 'active' : 'inactive'}`}
-        type='submit'
         onClick={() => toggleInterest(c.category, userState.id, !c.isInterest)}>
         {c.name}
       </button>
@@ -124,10 +123,10 @@ const Setting = () => {
         {renderedInterests}
       </div>
       {buddyState?.name ?
-        (<><h5>Your accountability buddy is {buddyState.name}.</h5>
+        (<div><h5>Your accountability buddy is {buddyState.name}.</h5>
           <button className="btn" onClick={removeBuddy}>
             Remove Buddy
-          </button></>)
+          </button></div>)
         : (<></>)}
 
     </div>

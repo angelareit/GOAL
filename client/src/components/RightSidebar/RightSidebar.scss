@@ -50,10 +50,15 @@
     background-color: $secondary2;
     color: $primary1;
   }
-
+  .active:hover {
+    background-color: adjust-color($color: $secondary2, $saturation: -50%);
+  }
   .inactive {
     color: $primary1;
-    background-color: $main5;
+    background-color: $main6;
+  }
+  .inactive:hover {
+    background-color: adjust-color($color: $secondary2, $saturation: -70%);
   }
 
   .on {
@@ -73,6 +78,6 @@
 
   .off:hover {
     background-color: $red3;
-    color: $primary1;
+    // color: $primary1;
   }
 }

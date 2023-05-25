@@ -41,6 +41,7 @@ export default function SubGoalCard(props) {
       <div className='subgoal-body'>
         {subGoal.completed_on && <h3 className='completed'> Completed!</h3>}
         {subGoal.note && <p className='note'>{subGoal.note}</p>}
+        <div>
         {subGoal.priority > 0 &&
           <p><b>Priority:</b> <progress className='progress1' value={subGoal.priority} max={100}>
             <span className="progress-bar">
@@ -59,6 +60,7 @@ export default function SubGoalCard(props) {
             <span>edit to add more information</span>
           </div>
         }
+        </div>
 
 
       </div>

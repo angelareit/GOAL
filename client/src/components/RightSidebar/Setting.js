@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
 import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBuddy, updateInterest } from '../../features/sessionSlice';
+import { setBuddy, updateInterest, deleteBuddyProgress } from '../../features/sessionSlice';
 import axios from 'axios';
 import socket from '../../helpers/socketsHelper';
 
@@ -24,6 +24,7 @@ const Setting = () => {
       .then(
         res => {
           socket.emit('REMOVE_BUDDY', buddyState.id);
+          dispatch(deleteBuddyProgress());
           return dispatch(setBuddy({
             id: null,
             name: null,

@@ -2,39 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './Search.scss';
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showBuddyChatPanel } from "../../features/viewManagerSlice";
-import { updateUser, setBuddy } from "../../features/sessionSlice";
+import { fetchPendingBuddyRequests, removePendingBuddyRequest } from "../../features/notificationSlice";
+import { updateUser, setBuddy, fetchBuddyProgress } from "../../features/sessionSlice";
 import socket from "../../helpers/socketsHelper";
 
 const IncomingRequests = (props) => {
 
   const dispatch = useDispatch();
 
-  const [incomingRequests, setIncomingRequests] = useState([]);
+  // const [incomingRequests, setIncomingRequests] = useState([]);
   const [incomingResponse, setIncomingResponse] = useState("People are asking to be your buddy!");
 
+  const incomingRequests = useSelector(state => state.notification.pendingBuddyRequests);
   // Fetch the incoming buddy requests from the server
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/request/incoming");
-      setIncomingRequests(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-    socket.on('UPDATE_REQUESTS', () => {
-      fetchData();
-    });
-    return () => { socket.off('UPDATE_REQUESTS'); };
-  }, []);
 
   const handleAccept = (request) => {
     const requestID = request.id;
     const buddyID = request.from_user;
+    dispatch(removePendingBuddyRequest(requestID));
+
     axios.post('/request/incoming/accept', { r_id: requestID, b_id: buddyID })
       //value={[incomingRequest.id, incomingRequest.from_user]}
       .then((res) => {
@@ -47,7 +35,15 @@ const IncomingRequests = (props) => {
         // });
         socket.emit('ACCEPTED_BUDDY');
         // setIncomingResponse("Congratulations on your new buddy!");
-
+        axios.get('/progress', { params: { userID: buddyID } }
+        ).then(res => {
+          console.log('progress', res.data);
+          if (res.data.success) {
+            dispatch(fetchBuddyProgress(res.data));
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -56,10 +52,13 @@ const IncomingRequests = (props) => {
   };
 
   const handleReject = (evt) => {
+    const id = evt.target[0].value;
+    dispatch(removePendingBuddyRequest(id));
+
     evt.preventDefault();
-    axios.post('/request/incoming/reject', { r_id: evt.target[0].value })
+    axios.post('/request/incoming/reject', { r_id: id })
       .then((response) => {
-        fetchData();
+        window.location.reload(false);
       })
       .catch((error) => {
         console.error(error);

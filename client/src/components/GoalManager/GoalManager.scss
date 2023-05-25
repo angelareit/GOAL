@@ -194,7 +194,7 @@
     justify-content: space-between;
     align-items: center;
     flex-shrink: 1;
-    height: 70px;
+    // height: 70px;
     gap: 2em;
     align-items: stretch;
 
@@ -241,9 +241,7 @@
     }
   }
 
-
 }
-
 
 .child-complete {
   background-color: $green-success3;
@@ -255,10 +253,10 @@
   margin: 0.2em;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
 
   p {
-    height: 2em;
+    // height: 2em;
   }
   p.deadline{
     font-style: italic;

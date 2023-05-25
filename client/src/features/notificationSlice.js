@@ -40,9 +40,15 @@ export const notificationSlice = createSlice({
     fetchSentBuddyRequests: (state, action) => {
       return { ...state, sentBuddyRequests: action.payload };
     },
+    removePendingBuddyRequest: (state, action) => {
+      const id = action.payload;
+      const index = state.pendingBuddyRequests.findIndex(r => r.id === id);
+      console.log(id, index);
+      state.pendingBuddyRequests.splice(index, 1);
+    },
 
   }
 });
 
-export const { fetchNotifications, addNotification, removeNotification, resetNotifications, fetchPendingBuddyRequests, fetchSentBuddyRequests } = notificationSlice.actions;
+export const { fetchNotifications, addNotification, removeNotification, resetNotifications, fetchPendingBuddyRequests, fetchSentBuddyRequests, removePendingBuddyRequest } = notificationSlice.actions;
 export default notificationSlice.reducer;

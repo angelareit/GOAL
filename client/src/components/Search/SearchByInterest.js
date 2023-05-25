@@ -60,18 +60,18 @@ function SearchByInterest(props) {
   });
 
   if (!interests) {
-    return <h4>You don't have interests, Update your interest to receivecompatible buddy recommendations.</h4>;
+    return <h4>You don't have set interests. Update your interest in account settings to receivecompatible buddy recommendations.</h4>;
   }
   if (interestMatches.length) {
     return (
       <div className='search-list'>
-        <h4>Reccomended users based on Interests </h4>
+        <h4>Recommended users based on Interests </h4>
         {interestMatchesRender}
       </div>
     );
   }
 
-  return (<h4 className="result-message">Can't find available users with similar interests as you, Consider adding more interests in settings to get a wider selection.</h4>)
+  return (<h4 className="result-message">Can't find available users with similar interests as you. Consider adding more interests in settings to get a wider selection.</h4>)
 };
 
 export default SearchByInterest;

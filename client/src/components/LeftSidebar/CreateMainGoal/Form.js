@@ -52,7 +52,6 @@ export default function Form(props) {
           Title
         </label>
         <input name="title" type="text" value={mainGoal.title} onChange={(event) => setMainGoal({ ...mainGoal, title: event.target.value })} />
-
         <button type="submit">
           Create Goal
         </button>

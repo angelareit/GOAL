@@ -58,7 +58,7 @@
   }
 }
 
-@mixin button-3 ($bg-color: $main2, $highlight-col: $accent1) {
+@mixin button-3 ($bg-color: $primary1, $highlight-col: $accent1) {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,6 +86,34 @@
   }
 }
 
+@mixin button-3a ($bg-color: $primary1, $bg-color2: $primary1, $highlight-col: $accent1) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3em 1em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 6px;
+  color: $main8;
+  border: $border-lines1;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:hover {
+    background-color: $highlight-col;
+    color: $bg-color2;
+    cursor: pointer;
+    outline: 0;
+  }
+
+  &:active {
+    background-color: $highlight-col;
+  }
+}
+
 @mixin iconbtn-circle ($main-col: $main2, $sec-col: $primary1, $fill-col: whitesmoke) {
   display: block;
   aspect-ratio: 1;
@@ -101,6 +129,20 @@
     color: $fill-col;
     cursor: pointer;
 
+  }
+}
+
+@mixin iconbtn ($main-col: $primary2, $main-col2: $primary2, $sec-col: $secondary2, $fill-col: whitesmoke) {
+  display: block;
+  aspect-ratio: 1;
+  color: $main-col;
+  padding: 8px;
+  margin: 0.5em;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: $main-col2;
+    color: $main-col;
   }
 }
 

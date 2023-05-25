@@ -1,4 +1,4 @@
-# GOAL App Documentation
+# GOAL 
 
 ## Description
 
@@ -6,7 +6,7 @@ GOAL is a productivity and organization app designed to help people set goals an
 
 ## Screenshots
 
-![Screenshot 1](img1.png)
+![Screenshot 1](./documents/image/image1.jpg)
 Description of img 1
 
 ![Screenshot 2](img2.png)

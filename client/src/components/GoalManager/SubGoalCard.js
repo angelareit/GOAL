@@ -30,7 +30,7 @@ export default function SubGoalCard(props) {
               <FontAwesomeIcon className='card-btn edit-btn' onClick={props.onEdit} icon={solid("pen-to-square")} />
             }
             {(!selected || isSelected) &&
-              <FontAwesomeIcon className='card-btn move-btn' onClick={props.onMove} icon={regular("hand-back-fist")} />
+              <FontAwesomeIcon className='card-btn move-btn' onClick={props.onMove} icon={isSelected ? solid("xmark") : regular("hand-back-fist")} />
             }
             {!selected &&
               <FontAwesomeIcon className='card-btn delete-btn' onClick={props.onDelete} icon={solid("trash")} />

@@ -61,23 +61,21 @@
     background-color: adjust-color($color: $secondary2, $saturation: -70%);
   }
 
-  .on {
-    background-color: $green-success1-50;
-    color: $text-col5;
-  }
-
-  .on:hover {
-    background-color: $green-success1;
-    color: $primary1;
-  }
-
   .off {
-    background-color: $red2;
+    background-color: $green-success1;
     color: $text-col5;
   }
 
   .off:hover {
+    background-color: $green-success1-50;
+  }
+
+  .on {
+    background-color: $red2;
+    color: $text-col5;
+  }
+
+  .on:hover {
     background-color: $red3;
-    // color: $primary1;
   }
 }

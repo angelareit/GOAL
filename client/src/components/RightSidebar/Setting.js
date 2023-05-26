@@ -1,9 +1,10 @@
+import React from "react";
 import './RightSidebar.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { solid, regular } from '@fortawesome/fontawesome-svg-core/import.macro';
-import React, { useState } from "react";
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Avilability from '../Search/Availability';
 import { useSelector, useDispatch } from 'react-redux';
-import { setBuddy, updateInterest, deleteBuddyProgress } from '../../features/sessionSlice';
+import { setBuddy, updateInterest, deleteBuddyProgress, updateUser } from '../../features/sessionSlice';
 import axios from 'axios';
 import socket from '../../helpers/socketsHelper';
 
@@ -17,7 +18,9 @@ const Setting = () => {
   const interests = useSelector(state => state.session.interests);
   const dispatch = useDispatch();
 
-  const [isAvailable, setIsAvailable] = useState(userState.buddy_availability);
+  const isAvailable = useSelector(state => state.session.user.buddy_availability);
+
+  // const [isAvailable, setIsAvailable] = useState(userState.buddy_availability);
 
   const removeBuddy = () => {
     axios.post('setting/remove_buddy', { b_id: buddyState.id })
@@ -37,34 +40,14 @@ const Setting = () => {
       );
     console.log(buddyState.id);
   };
-  const availabilityOn = (evt) => {
-    // evt.preventDefault();
-    axios.post('/setting/availability', { avilability: true });
-    setIsAvailable(true);
-    // alert('Your are available as accountability buddy.')
-  };
-
-  const availabilityOff = (evt) => {
-    // evt.preventDefault();
-    axios.post('/setting/availability', { avilability: false });
-    setIsAvailable(false);
-    // alert('Your are no longer available as accountability buddy.')
-
-  };
-
-  // const toggleInterestOld = (index) => {
-  //   axios.post('/setting/interest', { interest_id: evt })
-  //     .then(response => {
-  //       if (response.data.status === 'added') {
-  //         console.log("print out added");
-  //         setData(prev => [...prev, evt]);
-  //       } else {
-  //         console.log("print out deleted");
-  //         setData(prev => prev.filter(i => i !== evt));
-  //       }
-  //       console.log(response);
-  //     });
-
+  // const availabilityOn = () => {
+  //   axios.post('/setting/availability', { avilability: true });
+  //   dispatch(updateUser({ buddy_availability: true }));
+  // };
+  
+  // const availabilityOff = () => {
+  //   axios.post('/setting/availability', { avilability: false });
+  //   dispatch(updateUser({ buddy_availability: false }));
   // };
 
   const toggleInterest = function(id, user, checked) {
@@ -102,11 +85,11 @@ const Setting = () => {
       </button>
     );
   });
-
   return (
     <div className="Settings">
       <div className='row-al-mid'> <FontAwesomeIcon size='2xl' icon={solid("gears")} /><h2>Account Settings</h2></div>
-      {
+      <Avilability />
+      {/* {
         isAvailable ? (
           <div>
             <p>You are available as an accountability buddy.</p>
@@ -118,7 +101,8 @@ const Setting = () => {
             <button className="btn on" onClick={availabilityOn}>Turn on availability</button>
           </div>
         )
-      }
+      } */}
+
       <h5>Update your interests to find more compatible accountability buddies! </h5>
       <div className="interests">
         {renderedInterests}

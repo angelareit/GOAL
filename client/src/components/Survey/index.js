@@ -24,7 +24,7 @@ export default function Survey() {
   return (
     <div className="Survey">
       <h1>Tell us about yourself!</h1>
-      <p>What kinds of goals will you be working on? If you'd like an accountability buddy, this will helps others with similar goals find you. (Placeholder text, there will be more.)</p>
+      <p>What kinds of goals will you be working on? If you'd like an accountability buddy, this will helps others with similar goals find you.</p>
       <SurveyForm />
       <button type="submit" onClick={() => dispatch(switchPage('home'))}>{exitLabel}</button>
     </div>

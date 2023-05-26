@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 //send buddy request
 router.post('/request', async (req, res) => {
 
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }
@@ -73,7 +73,7 @@ router.post('/request', async (req, res) => {
 
 router.get('/interest', async (req, res) => {
   console.log("Gotit");
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }

@@ -5,8 +5,7 @@ const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 
 router.get('/incoming', async (req, res) => {
-  // res.send('This is the request route!')
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }
@@ -36,7 +35,7 @@ router.get('/incoming', async (req, res) => {
 });
 
 router.get('/outgoing', async (req, res) => {
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }
@@ -68,7 +67,7 @@ router.get('/outgoing', async (req, res) => {
 
 router.post('/incoming/accept', async (req, res) => {
 
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }
@@ -106,9 +105,7 @@ router.post('/incoming/accept', async (req, res) => {
       }
     })
     res.send({ request, acceptingUser, requestingUser });
-    
-    // TODO: Insert WebSockets emit to send the requesting user updated buddy info
-  }
+      }
   catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 
 router.post('/remove_buddy', async (req, res) => {
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }
@@ -38,7 +38,7 @@ router.post('/remove_buddy', async (req, res) => {
 
 router.post('/availability', async (req, res) => {
   console.log(req.body.avilability);
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }
@@ -64,7 +64,7 @@ router.post('/availability', async (req, res) => {
 
 router.get('/interest', async (req, res) => {
   try {
-    const userToken = await jwt.verify(req.cookies.token, process.env.SECRET);
+    const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY);
 
     const resultObj = await prisma.interests.findMany({
       where: { user_id: userToken.id },
@@ -86,7 +86,7 @@ router.get('/interest', async (req, res) => {
 
 router.post('/interest', async (req, res) => {
   const i_id = req.body.interest_id;
-  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
+  const userToken = await jwt.verify(req.cookies.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       return null;
     }

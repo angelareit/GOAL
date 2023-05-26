@@ -53,11 +53,11 @@ button[type=cancel]
 }
 .left{
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 .row-al-mid{
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   align-items: center;
 }
 
@@ -72,16 +72,3 @@ button[type=cancel]
   background-color: $accent1;
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.233);
 } 
-
-
-// @media (min-width: 1921px) {
-//   .App {
-//     font-size: large;
-//   }
-//   input, button, textarea {
-//     font-size: 24px;
-//   }
-//   h1, h2, h3, h4 {
-//     font-size: 1.5em;
-//   }
-// }

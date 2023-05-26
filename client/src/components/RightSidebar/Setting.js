@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Avilability from '../Search/Availability';
 import { useSelector, useDispatch } from 'react-redux';
-import { setBuddy, updateInterest, deleteBuddyProgress, updateUser } from '../../features/sessionSlice';
+import { setBuddy, updateInterest, deleteBuddyProgress } from '../../features/sessionSlice';
 import axios from 'axios';
 import socket from '../../helpers/socketsHelper';
 
@@ -17,11 +17,6 @@ const Setting = () => {
   const userState = useSelector((state) => state.session.user);
   const interests = useSelector(state => state.session.interests);
   const dispatch = useDispatch();
-
-  const isAvailable = useSelector(state => state.session.user.buddy_availability);
-
-  // const [isAvailable, setIsAvailable] = useState(userState.buddy_availability);
-
   const removeBuddy = () => {
     axios.post('setting/remove_buddy', { b_id: buddyState.id })
       .then(
@@ -34,46 +29,17 @@ const Setting = () => {
             online: null
           }));
         }
-      )
-      .then(
-        console.log('deleted buddyState', buddyState)
       );
-    console.log(buddyState.id);
   };
-  // const availabilityOn = () => {
-  //   axios.post('/setting/availability', { avilability: true });
-  //   dispatch(updateUser({ buddy_availability: true }));
-  // };
-  
-  // const availabilityOff = () => {
-  //   axios.post('/setting/availability', { avilability: false });
-  //   dispatch(updateUser({ buddy_availability: false }));
-  // };
 
   const toggleInterest = function(id, user, checked) {
     dispatch(updateInterest({ id, checked }));
     if (checked) {
-      return axios.post(`/interest/`, { category: id, user }).then(res => {
-        console.log(res.data);
-      });
+      return axios.post(`/interest/`, { category: id, user });
     }
 
-    axios.delete(`/interest/`, { data: { category: id, user } }).then(res => {
-      console.log(res.data);
-    });
+    axios.delete(`/interest/`, { data: { category: id, user } });
   };
-
-  // useEffect(() => {
-
-  // axios.get('/setting/interest')
-  //   .then(response => {
-  //     setData(response.data);
-  //   })
-  //   .catch(error => {
-  //     console.error('Error fetching data:', error);
-  //   });
-  // }, []);
-
 
   const renderedInterests = Object.values(interests).map((c, i) => {
     return (
@@ -89,30 +55,14 @@ const Setting = () => {
     <div className="Settings">
       <div className='row-al-mid'> <FontAwesomeIcon size='2xl' icon={solid("gears")} /><h2>Account Settings</h2></div>
       <Avilability />
-      {/* {
-        isAvailable ? (
-          <div>
-            <p>You are available as an accountability buddy.</p>
-            <button className="btn off" onClick={availabilityOff}>Turn off availability</button>
-          </div>
-        ) : (
-          <div>
-            <p>You are not available as an accountability buddy.</p>
-            <button className="btn on" onClick={availabilityOn}>Turn on availability</button>
-          </div>
-        )
-      } */}
-
       <h5>Update your interests to find more compatible accountability buddies! </h5>
       <div className="interests">
         {renderedInterests}
       </div>
-      {buddyState?.name ?
-        (<div><h5>Your accountability buddy is {buddyState.name}.</h5>
+      {buddyState?.name && <div><h5>Your accountability buddy is {buddyState.name}.</h5>
           <button className="btn" onClick={removeBuddy}>
             Remove Buddy
-          </button></div>)
-        : (<></>)}
+          </button></div>}
 
     </div>
   );

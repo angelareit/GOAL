@@ -31,7 +31,7 @@
     background-color: $green-success3;
     border: $border-lines3;
 
-    h1{
+    h1 {
       color: $text-col1;
 
     }
@@ -81,7 +81,7 @@
   .up:hover {
     border: $border-lines4;
 
-    background-color: $red-alert;// adjust-color($color: $red-alert, $lightness: +10%, $saturation: +30%);
+    background-color: $red-alert; // adjust-color($color: $red-alert, $lightness: +10%, $saturation: +30%);
     color: $text-col5; //adjust-color($color: $red-alert, $lightness: +10%);
     cursor: pointer;
   }
@@ -117,22 +117,15 @@
     justify-content: space-around;
   }
 
-
   p {
     margin: 0%;
   }
-
-
 }
 
 .move-to-parent:hover {
   cursor: alias;
 }
-/* .cancel-move:active{
-  &.card-btn {
-    @include iconbtn-circle-reg ($sec-col: white);
-  }
-} */
+
 
 .cancel-move:hover {
   cursor: no-drop;
@@ -144,7 +137,6 @@
   justify-content: space-between;
   color: $primary1;
   border-radius: 45px;
-  // background-color: $main7;
 
   p {
     margin: 0%;
@@ -154,7 +146,6 @@
   progress {
     -webkit-appearance: none;
     padding: 5px;
-   // width: 100%;
   }
 
   .progress1::-webkit-progress-bar {
@@ -168,39 +159,18 @@
     background-color: $primary2;
   }
 
- /*  progress {
-    height: 1em;
-    appearance: none;
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
-  }
-
-  progress::-moz-progress-bar {
-    background: $main4;
-  }
-
-  progress::-webkit-progress-value {
-    background: $main4;
-  }
-
-  progress::-webkit-progress-bar {
-    background: $main4;
-  }
- */
   header.sub-header {
     margin: 0.2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 1;
-    // height: 70px;
     gap: 2em;
     align-items: stretch;
 
 
 
-    h3{
+    h3 {
       background-color: $secondary2-20;
       padding: 5px 10px;
       min-width: 100px;
@@ -255,34 +225,35 @@
   flex-direction: column;
   justify-content: space-around;
 
-  p {
-    // height: 2em;
-  }
-  p.deadline{
+  p.deadline {
     font-style: italic;
   }
-  p.note{
+
+  p.note {
     font-size: large;
     margin-bottom: 10px;
 
   }
-  h3.completed{
+
+  h3.completed {
     font-size: x-large;
-    // justify-self: center;
     margin: 0;
-    
+
     color: $text-col5;
     padding: 5px 5px;
     border-radius: 2px;
     background-color: adjust-color($color: $green-success2, $alpha: -0.1);
   }
-  .noInfo{
+
+  .noInfo {
     color: $text-col3;
     margin-bottom: 40px;
-    span{
+
+    span {
       font-style: italic;
       font-size: small;
     }
+
     p {
       font-style: bold;
       margin: 0;
@@ -293,7 +264,7 @@
 
 .selected {
   background-color: $accent1-50;
- 
+
   :hover {
     cursor: no-drop;
   }
@@ -303,25 +274,6 @@
   background-color: $secondary2-20;
   cursor: alias;
 }
-
-/* .card-btn {
-    display: block;
-  font-size: 12px;
-  flex-grow: 1;
-  padding: 5px;
-  outline: none;
-  color: $main8;
-  font-weight: 600;
-  border: 1px solid #0003;
-  border-radius: 5px;
-  @include button-3 ($bg-color: $primary1, $highlight-col: $accent1);
-
-  &:hover {
-    cursor: pointer;
-  }
-
-} */
-
 
 .edit-btn {
   @include button-3a ();
@@ -336,7 +288,6 @@
     background-color: $green-success3;
   }
 }
-
 
 .delete-btn {
   @include button-3a ();
@@ -354,14 +305,15 @@
 
 .move-btn {
   background-color: $accent1;
+
   &:hover {
     background-color: $secondary1;
   }
+
   &:active {
     background-color: $secondary1;
   }
 }
-
 
 .SubGoalForm {
   display: flex;
@@ -411,7 +363,8 @@
     flex-direction: row;
     width: 130px;
     justify-content: center;
-   }
+  }
+
   footer {
     margin: 10px;
     display: flex;
@@ -420,7 +373,6 @@
     flex-shrink: 1;
     gap: 10px;
   }
-
 }
 
 .card {
@@ -436,16 +388,14 @@
 
     display: flex;
     flex-direction: row;
-    // width: 130px;
     flex: 2;
     align-self: flex-start;
     justify-content: center;
 
-
-
     .card-btn {
       display: none;
     }
+
     &:not(.not-selected).card-btn {
       display: none;
     }
@@ -454,9 +404,11 @@
       @include iconbtn-circle-reg ($sec-col: white);
 
       background-color: $accent1;
+
       &:hover {
         background-color: $secondary1;
       }
+
       &:active {
         background-color: $secondary1;
       }
@@ -464,12 +416,7 @@
 
   }
 
-/*   .card-btn {
-    display: none;
-  } */
-
   &:hover {
-    // background-color: $secondary2;
 
     .card-btn {
       @include iconbtn-circle-reg ($sec-col: white);
@@ -479,10 +426,7 @@
 
         @include iconbtn-circle-hov;
       }
-
     }
-    
-
   }
 }
 

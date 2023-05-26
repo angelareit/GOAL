@@ -45,7 +45,6 @@ export default function GoalBoard(props) {
     const subGoal = { ...goalStructure.head.data };
     const children = [...subGoal.children];
     children[i] = updatedGoal;
-    console.log(subGoal.goal.main_goal_id);
     if (subGoal.goal.main_goal_id) {
       const childrenIncomplete = children.filter(child => child.completed_on === null);
       subGoal.goal.childrenIncomplete = childrenIncomplete.length;
@@ -53,15 +52,7 @@ export default function GoalBoard(props) {
 
     axios.put('/subgoal', { updatedGoal }).then(res => {
       dispatch(modifyHeadData({ ...subGoal, children: [...children] }));
-
-      //emit socket emit for fetchProgress
-      /*       if (updatedGoal.completed_on !== subGoal.goal.completed_on) {
-              console.log('i get here', buddyState.id);
-              socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
-            } */
-
       socket.emit('BUDDY_PROGRESS_UPDATE', { ...buddyState });
-      console.log(updatedGoal);
     });
   };
 
@@ -72,7 +63,6 @@ export default function GoalBoard(props) {
     const subGoal = { ...goalStructure.head.data };
     const children = [...subGoal.children];
     axios.post('/subgoal', { newGoal }).then(res => {
-      console.log('NEW SUB GOAL', res.data);
       newGoal.id = res.data.id;
       newGoal.created_at = res.data.created_at;
       newGoal.newGoal = false;
@@ -93,7 +83,6 @@ export default function GoalBoard(props) {
   const addNewGoal = function() {
     dispatch(setEditing(null));
     const subGoal = goalStructure.head.data.goal;
-    console.log("Subgoal: ", goalStructure.head.data);
     const goalTemplate = {
       title: "",
       note: "",
@@ -127,7 +116,6 @@ export default function GoalBoard(props) {
 
   const subGoal = goalStructure.head.data;
   const renderedChildren = subGoal.children.map((c, i) => {
-    // return editingID === c.id ? <SubGoalForm key={c.id} subGoal={c} onCancel={() => dispatch(setEditing(null))} index={i} saveChild={(goal) => updateSubGoal(i, goal)} /> : <SubGoalCard key={c.id} onClick={() => reparent(c)} onEdit={() => { dispatch(setNewGoal(null)); dispatch(setEditing(c.id)); }} onDelete={() => deleteSubGoal(i, c.id)} onFocus={() => setFocus(c)} subGoal={c} />;
     return (editingID === c.id && !subGoal.goal.completed_on) ?
       <SubGoalForm
         key={c.id}
@@ -148,7 +136,6 @@ export default function GoalBoard(props) {
   useEffect(() => {
     setChildRef(null);
     axios.get('/subgoal', { params: { goal: mainGoal } }).then(res => {
-      console.log(res.data);
       dispatch(resetMainGoal({ goal: mainGoal, ...res.data }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +149,6 @@ export default function GoalBoard(props) {
 
   return (
     <div className={`GoalManager ${childRef ? (goalStructure.head.next ? 'move-to-parent' : 'cancel-move') : ''}`} onClick={() => { reparent(null); }}>
-      {/* // <div className='GoalManager'> */}
       <GoalStructure chain={goalStructure} />
       <section className={`focused-goal ${goalStructure.head.data.goal?.completed_on ? 'focused-complete' : ''}`}>
         <section className='goal-details'>
@@ -170,14 +156,9 @@ export default function GoalBoard(props) {
         </section>
         <section className='child-container'>
           {renderedChildren}
-          {/* {childRef ? <div className='card'/> : newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <div className='card add' onClick={event => { event.stopPropagation(); addNewGoal(); }}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></div>} */}
           { newGoal ? <SubGoalForm subGoal={newGoal} onCancel={() => { dispatch(setNewGoal(null)); }} index={-1} saveChild={(goal) => saveNewSubGoal(goal)} /> : <div className='card add' onClick={event => { event.stopPropagation(); addNewGoal(); }}><FontAwesomeIcon className='plus' icon={solid("circle-plus")} /></div>}
         </section>
       </section>
-      {/* {goalStructure.head.next !== null && <button className="up" onClick={() => {
-        setChildRef(null);
-        dispatch(removeHead(goalStructure));
-      }}>Back</button>} */}
       {goalStructure.head.next !== null && !childRef && <button className="up" onClick={() => {
         resetManagerSettings();
         dispatch(removeHead(goalStructure));

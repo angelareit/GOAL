@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items:start;
+  align-items: flex-start;
   margin-top: 50px;
   
   width: 60%;
@@ -60,12 +60,9 @@
           color: $main8;
         }
       }
-
-   
     }
 
     div.content {
-      // background-color: tomato;
       height: inherit;
       
     }
@@ -207,7 +204,6 @@
     }
 
     p {
-      // padding: 1em;
       color: $primary2;
       text-align: justify;
 

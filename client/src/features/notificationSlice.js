@@ -10,17 +10,12 @@ export const notificationSlice = createSlice({
   },
   reducers: {
     fetchNotifications: (state, action) => {
-      console.log('session user', action);
       return { ...state, user: { ...action.payload } };
     },
     addNotification: (state, action) => {
-      //let newNotif = state.notifications.push(action.payload)
-      //return { ...state, notifications: newNotif };
       state.notificationList.push(action.payload);
     },
     removeNotification: (state, action) => {
-      //let newNotif = state.notifications.push(action.payload)
-      //return { ...state, notifications: newNotif };
       state.notificationList.push(action.payload);
     },
     resetNotifications: (state, action) => {
@@ -31,9 +26,6 @@ export const notificationSlice = createSlice({
         read: false
       }
     },
-    resetNotifications: (state, action) => {
-      return { ...state, notifications: [] };
-    },
     fetchPendingBuddyRequests: (state, action) => {
       return { ...state, pendingBuddyRequests: action.payload };
     },
@@ -43,7 +35,6 @@ export const notificationSlice = createSlice({
     removePendingBuddyRequest: (state, action) => {
       const id = action.payload;
       const index = state.pendingBuddyRequests.findIndex(r => r.id === id);
-      console.log(id, index);
       state.pendingBuddyRequests.splice(index, 1);
     },
 

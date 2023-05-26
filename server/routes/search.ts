@@ -29,17 +29,6 @@ router.post('/', async (req, res) => {
         username: 'asc',
       },
     });
-    /*     
-        let ids = result.map(obj => obj.id);
-        const invites = await prisma.buddy_requests.findMany({
-          where: {
-            from_user: req.body.userID,
-            to_user: { in: ids }, 
-            is_deleted: false,
-          },
-        });
-        console.log(result,ids, invites);
-     */
 
     res.send(result);
   }
@@ -51,7 +40,6 @@ router.post('/', async (req, res) => {
 
 //send buddy request
 router.post('/request', async (req, res) => {
-  //console.log(req.cookies.token)//user_id for from_user
 
   const userToken = await jwt.verify(req.cookies.token, process.env.SECRET, (err, decoded) => {
     if (err) {
@@ -62,7 +50,6 @@ router.post('/request', async (req, res) => {
 
   console.log(userToken);
   console.log(req.body);
-  //console.log(req.body.id); // user_id for to_user
 
   //Ensures that only one active request exists at a time
   const result = await prisma.buddy_requests.upsert({
@@ -83,15 +70,6 @@ router.post('/request', async (req, res) => {
 
   res.send(result); // Sending a 200 status code for a successful request
 });
-
-/*
-SELECT COUNT(*) as num, u2c_others.user_id
-FROM interests u2c_main
-JOIN interests u2c_others
-ON u2c_others.category_id = u2c_main.category_id AND u2c_main.user_id <> u2c_others.user_id
-WHERE u2c_main.user_id = 1
-GROUP BY u2c_others.user_id;
-*/
 
 router.get('/interest', async (req, res) => {
   console.log("Gotit");
@@ -142,13 +120,6 @@ router.get('/interest', async (req, res) => {
   const filterResult = result.filter(i => i !== false);
 
   const r2 = await Promise.all(filterResult.map(async (u) => {
-    // const interest = await prisma.$queryRaw`
-    //     SELECT categories.name AS name
-    //     FROM categories JOIN interests
-    //     ON categories.id = interests.category_id
-    //     WHERE interests.user_id = ${u.user_id}
-    //   `;
-
 
     const interests = await prisma.interests.findMany({
       where: {

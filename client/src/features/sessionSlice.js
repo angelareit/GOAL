@@ -11,7 +11,6 @@ export const sessionSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      console.log('session user', action);
       return { ...state, user: {...action.payload} };
     },
     updateUser: (state, action) => {
@@ -38,7 +37,6 @@ export const sessionSlice = createSlice({
     },
     //MAIN GOAL STATE
     addNewGoal: (state, action) => {
-      console.log('Added new goal', state);
       state.mainGoals.push(action.payload);
     },
     setGoals: (state,action) => {
@@ -46,7 +44,6 @@ export const sessionSlice = createSlice({
     },
     //BUDDY PROGRESS
     fetchBuddyProgress: (state, action) => {
-      console.log('buddy progress reducer', action.payload);
       return { ...state, buddyProgress: { ...action.payload } };
     },
     deleteBuddyProgress: (state) => {

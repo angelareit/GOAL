@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import './Search.scss';
 
 import { useDispatch, useSelector } from "react-redux";
 import { showBuddyChatPanel } from "../../features/viewManagerSlice";
-import { fetchPendingBuddyRequests, removePendingBuddyRequest } from "../../features/notificationSlice";
-import { updateUser, setBuddy, fetchBuddyProgress } from "../../features/sessionSlice";
+import { removePendingBuddyRequest } from "../../features/notificationSlice";
+import { fetchBuddyProgress } from "../../features/sessionSlice";
 import socket from "../../helpers/socketsHelper";
 
 const IncomingRequests = (props) => {
 
   const dispatch = useDispatch();
 
-  // const [incomingRequests, setIncomingRequests] = useState([]);
-  const [incomingResponse, setIncomingResponse] = useState("People are asking to be your buddy!");
+  const [incomingResponse] = useState("People are asking to be your buddy!");
 
   const incomingRequests = useSelector(state => state.notification.pendingBuddyRequests);
   // Fetch the incoming buddy requests from the server
@@ -24,20 +23,11 @@ const IncomingRequests = (props) => {
     dispatch(removePendingBuddyRequest(requestID));
 
     axios.post('/request/incoming/accept', { r_id: requestID, b_id: buddyID })
-      //value={[incomingRequest.id, incomingRequest.from_user]}
       .then((res) => {
-        // dispatch(updateUser({ buddy_id: res.data.requestingUser.id }));
-        // const buddy = res.data.requestingUser;
         dispatch(showBuddyChatPanel());
-        // socket.emit('GET_BUDDY_INFO', payload => {
-        //   dispatch(setBuddy(payload));
-
-        // });
         socket.emit('ACCEPTED_BUDDY');
-        // setIncomingResponse("Congratulations on your new buddy!");
         axios.get('/progress', { params: { userID: buddyID } }
         ).then(res => {
-          console.log('progress', res.data);
           if (res.data.success) {
             dispatch(fetchBuddyProgress(res.data));
           }

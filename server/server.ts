@@ -1,7 +1,7 @@
 require('dotenv').config();
 const PORT = 6080;
 //JWT: secret cryptographic key used to sign and verify tokens
-const secret = "somekey";
+const secret = process.env.SECRET_KEY;
 
 import express from 'express';
 
@@ -48,21 +48,6 @@ app.use('/mainGoals', mainGoalRoutes);
 import socketFunctions from './helpers/socketFunctions';
 socketFunctions(io, prisma);
 
-//CUSTOM MIDDLEWARE if token cookie exists, decode it and set it for easy access
-// app.use((req, res, next) => {
-//   if (req.cookies.token) {
-//     jwt.verify(req.cookies.token, secret, (err, decoded) => {
-//       if (err) {
-//         return next();
-//       }
-
-//       userToken = decoded;
-//       return next();
-//     });
-//   }
-//   return next();
-// });
-
 //Changed the verify request to be async (which doesn't work well with the next() statements above.
 //If the user changes their credentials on another computer, we don't want them to be automatically signed in,
 //so we need to actually validate the cookie against the database)
@@ -88,7 +73,6 @@ app.get('/verify', async (req, res) => {
 
   //Since we're storing the hash in the token, here we can compare it directly without bcrypt
   if (!user || userToken.password !== user.password) {
-    //console.log(user);
     return res.clearCookie("token").json({ success: false });
   }
   return res.json({ user, success: true });
@@ -125,7 +109,6 @@ app.post('/login', async (req, res) => {
   const passwordMatch = await bcrypt.compare(req.body.password, user.password);
   if (passwordMatch) {
     let token = jwt.sign(user, secret, { expiresIn: 129600 });
-    //console.log(token);
     return res.cookie("token", token).json({ success: true, user });
   }
   else {
@@ -140,7 +123,6 @@ app.post('/logout', (req, res) => {
 // API routes
 
 app.get('/api/interests/:id', async (req, res) => {
-  //console.log(req.cookies.token);
   const interests = await prisma.interests.findMany({
     where: {
       user_id: Number(req.params.id)
@@ -178,7 +160,6 @@ app.delete('/interest/', async (req, res) => {
       }
     }
   });
-  // console.log(result);
   res.json({ success: true });
 });
 

@@ -7,7 +7,7 @@ GOAL is a productivity and organization app designed to help people set goals an
 ## Click the image below for a video walkthrough
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=Je-H89G8CmQ
 " target="_blank"><img src="http://img.youtube.com/vi/Je-H89G8CmQ/0.jpg" 
-alt="Video Walkthrough" width="960" height="540" border="10" /></a>
+alt="Video Walkthrough" width="640" height="480" border="10" /></a>
 
 ## Screenshots
 

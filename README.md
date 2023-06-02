@@ -2,7 +2,7 @@
 
 ## Description
 
-GOAL is a productivity and organization app designed to help people set goals and see them through using a two-pronged approach. The first is a goal manager, which allows you to set long-term goals and break them down into smaller, more digestible milestones to establish a plan of action. The social aspect of our app lets you get in touch with an accountability buddy, helping each other along and holding each other accountable to stay on track. This project was built as a final project for Lighthouse Labs Full Stack development bootcamp.
+GOAL is a productivity and organization app designed to help people set goals and see them through using a two-pronged approach. The first is a goal manager, which allows you to set long-term goals and break them down into smaller, more digestible milestones to establish a plan of action. The social aspect of our app lets you get in touch with an accountability buddy, helping each other along and holding each other accountable to stay on track. This project was built as a final project for the Lighthouse Labs Full Stack Web Development bootcamp.
 
 ## Click the image below for a video walkthrough
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=Je-H89G8CmQ

@@ -88,3 +88,9 @@ The GOAL app relies on the following dependencies:
 - typescript 5.0.4
 
 Please ensure these dependencies are installed before running the app.
+
+
+## TODO:
+ - List view for goals
+ - More notification alerts
+ - calendar feature

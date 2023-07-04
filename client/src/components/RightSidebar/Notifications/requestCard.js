@@ -79,7 +79,23 @@ export default function RequestCard(props) {
     axios.post('/request/incoming/reject', { r_id: id })
       .then((response) => {
         fetchData();
+        console.log('HERE NEW', response.data);
+        alert("You have rejected the buddy request.", response);
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function onCancel(id) {
+    console.log('Cancel', id);
+    dispatch(removePendingBuddyRequest(id));
+    axios.post('/request/incoming/reject', { r_id: id })
+      .then((response) => {
+        fetchData();
         alert("You have rejected the buddy request.");
+        console.log(response);
       })
       .catch((error) => {
         console.error(error);

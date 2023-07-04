@@ -34,7 +34,9 @@
     h4{
       margin: 5px 0px;
       color: $text-col3;
+      font-weight: 500;
       font-size: small;
+      font-style: normal;
     }
     span{
       font-style: italic;
@@ -46,13 +48,13 @@
 
     .action {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
       margin: 5px 10px;
   
       button {
         @include button-3 ($bg-color: $primary1, $highlight-col: $primary2);
-        margin: 2px 0;
+        margin: 2px 2px;
       }
     }
   
